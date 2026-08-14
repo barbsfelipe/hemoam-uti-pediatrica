@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admissão UTI Pediátrica — HEMOAM</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 16px;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px 0; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .bloco-titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin: 24px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #1e3a5f;
+  }
+  .bloco-titulo:first-of-type { margin-top: 4px; }
+  .section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+  .section h2 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    color: #1e3a5f;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .item { margin-bottom: 8px; }
+  label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14.5px;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  input[type="checkbox"] {
+    margin-top: 3px;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+  .extra { display: none; margin: 6px 0 0 25px; }
+  .extra.show { display: block; }
+  .extra input[type="text"] {
+    width: 100%;
+    padding: 7px 9px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  input[type="text"], input[type="datetime-local"] {
+    width: 100%;
+    padding: 8px 9px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    min-height: 70px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  .field-label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 4px; display: block; }
+  button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #1e3a5f;
+    color: #fff;
+    font-size: 15.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  button:active { opacity: 0.85; }
+  .btn-secundario {
+    background: #eef1f5;
+    color: #1e3a5f;
+  }
+  #resultado { margin-top: 16px; }
+  #texto {
+    width: 100%;
+    min-height: 320px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    white-space: pre-wrap;
+  }
+  #copiar { background: #2d6a4f; }
+  .msg {
+    font-size: 13px;
+    color: #2d6a4f;
+    margin-top: 6px;
+    display: none;
+    font-weight: 600;
+  }
+  /* listas dinâmicas */
+  .lista-itens { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+  .lista-linha { display: flex; gap: 6px; align-items: center; }
+  .lista-linha input[type="text"] { flex: 1; }
+  .btn-remover {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    background: #e5484d;
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1;
+  }
+  .btn-add {
+    background: #eef1f5;
+    color: #1e3a5f;
+    font-size: 14px;
+    padding: 9px;
+    margin-top: 2px;
+  }
+  .btn-add-cultura {
+    background: #eef1f5;
+    color: #1e3a5f;
+    font-size: 14px;
+    padding: 9px;
+    margin-top: 2px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .cultura-bloco {
+    border: 1px solid #e2e5ea;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .cultura-campos { display: flex; flex-direction: column; gap: 6px; }
+  .cultura-campos .mini-label { font-size: 11px; color: #888; margin-bottom: 2px; display: block; }
+  .cultura-remover {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    margin: 0;
+    background: #e5484d;
+    border-radius: 6px;
+    font-size: 15px;
+    line-height: 1;
+  }
+  /* seção recolhível */
+  .colapsavel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .colapsavel-corpo { display: none; margin-top: 10px; }
+  .colapsavel-corpo.show { display: block; }
+  .seta { transition: transform 0.15s; font-size: 12px; color: #1e3a5f; }
+  .seta.aberto { transform: rotate(90deg); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 420px) { .grid-2 { grid-template-columns: 1fr; } }
+  .hub-back { background: #1f3864; padding: 6px 16px; font-family: Arial, Helvetica, sans-serif; }
+  .hub-back a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; }
+  .hub-back a:hover { text-decoration: underline; }
+  @media print { .no-print { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="hub-back no-print">
+  <a href="../">← Painel HEMOAM UTI Pediátrica</a>
+</div>
+
+<h1>Admissão UTI Pediátrica</h1>
+<div class="sub">HEMOAM — preencha os campos e gere o texto de admissão pronto para copiar</div>
+
+<!-- ========== CABEÇALHO ========== -->
+<div class="bloco-titulo">Identificação</div>
+<div class="section">
+  <div class="item">
+    <span class="field-label">Nome</span>
+    <input type="text" id="cab-nome" placeholder="nome do paciente">
+  </div>
+  <div class="grid-2">
+    <div class="item"><span class="field-label">Idade</span><input type="text" id="cab-idade" placeholder="ex: 3 anos"></div>
+    <div class="item"><span class="field-label">Sexo</span>
+      <select id="cab-sexo">
+        <option value="">Selecione</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Feminino">Feminino</option>
+      </select>
+    </div>
+    <div class="item"><span class="field-label">Leito</span><input type="text" id="cab-leito"></div>
+    <div class="item"><span class="field-label">Peso (kg)</span><input type="text" id="cab-peso"></div>
+    <div class="item"><span class="field-label">Peso calórico (kg)</span><input type="text" id="cab-peso-calorico"></div>
+    <div class="item"><span class="field-label">Altura (cm)</span><input type="text" id="cab-altura"></div>
+    <div class="item"><span class="field-label">Superfície corporal (m²)</span><input type="text" id="cab-sc"></div>
+    <div class="item"><span class="field-label">ClCr (ml/min/1,73m²)</span><input type="text" id="cab-clcr"></div>
+  </div>
+  <div class="item">
+    <span class="field-label">Data e hora da admissão</span>
+    <input type="datetime-local" id="cab-data">
+  </div>
+  <div class="item">
+    <span class="field-label">Procedência</span>
+    <input type="text" id="cab-procedencia" placeholder="ex: Pronto-socorro, enfermaria, transferência de outra unidade">
+  </div>
+</div>
+
+<!-- ========== CRONOLOGIA ========== -->
+<div class="bloco-titulo">Cronologia de Internação</div>
+<div class="section">
+  <div class="lista-itens" id="lista-cronologia"></div>
+  <button type="button" class="btn-add" data-lista="lista-cronologia">+ Adicionar item</button>
+</div>
+
+<!-- ========== HIPÓTESES ========== -->
+<div class="bloco-titulo">Hipóteses Diagnósticas</div>
+<div class="section">
+  <div class="lista-itens" id="lista-hipoteses"></div>
+  <button type="button" class="btn-add" data-lista="lista-hipoteses">+ Adicionar item</button>
+</div>
+
+<!-- ========== HDA E HISTÓRIA ========== -->
+<div class="bloco-titulo">História</div>
+<div class="section">
+  <div class="item">
+    <span class="field-label">HDA</span>
+    <textarea id="hist-hda" placeholder="história da doença atual"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">HPP</span>
+    <textarea id="hist-hpp" placeholder="história patológica pregressa"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">História neonatal</span>
+    <textarea id="hist-neonatal"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">Crescimento e desenvolvimento</span>
+    <textarea id="hist-cresc"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">História alimentar</span>
+    <textarea id="hist-aliment"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">História imunológica</span>
+    <textarea id="hist-imuno"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">História familiar / ambiental / epidemiológica</span>
+    <textarea id="hist-familiar"></textarea>
+  </div>
+</div>
+
+<!-- ========== MEDICAÇÕES ========== -->
+<div class="bloco-titulo">Medicações</div>
+<div class="section">
+  <span class="field-label">Medicações em uso</span>
+  <div class="lista-itens" id="lista-med-uso"></div>
+  <button type="button" class="btn-add-cultura" id="btn-add-med-uso">+ Adicionar medicação</button>
+</div>
+<div class="section">
+  <span class="field-label">Medicações utilizadas</span>
+  <div class="lista-itens" id="lista-med-utilizadas"></div>
+  <button type="button" class="btn-add-cultura" id="btn-add-med-utilizadas">+ Adicionar medicação</button>
+</div>
+
+<!-- ========== DISPOSITIVOS / CULTURAS / EXAMES ========== -->
+<div class="bloco-titulo">Dispositivos, Culturas, Exames, Pareceres</div>
+<div class="section">
+  <span class="field-label">Dispositivos</span>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="cvc" data-extra="disp-extra-cvc"> CVC</label>
+    <div class="extra" id="disp-extra-cvc"><input type="text" placeholder="local e data, ex: VJID 12/06"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="tot" data-extra="disp-extra-tot"> TOT</label>
+    <div class="extra" id="disp-extra-tot"><input type="text" placeholder="número e data, ex: 4.0 com cuff 12/06"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="svd" data-extra="disp-extra-svd"> SVD</label>
+    <div class="extra" id="disp-extra-svd"><input type="text" placeholder="data, ex: 12/06"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="sne" data-extra="disp-extra-sne"> SNE</label>
+    <div class="extra" id="disp-extra-sne"><input type="text" placeholder="data, ex: 12/06"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="sng" data-extra="disp-extra-sng"> SNG</label>
+    <div class="extra" id="disp-extra-sng"><input type="text" placeholder="data, ex: 12/06"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="shiley" data-extra="disp-extra-shiley"> Shiley</label>
+    <div class="extra" id="disp-extra-shiley"><input type="text" placeholder="número e data"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="tenkhoff" data-extra="disp-extra-tenkhoff"> Tenkhoff</label>
+    <div class="extra" id="disp-extra-tenkhoff"><input type="text" placeholder="data"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="dft" data-extra="disp-extra-dft"> DFT</label>
+    <div class="extra" id="disp-extra-dft"><input type="text" placeholder="local e data"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="disp" value="outro" data-extra="disp-extra-outro"> Outro</label>
+    <div class="extra" id="disp-extra-outro"><input type="text" placeholder="qual, local e data"></div>
+  </div>
+</div>
+<div class="section">
+  <span class="field-label">Culturas</span>
+  <div class="lista-itens" id="lista-culturas"></div>
+  <button type="button" class="btn-add-cultura" id="btn-add-cultura">+ Adicionar cultura</button>
+</div>
+<div class="section">
+  <span class="field-label">Exames de imagem</span>
+  <div class="lista-itens" id="lista-exames-imagem"></div>
+  <button type="button" class="btn-add" data-lista="lista-exames-imagem" data-placeholder="ex: Ecocardiograma (23/02): normal">+ Adicionar item</button>
+</div>
+<div class="section">
+  <span class="field-label">Exames laboratoriais relevantes</span>
+  <div class="lista-itens" id="lista-exames-lab"></div>
+  <button type="button" class="btn-add" data-lista="lista-exames-lab" data-placeholder="ex: Painel Viral (15/06): VSR+">+ Adicionar item</button>
+</div>
+<div class="section">
+  <span class="field-label">Pareceres</span>
+  <div class="lista-itens" id="lista-pareceres"></div>
+  <button type="button" class="btn-add" data-lista="lista-pareceres" data-placeholder="ex: Parecer nefrologista (20/07): manter suporte clínico">+ Adicionar item</button>
+</div>
+
+<!-- ========== EVOLUÇÃO ========== -->
+<div class="bloco-titulo">Evolução da Admissão</div>
+
+<div class="section">
+  <h2>Neurológico</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="consciente"> Consciente, orientado, ativo</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="comandos"> Respondendo a comandos simples</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sem_convulsao"> Sem novas crises convulsivas desde a admissão</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-neuro" value="sedado" data-extra="ev-extra-sedado"> Sedoanalgesiado</label>
+    <div class="extra" id="ev-extra-sedado"><input type="text" placeholder="droga(s) e dose"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-neuro" value="glasgow" data-extra="ev-extra-glasgow"> Glasgow</label>
+    <div class="extra" id="ev-extra-glasgow"><input type="text" placeholder="valor"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sonolento"> Sonolento</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="torporoso"> Torporoso</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-neuro" value="convulsao" data-extra="ev-extra-convulsao"> Episódio convulsivo</label>
+    <div class="extra" id="ev-extra-convulsao"><input type="text" placeholder="descrição do episódio"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-neuro-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Cardiovascular</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="estavel"> Hemodinamicamente estável</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="sem_dva"> Sem drogas vasoativas</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-cv" value="dva" data-extra="ev-extra-dva"> Em uso de droga vasoativa</label>
+    <div class="extra" id="ev-extra-dva"><input type="text" placeholder="droga, dose, se titulada"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="instavel"> Hemodinamicamente instável</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="hipotenso"> Hipotenso</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="ma_perfusao"> Com sinais de má perfusão</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="hipotermico"> Hipotérmico</label></div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-cv-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Respiratório</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-resp" value="ar_ambiente"> Eupneico em ar ambiente</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-resp" value="bom_padrao"> Mantendo bom padrão respiratório</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-resp" value="sat_adequada"> Boa saturação de O2</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-resp" value="o2" data-extra="ev-extra-o2"> Em oxigênio suplementar</label>
+    <div class="extra" id="ev-extra-o2"><input type="text" placeholder="dispositivo e fluxo"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-resp" value="vm" data-extra="ev-extra-vm"> Em ventilação mecânica</label>
+    <div class="extra" id="ev-extra-vm"><input type="text" placeholder="modo e parâmetros"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-resp" value="extubado" data-extra="ev-extra-extubado"> Extubado no plantão, sem intercorrências</label>
+    <div class="extra" id="ev-extra-extubado"><input type="text" placeholder="horário"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-resp-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Gastrointestinal / Nutricional</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="dieta_vo"> Aceitando dieta via oral</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-gi" value="dieta_enteral" data-extra="ev-extra-dieta-enteral"> Retendo bem dieta enteral</label>
+    <div class="extra" id="ev-extra-dieta-enteral"><input type="text" placeholder="tipo e volume"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-gi" value="npp" data-extra="ev-extra-npp"> Recebendo nutrição parenteral</label>
+    <div class="extra" id="ev-extra-npp"><input type="text" placeholder="detalhe, ex: sem lipídeos"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="baixa_aceitacao"> Baixa aceitação da dieta</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="jejum"> Em jejum</label></div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-gi-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Renal / Hidroeletrolítico</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-renal" value="diurese_boa"> Boa diurese</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-renal" value="diuretico" data-extra="ev-extra-diuretico"> Em uso de diurético</label>
+    <div class="extra" id="ev-extra-diuretico"><input type="text" placeholder="droga"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-renal" value="bh" data-extra="ev-extra-bh"> Balanço hídrico</label>
+    <div class="extra" id="ev-extra-bh"><input type="text" placeholder="ex: negativo nas 12 horas"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-renal" value="oliguria"> Oligúrico</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-renal" value="edema" data-extra="ev-extra-edema"> Edema</label>
+    <div class="extra" id="ev-extra-edema"><input type="text" placeholder="localização"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-renal-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Infeccioso</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-inf" value="afebril"> Afebril</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-inf" value="atb" data-extra="ev-extra-atb"> Em antibioticoterapia</label>
+    <div class="extra" id="ev-extra-atb"><input type="text" placeholder="droga(s)"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-inf" value="troca_atb" data-extra="ev-extra-troca-atb"> Troca de antibiótico no plantão</label>
+    <div class="extra" id="ev-extra-troca-atb"><input type="text" placeholder="de qual para qual, motivo"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-inf" value="hmc" data-extra="ev-extra-hmc"> Hemocultura com resultado</label>
+    <div class="extra" id="ev-extra-hmc"><input type="text" placeholder="data e resultado"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-inf" value="febre" data-extra="ev-extra-febre"> Episódio febril</label>
+    <div class="extra" id="ev-extra-febre"><input type="text" placeholder="temperatura máxima, frequência"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-inf-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Hematológico</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="sangramento_sem"> Sem episódios de sangramento espontâneo no plantão</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-hemato" value="hemocomponente" data-extra="ev-extra-hemocomponente"> Recebeu hemocomponente no plantão</label>
+    <div class="extra" id="ev-extra-hemocomponente"><input type="text" placeholder="qual, ex: concentrado de plaquetas"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="pancitopenia"> Pancitopenia</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="petequias"> Mantém petéquias e/ou equimoses</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="mucosite"> Mucosite oral</label></div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-hemato-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Pele / Acessos / Ferida Operatória</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-pele" value="integra"> Pele íntegra</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-pele" value="cateter" data-extra="ev-extra-cateter"> Cateteres / acessos</label>
+    <div class="extra" id="ev-extra-cateter"><input type="text" placeholder="quais e localização"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-pele" value="lesao" data-extra="ev-extra-lesao"> Lesão de pele</label>
+    <div class="extra" id="ev-extra-lesao"><input type="text" placeholder="descrição e localização"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-pele" value="procedimento" data-extra="ev-extra-procedimento"> Procedimento realizado no plantão</label>
+    <div class="extra" id="ev-extra-procedimento"><input type="text" placeholder="descrição, ex: punção de veia jugular guiada por USG, sem intercorrências"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ev-pele-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Impressão / Obs (evolução)</h2>
+  <div class="item">
+    <span class="field-label">Impressão geral</span>
+    <select id="ev-impressao">
+      <option value="sem">Sem intercorrências graves no plantão</option>
+      <option value="melhora">Evoluindo com melhora do quadro, sem intercorrências graves no plantão</option>
+      <option value="suporte">Mantém-se dependente de suporte, sem intercorrências graves no plantão</option>
+      <option value="piora">Evoluindo com piora do quadro no plantão</option>
+      <option value="nenhuma">Não incluir frase de impressão</option>
+    </select>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observações adicionais</span>
+    <textarea id="ev-obs" placeholder="qualquer informação extra a incluir"></textarea>
+  </div>
+</div>
+
+<!-- ========== EXAME FÍSICO ========== -->
+<div class="bloco-titulo">Exame Físico da Admissão</div>
+
+<div class="section">
+  <h2>Somatoscopia</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="acordado"> Acordado, consciente, orientado</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="reativo"> Reativo</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="colaborativo"> Colaborativo, interagindo bem</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="ativo"> Bastante ativo e reativo</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="hidratado"> Hidratado</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="corado"> Corado</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="acianotico"> Acianótico</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="anicterico"> Anictérico</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="afebril"> Afebril</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="eupneico"> Eupneico em ar ambiente</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="sonolento"> Sonolento</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="torporoso"> Torporoso</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="choroso"> Pouco choroso</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-soma" value="hipocorado" data-extra="ef-extra-hipocorado"> Hipocorado</label>
+    <div class="extra" id="ef-extra-hipocorado"><input type="text" placeholder="grau, ex: ++/4+"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-soma" value="ictericia" data-extra="ef-extra-ictericia"> Ictérico</label>
+    <div class="extra" id="ef-extra-ictericia"><input type="text" placeholder="grau / localização"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-soma" value="febril" data-extra="ef-extra-febril"> Febril</label>
+    <div class="extra" id="ef-extra-febril"><input type="text" placeholder="temperatura"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="hipotermico"> Hipotérmico</label></div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ef-soma-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Neurológico</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ef-neuro" value="pupilas"> Pupilas isocóricas e fotorreagentes</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-neuro" value="sem_meningismo"> Sem sinais de irritação meníngea</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-neuro" value="sem_deficit"> Sem déficit motor focal evidente</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-neuro" value="glasgow" data-extra="ef-extra-glasgow"> Glasgow</label>
+    <div class="extra" id="ef-extra-glasgow"><input type="text" placeholder="valor"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ef-neuro-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Respiratório</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ef-resp" value="mv_completo"> Tórax simétrico, expansibilidade preservada, murmúrio vesicular presente e simétrico bilateralmente, sem ruídos adventícios</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-resp" value="sem_desconforto"> Sem tiragens ou sinais de desconforto respiratório</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-resp" value="estertor_fino"> Ausculta pulmonar com estertores crepitantes finos</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-resp" value="estertor_bolhoso"> Ausculta pulmonar com estertores bolhosos</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-resp" value="roncos_transmissao"> Ausculta pulmonar com roncos de transmissão</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-resp" value="mv_reduzido" data-extra="ef-extra-mv-reduzido"> Murmúrio vesicular reduzido</label>
+    <div class="extra" id="ef-extra-mv-reduzido">
+      <select id="ef-mv-reduzido-lado">
+        <option value="à direita">à direita</option>
+        <option value="à esquerda">à esquerda</option>
+        <option value="bilateralmente">bilateralmente</option>
+      </select>
+    </div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-resp" value="tosse" data-extra="ef-extra-tosse"> Tosse</label>
+    <div class="extra" id="ef-extra-tosse"><input type="text" placeholder="características"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ef-resp-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Cardiovascular</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ef-cv" value="ritmo_bulhas"> Ritmo cardíaco regular em dois tempos, bulhas normofonéticas, sem sopros</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-cv" value="pulsos"> Pulsos periféricos cheios e simétricos</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-cv" value="tec" data-extra="ef-extra-tec"> Tempo de enchimento capilar</label>
+    <div class="extra" id="ef-extra-tec"><input type="text" placeholder="ex: menor que 2 segundos"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-cv" value="sopro" data-extra="ef-extra-sopro"> Presença de sopro</label>
+    <div class="extra" id="ef-extra-sopro"><input type="text" placeholder="características"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ef-cv-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Abdômen</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ef-abd" value="plano"> Plano, flácido, indolor à palpação superficial e profunda</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-abd" value="rha"> Ruídos hidroaéreos presentes</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-abd" value="sem_visceromegalias"> Sem massas ou visceromegalias palpáveis</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-abd" value="distendido"> Globoso / distendido, flácido</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-abd" value="figado" data-extra="ef-extra-figado"> Fígado palpável</label>
+    <div class="extra" id="ef-extra-figado"><input type="text" placeholder="quantos cm do rebordo costal"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-abd" value="baco" data-extra="ef-extra-baco"> Baço palpável</label>
+    <div class="extra" id="ef-extra-baco"><input type="text" placeholder="quantos cm do rebordo costal"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-abd" value="dor" data-extra="ef-extra-dor"> Dor à palpação</label>
+    <div class="extra" id="ef-extra-dor"><input type="text" placeholder="localização"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ef-abd-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Extremidades</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="perfundidas"> Aquecidas, bem perfundidas</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="pulsos_cheios"> Pulsos cheios e simétricos</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="tec_normal"> TEC &lt; 3seg</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="sem_edema"> Sem edemas</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="frias"> Extremidades frias</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="pulsos_finos"> Pulsos finos</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-ext" value="tec_flush"> TEC em flush</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-ext" value="tec_alargado" data-extra="ef-extra-tec-alargado"> TEC alargado</label>
+    <div class="extra" id="ef-extra-tec-alargado"><input type="text" placeholder="valor, ex: 4 segundos"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ef-ext" value="edema" data-extra="ef-extra-edema"> Edema</label>
+    <div class="extra" id="ef-extra-edema"><input type="text" placeholder="localização e grau"></div>
+  </div>
+  <div class="item" style="margin-top:10px;">
+    <span class="field-label">Observação adicional</span>
+    <input type="text" id="ef-ext-obs" placeholder="informação extra deste tópico, se necessário">
+  </div>
+</div>
+
+<div class="section">
+  <h2>Achados adicionais (opcional)</h2>
+  <div class="item">
+    <span class="field-label">Sistema / região</span>
+    <input type="text" id="ef-extra-titulo" placeholder="ex: região perianal, genitália, pele" style="margin-bottom:6px;">
+    <span class="field-label">Descrição</span>
+    <textarea id="ef-extra-descricao" placeholder="descrição do achado"></textarea>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Obs (exame físico)</h2>
+  <div class="item"><textarea id="ef-obs" placeholder="qualquer informação extra a incluir"></textarea></div>
+</div>
+
+<!-- ========== CONTROLES ========== -->
+<div class="bloco-titulo">Controles</div>
+<div class="section">
+  <h2>Sinais vitais e balanço</h2>
+  <div class="grid-2">
+    <div class="item"><span class="field-label">TEMP (°C)</span><input type="text" id="c-temp"></div>
+    <div class="item"><span class="field-label">PAS (mmHg)</span><input type="text" id="c-pas"></div>
+    <div class="item"><span class="field-label">PAD (mmHg)</span><input type="text" id="c-pad"></div>
+    <div class="item"><span class="field-label">PAM (mmHg)</span><input type="text" id="c-pam"></div>
+    <div class="item"><span class="field-label">FC (bpm)</span><input type="text" id="c-fc"></div>
+    <div class="item"><span class="field-label">FR (irpm)</span><input type="text" id="c-fr"></div>
+    <div class="item"><span class="field-label">SAT (%)</span><input type="text" id="c-sat"></div>
+    <div class="item"><span class="field-label">DU</span><input type="text" id="c-du"></div>
+    <div class="item"><span class="field-label">DH (ml/kg/h)</span><input type="text" id="c-dh"></div>
+    <div class="item"><span class="field-label">BH (ml)</span><input type="text" id="c-bh"></div>
+    <div class="item"><span class="field-label">EVAC</span><input type="text" id="c-evac"></div>
+  </div>
+</div>
+
+<!-- ========== VENTILAÇÃO MECÂNICA ========== -->
+<div class="bloco-titulo">Ventilação Mecânica</div>
+<div class="section">
+  <div class="item"><span class="field-label">Paciente em ventilação mecânica?</span>
+    <select id="c-em-vm">
+      <option value="nao">Não</option>
+      <option value="sim">Sim</option>
+    </select>
+  </div>
+  <div class="grid-2" style="margin-top:10px;">
+    <div class="item"><span class="field-label">MODO</span><input type="text" id="c-modo"></div>
+    <div class="item"><span class="field-label">FIO2 (%)</span><input type="text" id="c-fio2"></div>
+    <div class="item"><span class="field-label">PEEP</span><input type="text" id="c-peep"></div>
+    <div class="item"><span class="field-label">PINSP</span><input type="text" id="c-pinsp"></div>
+    <div class="item"><span class="field-label">TINS</span><input type="text" id="c-tins"></div>
+    <div class="item"><span class="field-label">FR</span><input type="text" id="c-vmfr"></div>
+  </div>
+</div>
+
+<!-- ========== CONDUTAS / PROGRAMAÇÃO ========== -->
+<div class="bloco-titulo">Condutas e Programação</div>
+<div class="section">
+  <div class="item">
+    <span class="field-label">Condutas</span>
+    <textarea id="cond-condutas"></textarea>
+  </div>
+  <div class="item">
+    <span class="field-label">Programação</span>
+    <textarea id="cond-programacao"></textarea>
+  </div>
+</div>
+
+<div class="section">
+  <div class="colapsavel-header" id="quimio-header">
+    <h2 style="margin:0;">Programação de Quimioterapia</h2>
+    <span class="seta" id="quimio-seta">▶</span>
+  </div>
+  <div class="colapsavel-corpo" id="quimio-corpo">
+    <textarea id="cond-quimio" style="margin-top:10px;"></textarea>
+  </div>
+</div>
+
+<button id="gerar">Gerar texto de admissão</button>
+<button type="button" class="btn-secundario" id="limpar">Limpar formulário</button>
+
+<div id="resultado" style="display:none;">
+  <textarea id="texto" readonly></textarea>
+  <button id="copiar">Copiar texto</button>
+  <button type="button" class="btn-secundario" id="limpar-resultado">Limpar resultado</button>
+  <div class="msg" id="msg">Copiado!</div>
+</div>
+
+<script>
+// ---------- Data/hora inicial ----------
+(function(){
+  const el = document.getElementById('cab-data');
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  el.value = now.toISOString().slice(0,16);
+})();
+
+// ---------- Listas dinâmicas ----------
+function criarLinhaLista(container, placeholder) {
+  const linha = document.createElement('div');
+  linha.className = 'lista-linha';
+  const ph = placeholder || 'digite e adicione outro item se necessário';
+  linha.innerHTML = '<input type="text" placeholder="' + ph + '"><button type="button" class="btn-remover">×</button>';
+  linha.querySelector('.btn-remover').addEventListener('click', () => linha.remove());
+  container.appendChild(linha);
+  return linha;
+}
+document.querySelectorAll('.btn-add').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const container = document.getElementById(btn.dataset.lista);
+    criarLinhaLista(container, btn.dataset.placeholder);
+  });
+});
+// cada lista começa com uma linha
+criarLinhaLista(document.getElementById('lista-cronologia'));
+criarLinhaLista(document.getElementById('lista-hipoteses'));
+criarLinhaLista(document.getElementById('lista-exames-imagem'), 'ex: Ecocardiograma (23/02): normal');
+criarLinhaLista(document.getElementById('lista-exames-lab'), 'ex: Painel Viral (15/06): VSR+');
+criarLinhaLista(document.getElementById('lista-pareceres'), 'ex: Parecer nefrologista (20/07): manter suporte clínico');
+function coletarLista(id) {
+  return Array.from(document.querySelectorAll('#' + id + ' input[type="text"]'))
+    .map(i => i.value.trim())
+    .filter(Boolean);
+}
+
+// ---------- Culturas (campos estruturados: tipo / data / resultado) ----------
+function criarLinhaCultura(container) {
+  const bloco = document.createElement('div');
+  bloco.className = 'cultura-bloco';
+  bloco.innerHTML = `
+    <button type="button" class="btn-remover cultura-remover">×</button>
+    <div class="cultura-campos">
+      <div><span class="mini-label">Tipo</span><input type="text" class="cult-tipo" placeholder="ex: HMC, urocultura, secreção traqueal"></div>
+      <div><span class="mini-label">Data</span><input type="text" class="cult-data" placeholder="ex: 12/07"></div>
+      <div><span class="mini-label">Resultado</span><input type="text" class="cult-resultado" placeholder="ex: Cocos gram+"></div>
+    </div>`;
+  bloco.querySelector('.cultura-remover').addEventListener('click', () => bloco.remove());
+  container.appendChild(bloco);
+  return bloco;
+}
+document.getElementById('btn-add-cultura').addEventListener('click', () => {
+  criarLinhaCultura(document.getElementById('lista-culturas'));
+});
+criarLinhaCultura(document.getElementById('lista-culturas'));
+
+function coletarCulturas() {
+  return Array.from(document.querySelectorAll('#lista-culturas .cultura-bloco')).map(bloco => {
+    const tipo = bloco.querySelector('.cult-tipo').value.trim();
+    const data = bloco.querySelector('.cult-data').value.trim();
+    const resultado = bloco.querySelector('.cult-resultado').value.trim();
+    if (!tipo && !data && !resultado) return '';
+    let linha = tipo;
+    if (data) linha += ' ' + data;
+    if (resultado) linha += (linha ? ': ' : '') + resultado;
+    return linha.trim();
+  }).filter(Boolean);
+}
+
+// ---------- Medicações (mesmo modelo das culturas: medicamento + data de início) ----------
+function criarLinhaMedicacao(container) {
+  const bloco = document.createElement('div');
+  bloco.className = 'cultura-bloco';
+  bloco.innerHTML = `
+    <button type="button" class="btn-remover cultura-remover">×</button>
+    <div class="cultura-campos">
+      <div><span class="mini-label">Medicamento</span><input type="text" class="med-nome" placeholder="ex: Cefepime"></div>
+      <div><span class="mini-label">Data de início</span><input type="text" class="med-data" placeholder="ex: 06/07"></div>
+    </div>`;
+  bloco.querySelector('.cultura-remover').addEventListener('click', () => bloco.remove());
+  container.appendChild(bloco);
+  return bloco;
+}
+document.getElementById('btn-add-med-uso').addEventListener('click', () => {
+  criarLinhaMedicacao(document.getElementById('lista-med-uso'));
+});
+document.getElementById('btn-add-med-utilizadas').addEventListener('click', () => {
+  criarLinhaMedicacao(document.getElementById('lista-med-utilizadas'));
+});
+criarLinhaMedicacao(document.getElementById('lista-med-uso'));
+criarLinhaMedicacao(document.getElementById('lista-med-utilizadas'));
+
+function coletarMedicacoes(id) {
+  return Array.from(document.querySelectorAll('#' + id + ' .cultura-bloco')).map(bloco => {
+    const nome = bloco.querySelector('.med-nome').value.trim();
+    const data = bloco.querySelector('.med-data').value.trim();
+    if (!nome && !data) return '';
+    return nome + (data ? ' (' + data + ')' : '');
+  }).filter(Boolean);
+}
+
+// ---------- Seção recolhível (quimio) ----------
+document.getElementById('quimio-header').addEventListener('click', () => {
+  document.getElementById('quimio-corpo').classList.toggle('show');
+  document.getElementById('quimio-seta').classList.toggle('aberto');
+});
+
+// ---------- Extras dos checkboxes (evolução / exame físico) ----------
+document.querySelectorAll('input[data-extra]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const extra = document.getElementById(cb.dataset.extra);
+    if (cb.checked) { extra.classList.add('show'); }
+    else { extra.classList.remove('show'); }
+  });
+});
+
+function getExtraText(id) {
+  const el = document.querySelector('#' + id + ' input');
+  return el && el.value.trim() ? el.value.trim() : '';
+}
+function checked(cat, value) {
+  return document.querySelector(`input[data-cat="${cat}"][value="${value}"]`).checked;
+}
+function joinNatural(list) {
+  if (list.length === 0) return '';
+  if (list.length === 1) return list[0];
+  // se algum item já contém uma conjunção "e", junta com ";" para evitar "e" duplicado
+  if (list.some(item => / e /.test(item))) {
+    return list.join('; ');
+  }
+  return list.slice(0, -1).join(', ') + ' e ' + list[list.length - 1];
+}
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function val(id) {
+  const el = document.getElementById(id);
+  return el && el.value.trim() ? el.value.trim() : '';
+}
+function porGenero(masculino, feminino) {
+  return val('cab-sexo') === 'Feminino' ? feminino : masculino;
+}
+function formatarData(iso) {
+  if (!iso) return '00/00/00 as 00:00H';
+  const d = new Date(iso);
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yy = String(d.getFullYear()).slice(-2);
+  const hh = String(d.getHours()).padStart(2,'0');
+  const min = String(d.getMinutes()).padStart(2,'0');
+  return dd + '/' + mm + '/' + yy + ' às ' + hh + ':' + min + 'H';
+}
+
+// ---------- Geração do texto de evolução / exame físico / controles / VM ----------
+function gerarEvolucaoExameFisicoControlesVm() {
+  let partesEv = [];
+  let pacienteUsadoEv = false;
+  function comPrefixoPacienteEv(texto) {
+    if (!pacienteUsadoEv) { pacienteUsadoEv = true; return 'Paciente ' + texto; }
+    return capitalize(texto);
+  }
+
+  let evNeuro = [];
+  if (checked('ev-neuro','consciente')) evNeuro.push('consciente, ' + porGenero('orientado','orientada') + ' e ' + porGenero('ativo','ativa'));
+  if (checked('ev-neuro','sonolento')) evNeuro.push(porGenero('sonolento','sonolenta'));
+  if (checked('ev-neuro','torporoso')) evNeuro.push(porGenero('torporoso','torporosa'));
+  if (checked('ev-neuro','comandos')) evNeuro.push('respondendo a comandos simples');
+  if (checked('ev-neuro','glasgow')) { const d = getExtraText('ev-extra-glasgow'); evNeuro.push('com Glasgow de' + (d ? ' ' + d : '')); }
+  if (checked('ev-neuro','sedado')) { const d = getExtraText('ev-extra-sedado'); evNeuro.push('em sedoanalgesia' + (d ? ' com ' + d : '')); }
+  if (checked('ev-neuro','convulsao')) { const d = getExtraText('ev-extra-convulsao'); evNeuro.push('apresentou episódio convulsivo' + (d ? ', ' + d : '')); }
+  if (checked('ev-neuro','sem_convulsao')) evNeuro.push('sem novas crises convulsivas desde a admissão');
+  if (evNeuro.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evNeuro)) + '.');
+  if (val('ev-neuro-obs')) partesEv.push(val('ev-neuro-obs'));
+
+  let evCv = [];
+  if (checked('ev-cv','estavel')) evCv.push('hemodinamicamente estável');
+  if (checked('ev-cv','instavel')) evCv.push('hemodinamicamente instável');
+  if (checked('ev-cv','hipotenso')) evCv.push(porGenero('hipotenso','hipotensa'));
+  if (checked('ev-cv','ma_perfusao')) evCv.push('com sinais de má perfusão');
+  if (checked('ev-cv','hipotermico')) evCv.push(porGenero('hipotérmico','hipotérmica'));
+  if (checked('ev-cv','sem_dva')) evCv.push('sem drogas vasoativas');
+  if (checked('ev-cv','dva')) { const d = getExtraText('ev-extra-dva'); evCv.push('em uso de droga vasoativa' + (d ? ' (' + d + ')' : '')); }
+  if (evCv.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evCv)) + '.');
+  if (val('ev-cv-obs')) partesEv.push(val('ev-cv-obs'));
+
+  let evResp = [];
+  if (checked('ev-resp','ar_ambiente')) evResp.push(porGenero('eupneico','eupneica') + ' em ar ambiente');
+  if (checked('ev-resp','o2')) { const d = getExtraText('ev-extra-o2'); evResp.push('em uso de oxigênio suplementar' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-resp','vm')) { const d = getExtraText('ev-extra-vm'); evResp.push('em ventilação mecânica' + (d ? ', ' + d : '')); }
+  if (checked('ev-resp','extubado')) { const d = getExtraText('ev-extra-extubado'); evResp.push(porGenero('extubado','extubada') + ' no plantão' + (d ? ' (' + d + ')' : '') + ', sem intercorrências'); }
+  if (checked('ev-resp','bom_padrao')) evResp.push('mantendo bom padrão respiratório');
+  if (checked('ev-resp','sat_adequada')) evResp.push('boa saturação de O2');
+  if (evResp.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evResp)) + '.');
+  if (val('ev-resp-obs')) partesEv.push(val('ev-resp-obs'));
+
+  let evGi = [];
+  if (checked('ev-gi','dieta_vo')) evGi.push('aceitando dieta por via oral');
+  if (checked('ev-gi','baixa_aceitacao')) evGi.push('com baixa aceitação da dieta');
+  if (checked('ev-gi','dieta_enteral')) { const d = getExtraText('ev-extra-dieta-enteral'); evGi.push('retendo bem dieta enteral' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-gi','npp')) { const d = getExtraText('ev-extra-npp'); evGi.push('recebendo nutrição parenteral' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-gi','jejum')) evGi.push(porGenero('mantido','mantida') + ' em jejum');
+  if (evGi.length) partesEv.push('Está ' + joinNatural(evGi) + '.');
+  if (val('ev-gi-obs')) partesEv.push(val('ev-gi-obs'));
+
+  let evRenal = [];
+  if (checked('ev-renal','diurese_boa')) evRenal.push('com boa diurese');
+  if (checked('ev-renal','diuretico')) { const d = getExtraText('ev-extra-diuretico'); evRenal.push('em uso de diurético' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-renal','bh')) { const d = getExtraText('ev-extra-bh'); evRenal.push('com balanço hídrico' + (d ? ' ' + d : ' adequado')); }
+  if (checked('ev-renal','oliguria')) evRenal.push(porGenero('oligúrico','oligúrica'));
+  if (checked('ev-renal','edema')) { const d = getExtraText('ev-extra-edema'); evRenal.push('com edema' + (d ? ' em ' + d : '')); }
+  if (evRenal.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evRenal)) + '.');
+  if (val('ev-renal-obs')) partesEv.push(val('ev-renal-obs'));
+
+  let evInf = [];
+  if (checked('ev-inf','afebril')) evInf.push('mantém-se afebril');
+  if (checked('ev-inf','atb')) { const d = getExtraText('ev-extra-atb'); evInf.push('em antibioticoterapia' + (d ? ' com ' + d : '')); }
+  if (checked('ev-inf','troca_atb')) { const d = getExtraText('ev-extra-troca-atb'); evInf.push('com troca de antibiótico no plantão' + (d ? ', ' + d : '')); }
+  if (checked('ev-inf','hmc')) { const d = getExtraText('ev-extra-hmc'); evInf.push('possui hemocultura' + (d ? ' ' + d : ' com resultado')); }
+  if (checked('ev-inf','febre')) { const d = getExtraText('ev-extra-febre'); evInf.push('apresentou episódio febril' + (d ? ' (' + d + ')' : '')); }
+  if (evInf.length) partesEv.push(capitalize(joinNatural(evInf)) + '.');
+  if (val('ev-inf-obs')) partesEv.push(val('ev-inf-obs'));
+
+  let evHemato = [];
+  if (checked('ev-hemato','sangramento_sem')) evHemato.push('sem episódios de sangramento espontâneo no plantão');
+  if (checked('ev-hemato','hemocomponente')) { const d = getExtraText('ev-extra-hemocomponente'); evHemato.push('recebeu' + (d ? ' ' + d : ' hemocomponente') + ' no plantão'); }
+  if (checked('ev-hemato','pancitopenia')) evHemato.push('mantendo pancitopenia');
+  if (checked('ev-hemato','petequias')) evHemato.push('mantém petéquias e/ou equimoses');
+  if (checked('ev-hemato','mucosite')) evHemato.push('com mucosite oral');
+  if (evHemato.length) partesEv.push(capitalize(joinNatural(evHemato)) + '.');
+  if (val('ev-hemato-obs')) partesEv.push(val('ev-hemato-obs'));
+
+  let evPele = [];
+  if (checked('ev-pele','integra')) evPele.push('pele íntegra');
+  if (checked('ev-pele','lesao')) { const d = getExtraText('ev-extra-lesao'); evPele.push('presença de lesão de pele' + (d ? ', ' + d : '')); }
+  if (checked('ev-pele','cateter')) { const d = getExtraText('ev-extra-cateter'); evPele.push('em uso de cateteres/acessos' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-pele','procedimento')) { const d = getExtraText('ev-extra-procedimento'); evPele.push('foi realizado' + (d ? ' ' + d : ' procedimento no plantão')); }
+  if (evPele.length) partesEv.push(capitalize(joinNatural(evPele)) + '.');
+  if (val('ev-pele-obs')) partesEv.push(val('ev-pele-obs'));
+
+  const evObs = val('ev-obs');
+  if (evObs) partesEv.push(evObs);
+
+  const impressoes = {
+    sem: 'Sem intercorrências graves no plantão.',
+    melhora: 'Evoluindo com melhora do quadro, sem intercorrências graves no plantão.',
+    suporte: 'Mantém-se dependente de suporte, sem intercorrências graves no plantão.',
+    piora: 'Evoluindo com piora do quadro no plantão.',
+    nenhuma: ''
+  };
+  const impressaoTexto = impressoes[document.getElementById('ev-impressao').value];
+  if (impressaoTexto) partesEv.push(impressaoTexto);
+
+  // Exame físico
+  let partesEf = [];
+  let pacienteUsadoEf = false;
+  function comPrefixoPacienteEf(texto) {
+    if (!pacienteUsadoEf) { pacienteUsadoEf = true; return 'Paciente ' + texto; }
+    return capitalize(texto);
+  }
+
+  let efSoma = [];
+  if (checked('ef-soma','acordado')) efSoma.push(porGenero('acordado','acordada') + ', consciente, ' + porGenero('orientado','orientada'));
+  if (checked('ef-soma','sonolento')) efSoma.push(porGenero('sonolento','sonolenta'));
+  if (checked('ef-soma','torporoso')) efSoma.push(porGenero('torporoso','torporosa'));
+  if (checked('ef-soma','reativo')) efSoma.push(porGenero('reativo','reativa'));
+  if (checked('ef-soma','colaborativo')) efSoma.push(porGenero('colaborativo','colaborativa') + ', interagindo bem');
+  if (checked('ef-soma','choroso')) efSoma.push('pouco ' + porGenero('choroso','chorosa'));
+  if (checked('ef-soma','ativo')) efSoma.push('bastante ' + porGenero('ativo','ativa') + ' e ' + porGenero('reativo','reativa'));
+  if (checked('ef-soma','hidratado')) efSoma.push(porGenero('hidratado','hidratada'));
+  if (checked('ef-soma','corado')) efSoma.push(porGenero('corado','corada'));
+  if (checked('ef-soma','hipocorado')) { const d = getExtraText('ef-extra-hipocorado'); efSoma.push(porGenero('hipocorado','hipocorada') + (d ? ' (' + d + ')' : '')); }
+  if (checked('ef-soma','acianotico')) efSoma.push(porGenero('acianótico','acianótica'));
+  if (checked('ef-soma','anicterico')) efSoma.push(porGenero('anictérico','anictérica'));
+  if (checked('ef-soma','ictericia')) { const d = getExtraText('ef-extra-ictericia'); efSoma.push(porGenero('ictérico','ictérica') + (d ? ' (' + d + ')' : '')); }
+  if (checked('ef-soma','afebril')) efSoma.push('afebril');
+  if (checked('ef-soma','febril')) { const d = getExtraText('ef-extra-febril'); efSoma.push('febril' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ef-soma','hipotermico')) efSoma.push(porGenero('hipotérmico','hipotérmica'));
+  if (checked('ef-soma','eupneico')) efSoma.push(porGenero('eupneico','eupneica') + ' em ar ambiente');
+  if (efSoma.length) partesEf.push(comPrefixoPacienteEf(joinNatural(efSoma)) + '.');
+  if (val('ef-soma-obs')) partesEf.push(val('ef-soma-obs'));
+
+  let efNeuro = [];
+  if (checked('ef-neuro','glasgow')) { const d = getExtraText('ef-extra-glasgow'); efNeuro.push('Glasgow' + (d ? ' ' + d : '')); }
+  if (checked('ef-neuro','pupilas')) efNeuro.push('pupilas isocóricas e fotorreagentes');
+  if (checked('ef-neuro','sem_meningismo')) efNeuro.push('sem sinais de irritação meníngea');
+  if (checked('ef-neuro','sem_deficit')) efNeuro.push('sem déficit motor focal evidente');
+  if (efNeuro.length) partesEf.push(capitalize(joinNatural(efNeuro)) + '.');
+  if (val('ef-neuro-obs')) partesEf.push(val('ef-neuro-obs'));
+
+  let efResp = [];
+  if (checked('ef-resp','mv_completo')) efResp.push('tórax simétrico, expansibilidade preservada, murmúrio vesicular presente e simétrico bilateralmente, sem ruídos adventícios');
+  if (checked('ef-resp','estertor_fino')) efResp.push('ausculta pulmonar com estertores crepitantes finos');
+  if (checked('ef-resp','estertor_bolhoso')) efResp.push('ausculta pulmonar com estertores bolhosos');
+  if (checked('ef-resp','roncos_transmissao')) efResp.push('ausculta pulmonar com roncos de transmissão');
+  if (checked('ef-resp','mv_reduzido')) { const lado = document.getElementById('ef-mv-reduzido-lado').value; efResp.push('murmúrio vesicular reduzido ' + lado); }
+  if (checked('ef-resp','sem_desconforto')) efResp.push('sem tiragens ou sinais de desconforto respiratório');
+  if (checked('ef-resp','tosse')) { const d = getExtraText('ef-extra-tosse'); efResp.push('tosse' + (d ? ' ' + d : '')); }
+  if (efResp.length) partesEf.push(capitalize(joinNatural(efResp)) + '.');
+  if (val('ef-resp-obs')) partesEf.push(val('ef-resp-obs'));
+
+  let efCv = [];
+  if (checked('ef-cv','ritmo_bulhas')) efCv.push('ritmo cardíaco regular em dois tempos, bulhas normofonéticas, sem sopros');
+  if (checked('ef-cv','sopro')) { const d = getExtraText('ef-extra-sopro'); efCv.push('presença de sopro' + (d ? ', ' + d : '')); }
+  if (checked('ef-cv','pulsos')) efCv.push('pulsos periféricos cheios e simétricos');
+  if (checked('ef-cv','tec')) { const d = getExtraText('ef-extra-tec'); efCv.push('tempo de enchimento capilar' + (d ? ' ' + d : ' adequado')); }
+  if (efCv.length) partesEf.push(capitalize(joinNatural(efCv)) + '.');
+  if (val('ef-cv-obs')) partesEf.push(val('ef-cv-obs'));
+
+  let efAbd = [];
+  if (checked('ef-abd','plano')) efAbd.push('abdome plano, flácido, indolor à palpação superficial e profunda');
+  if (checked('ef-abd','distendido')) efAbd.push('abdome globoso/distendido, flácido');
+  if (checked('ef-abd','rha')) efAbd.push('ruídos hidroaéreos presentes');
+  if (checked('ef-abd','sem_visceromegalias')) efAbd.push('sem massas ou visceromegalias palpáveis');
+  if (checked('ef-abd','figado')) { const d = getExtraText('ef-extra-figado'); efAbd.push('fígado palpável' + (d ? ' a ' + d : '')); }
+  if (checked('ef-abd','baco')) { const d = getExtraText('ef-extra-baco'); efAbd.push('baço palpável' + (d ? ' a ' + d : '')); }
+  if (checked('ef-abd','dor')) { const d = getExtraText('ef-extra-dor'); efAbd.push('dor à palpação' + (d ? ' em ' + d : '')); }
+  if (efAbd.length) partesEf.push(capitalize(joinNatural(efAbd)) + '.');
+  if (val('ef-abd-obs')) partesEf.push(val('ef-abd-obs'));
+
+  let efExt = [];
+  if (checked('ef-ext','perfundidas')) efExt.push('aquecidas, bem perfundidas');
+  if (checked('ef-ext','pulsos_cheios')) efExt.push('pulsos cheios e simétricos');
+  if (checked('ef-ext','tec_normal')) efExt.push('TEC < 3seg');
+  if (checked('ef-ext','sem_edema')) efExt.push('sem edemas');
+  if (checked('ef-ext','frias')) efExt.push('extremidades frias');
+  if (checked('ef-ext','pulsos_finos')) efExt.push('pulsos finos');
+  if (checked('ef-ext','tec_flush')) efExt.push('TEC em flush');
+  if (checked('ef-ext','tec_alargado')) { const d = getExtraText('ef-extra-tec-alargado'); efExt.push('TEC alargado' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ef-ext','edema')) { const d = getExtraText('ef-extra-edema'); efExt.push('edema' + (d ? ' em ' + d : '')); }
+  if (efExt.length) partesEf.push(capitalize('Extremidades ' + joinNatural(efExt)) + '.');
+  if (val('ef-ext-obs')) partesEf.push(val('ef-ext-obs'));
+
+  const efExtraTitulo = val('ef-extra-titulo');
+  const efExtraDescricao = val('ef-extra-descricao');
+  if (efExtraDescricao) partesEf.push((efExtraTitulo ? capitalize(efExtraTitulo) + ': ' : '') + efExtraDescricao);
+
+  const efObs = val('ef-obs');
+  if (efObs) partesEf.push(efObs);
+
+  const textoEv = partesEv.join(' ');
+  const textoEf = partesEf.join('\n');
+  const evolucaoExameFisico = [textoEv, textoEf].filter(Boolean).join('\n\n').toUpperCase();
+
+  return evolucaoExameFisico;
+}
+
+// ---------- Montagem final ----------
+document.getElementById('gerar').addEventListener('click', () => {
+  const evolucaoExameFisico = gerarEvolucaoExameFisicoControlesVm();
+
+  const cronologia = coletarLista('lista-cronologia');
+  const hipoteses = coletarLista('lista-hipoteses');
+  const medUso = coletarMedicacoes('lista-med-uso');
+  const medUtilizadas = coletarMedicacoes('lista-med-utilizadas');
+  const culturas = coletarCulturas();
+  const examesImagem = coletarLista('lista-exames-imagem');
+  const examesLab = coletarLista('lista-exames-lab');
+  const pareceres = coletarLista('lista-pareceres');
+
+  const dispositivos = [];
+  if (checked('disp','cvc')) { const d = getExtraText('disp-extra-cvc'); dispositivos.push('CVC' + (d ? ' ' + d : '')); }
+  if (checked('disp','tot')) { const d = getExtraText('disp-extra-tot'); dispositivos.push('TOT' + (d ? ' ' + d : '')); }
+  if (checked('disp','svd')) { const d = getExtraText('disp-extra-svd'); dispositivos.push('SVD' + (d ? ' ' + d : '')); }
+  if (checked('disp','sne')) { const d = getExtraText('disp-extra-sne'); dispositivos.push('SNE' + (d ? ' ' + d : '')); }
+  if (checked('disp','sng')) { const d = getExtraText('disp-extra-sng'); dispositivos.push('SNG' + (d ? ' ' + d : '')); }
+  if (checked('disp','shiley')) { const d = getExtraText('disp-extra-shiley'); dispositivos.push('Shiley' + (d ? ' ' + d : '')); }
+  if (checked('disp','tenkhoff')) { const d = getExtraText('disp-extra-tenkhoff'); dispositivos.push('Tenkhoff' + (d ? ' ' + d : '')); }
+  if (checked('disp','dft')) { const d = getExtraText('disp-extra-dft'); dispositivos.push('DFT' + (d ? ' ' + d : '')); }
+  if (checked('disp','outro')) { const d = getExtraText('disp-extra-outro'); dispositivos.push(d || 'Outro'); }
+
+  const emVm = document.getElementById('c-em-vm').value === 'sim';
+
+  let controlesPartes = [];
+  if (val('c-temp')) controlesPartes.push('TEMP: ' + val('c-temp') + ' °C');
+  if (val('c-pas')) controlesPartes.push('PAS: ' + val('c-pas'));
+  if (val('c-pad')) controlesPartes.push('PAD: ' + val('c-pad'));
+  if (val('c-pam')) controlesPartes.push('PAM: ' + val('c-pam') + ' MMHG');
+  if (val('c-fc')) controlesPartes.push('FC: ' + val('c-fc') + ' BPM');
+  if (val('c-fr')) controlesPartes.push('FR: ' + val('c-fr') + ' IRPM');
+  if (val('c-sat')) controlesPartes.push('SAT: ' + val('c-sat') + ' %');
+  if (val('c-du')) controlesPartes.push('DU: ' + val('c-du'));
+  if (val('c-dh')) controlesPartes.push('DH: ' + val('c-dh') + ' ML/KG/H');
+  if (val('c-bh')) controlesPartes.push('BH: ' + val('c-bh') + ' ML');
+  if (val('c-evac')) controlesPartes.push('EVAC: ' + val('c-evac'));
+  const controlesTextoFinal = controlesPartes.join(' // ');
+
+  let vmPartes = [];
+  if (val('c-modo')) vmPartes.push('MODO: ' + val('c-modo'));
+  if (val('c-fio2')) vmPartes.push('FIO2: ' + val('c-fio2') + ' %');
+  if (val('c-peep')) vmPartes.push('PEEP: ' + val('c-peep'));
+  if (val('c-pinsp')) vmPartes.push('PINSP: ' + val('c-pinsp'));
+  if (val('c-tins')) vmPartes.push('TINS: ' + val('c-tins'));
+  if (val('c-vmfr')) vmPartes.push('FR: ' + val('c-vmfr'));
+  const vmTextoFinal = emVm ? vmPartes.join(' ') : 'PACIENTE NÃO ESTÁ EM VENTILAÇÃO MECÂNICA';
+
+  const linhas = [];
+  linhas.push('# ADMISSÃO UTI PEDIÁTRICA – ' + formatarData(val('cab-data')));
+
+  let idPartes = [];
+  if (val('cab-nome')) idPartes.push('NOME: ' + val('cab-nome'));
+  if (val('cab-idade')) idPartes.push('IDADE: ' + val('cab-idade'));
+  if (val('cab-sexo')) idPartes.push('SEXO: ' + val('cab-sexo').toUpperCase());
+  if (val('cab-leito')) idPartes.push('LEITO: ' + val('cab-leito'));
+  if (val('cab-peso')) idPartes.push('PESO: ' + val('cab-peso') + ' KG');
+  if (val('cab-peso-calorico')) idPartes.push('PESO CALÓRICO: ' + val('cab-peso-calorico') + ' KG');
+  if (val('cab-altura')) idPartes.push('ALTURA: ' + val('cab-altura') + ' CM');
+  if (val('cab-sc')) idPartes.push('SC: ' + val('cab-sc') + ' M²');
+  if (val('cab-clcr')) idPartes.push('CLCR: ' + val('cab-clcr') + ' ML/MIN/1,73M²');
+  if (idPartes.length) {
+    linhas.push(idPartes.join(' // '));
+    linhas.push('');
+  }
+
+  function addTexto(titulo, valor) {
+    if (valor && valor.trim()) {
+      linhas.push('# ' + titulo + ':');
+      linhas.push(valor.trim());
+      linhas.push('');
+    }
+  }
+  function addLista(titulo, itens) {
+    if (itens && itens.length) {
+      linhas.push('# ' + titulo + ':');
+      linhas.push(itens.map(i => '- ' + i).join('\n'));
+      linhas.push('');
+    }
+  }
+
+  addTexto('PROCEDÊNCIA', val('cab-procedencia'));
+  addLista('CRONOLOGIA DE INTERNAÇÃO', cronologia);
+  addLista('HIPÓTESES DIAGNÓSTICAS', hipoteses);
+  addTexto('HDA', val('hist-hda'));
+  addTexto('HPP', val('hist-hpp'));
+  addTexto('HISTÓRIA NEONATAL', val('hist-neonatal'));
+  addTexto('CRESCIMENTO E DESENVOLVIMENTO', val('hist-cresc'));
+  addTexto('HISTÓRIA ALIMENTAR', val('hist-aliment'));
+  addTexto('HISTÓRIA IMUNOLÓGICA', val('hist-imuno'));
+  if (val('hist-familiar')) {
+    linhas.push('# HISTÓRIA FAMILIAR / AMBIENTAL / EPIDEMIOLÓGICA:');
+    linhas.push('______________________________________________');
+    linhas.push(val('hist-familiar'));
+    linhas.push('');
+  }
+  addLista('MEDICAÇÕES EM USO', medUso);
+  addLista('MEDICAÇÕES UTILIZADAS', medUtilizadas);
+  addLista('DISPOSITIVOS', dispositivos);
+  addLista('CULTURAS', culturas);
+  addLista('EXAMES DE IMAGEM', examesImagem);
+  addLista('EXAMES LABORATORIAIS RELEVANTES', examesLab);
+  addLista('PARECERES', pareceres);
+  addTexto('EVOLUÇÃO/EXAME FÍSICO DA ADMISSÃO', evolucaoExameFisico);
+  addTexto('CONTROLES', controlesTextoFinal);
+  if (emVm) {
+    linhas.push('# VENTILAÇÃO MECÂNICA:');
+    linhas.push(vmTextoFinal);
+    linhas.push('');
+  }
+  addTexto('CONDUTAS', val('cond-condutas'));
+  addTexto('PROGRAMAÇÃO', val('cond-programacao'));
+  addTexto('PROGRAMAÇÃO DE QUIMIOTERAPIA', val('cond-quimio'));
+
+  document.getElementById('texto').value = linhas.join('\n').trim().toUpperCase();
+  document.getElementById('resultado').style.display = 'block';
+  document.getElementById('resultado').scrollIntoView({behavior: 'smooth'});
+});
+
+document.getElementById('copiar').addEventListener('click', async () => {
+  const texto = document.getElementById('texto');
+  const msg = document.getElementById('msg');
+  function mostrarCopiado() {
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 2000);
+  }
+  try {
+    await navigator.clipboard.writeText(texto.value);
+    mostrarCopiado();
+  } catch (e) {
+    texto.select();
+    document.execCommand('copy');
+    mostrarCopiado();
+  }
+});
+
+document.getElementById('limpar-resultado').addEventListener('click', () => {
+  document.getElementById('texto').value = '';
+  document.getElementById('resultado').style.display = 'none';
+});
+
+document.getElementById('limpar').addEventListener('click', () => {
+  if (!confirm('Tem certeza que deseja limpar todo o formulário?')) return;
+  document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; c.dispatchEvent(new Event('change')); });
+  document.querySelectorAll('.lista-itens').forEach(l => l.innerHTML = '');
+  criarLinhaLista(document.getElementById('lista-cronologia'));
+  criarLinhaLista(document.getElementById('lista-hipoteses'));
+  criarLinhaMedicacao(document.getElementById('lista-med-uso'));
+  criarLinhaMedicacao(document.getElementById('lista-med-utilizadas'));
+  criarLinhaCultura(document.getElementById('lista-culturas'));
+  criarLinhaLista(document.getElementById('lista-exames-imagem'), 'ex: Ecocardiograma (23/02): normal');
+  criarLinhaLista(document.getElementById('lista-exames-lab'), 'ex: Painel Viral (15/06): VSR+');
+  criarLinhaLista(document.getElementById('lista-pareceres'), 'ex: Parecer nefrologista (20/07): manter suporte clínico');
+  document.getElementById('ev-impressao').value = 'sem';
+  document.getElementById('c-em-vm').value = 'nao';
+  document.getElementById('resultado').style.display = 'none';
+  const el = document.getElementById('cab-data');
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  el.value = now.toISOString().slice(0,16);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  localStorage.removeItem(AUTOSAVE_KEY);
+});
+
+// ---------- Salvamento automático (rascunho local) ----------
+const AUTOSAVE_KEY = 'hemoam-admissao-uti-ped-rascunho';
+
+function coletarListaRaw(id) {
+  return Array.from(document.querySelectorAll('#' + id + ' input[type="text"]')).map(i => i.value);
+}
+function coletarCulturasRaw() {
+  return Array.from(document.querySelectorAll('#lista-culturas .cultura-bloco')).map(b => ({
+    tipo: b.querySelector('.cult-tipo').value,
+    data: b.querySelector('.cult-data').value,
+    resultado: b.querySelector('.cult-resultado').value
+  }));
+}
+function coletarMedicacoesRaw(id) {
+  return Array.from(document.querySelectorAll('#' + id + ' .cultura-bloco')).map(b => ({
+    nome: b.querySelector('.med-nome').value,
+    data: b.querySelector('.med-data').value
+  }));
+}
+
+function coletarEstadoCompleto() {
+  const campos = {};
+  document.querySelectorAll('input[type="text"][id], input[type="datetime-local"][id], textarea[id], select[id]').forEach(el => {
+    if (el.id !== 'texto') campos[el.id] = el.value;
+  });
+  const extras = {};
+  document.querySelectorAll('.extra[id]').forEach(div => {
+    const input = div.querySelector('input');
+    if (input) extras[div.id] = input.value;
+  });
+  const checkboxes = {};
+  document.querySelectorAll('input[type="checkbox"][data-cat]').forEach(cb => {
+    checkboxes[cb.dataset.cat + '|' + cb.value] = cb.checked;
+  });
+  return {
+    campos,
+    extras,
+    checkboxes,
+    listas: {
+      'lista-cronologia': coletarListaRaw('lista-cronologia'),
+      'lista-hipoteses': coletarListaRaw('lista-hipoteses'),
+      'lista-exames-imagem': coletarListaRaw('lista-exames-imagem'),
+      'lista-exames-lab': coletarListaRaw('lista-exames-lab'),
+      'lista-pareceres': coletarListaRaw('lista-pareceres')
+    },
+    culturas: coletarCulturasRaw(),
+    medUso: coletarMedicacoesRaw('lista-med-uso'),
+    medUtilizadas: coletarMedicacoesRaw('lista-med-utilizadas'),
+    quimioAberto: document.getElementById('quimio-corpo').classList.contains('show')
+  };
+}
+
+function salvarEstado() {
+  try {
+    localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(coletarEstadoCompleto()));
+  } catch (e) { /* localStorage indisponível ou cheio: ignora */ }
+}
+
+let salvarEstadoTimeout = null;
+function salvarEstadoDebounced() {
+  clearTimeout(salvarEstadoTimeout);
+  salvarEstadoTimeout = setTimeout(salvarEstado, 400);
+}
+
+function reconstruirLista(id, criarFn, valores) {
+  const container = document.getElementById(id);
+  container.innerHTML = '';
+  if (!valores.length) { criarFn(container); return; }
+  valores.forEach(v => {
+    const linha = criarFn(container);
+    linha.querySelector('input[type="text"]').value = v;
+  });
+}
+
+function restaurarEstado() {
+  let estado;
+  try {
+    const raw = localStorage.getItem(AUTOSAVE_KEY);
+    if (!raw) return;
+    estado = JSON.parse(raw);
+  } catch (e) { return; }
+  if (!estado) return;
+
+  Object.entries(estado.campos || {}).forEach(([id, valor]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = valor;
+  });
+  Object.entries(estado.extras || {}).forEach(([id, valor]) => {
+    const div = document.getElementById(id);
+    const input = div && div.querySelector('input');
+    if (input) input.value = valor;
+  });
+  Object.entries(estado.checkboxes || {}).forEach(([chave, marcado]) => {
+    const [cat, valor] = chave.split('|');
+    const cb = document.querySelector(`input[data-cat="${cat}"][value="${valor}"]`);
+    if (cb) { cb.checked = marcado; cb.dispatchEvent(new Event('change')); }
+  });
+
+  reconstruirLista('lista-cronologia', criarLinhaLista, (estado.listas && estado.listas['lista-cronologia']) || []);
+  reconstruirLista('lista-hipoteses', criarLinhaLista, (estado.listas && estado.listas['lista-hipoteses']) || []);
+  reconstruirLista('lista-exames-imagem', (c) => criarLinhaLista(c, 'ex: Ecocardiograma (23/02): normal'), (estado.listas && estado.listas['lista-exames-imagem']) || []);
+  reconstruirLista('lista-exames-lab', (c) => criarLinhaLista(c, 'ex: Painel Viral (15/06): VSR+'), (estado.listas && estado.listas['lista-exames-lab']) || []);
+  reconstruirLista('lista-pareceres', (c) => criarLinhaLista(c, 'ex: Parecer nefrologista (20/07): manter suporte clínico'), (estado.listas && estado.listas['lista-pareceres']) || []);
+
+  const culturasContainer = document.getElementById('lista-culturas');
+  culturasContainer.innerHTML = '';
+  const culturas = estado.culturas && estado.culturas.length ? estado.culturas : [{tipo:'',data:'',resultado:''}];
+  culturas.forEach(c => {
+    const bloco = criarLinhaCultura(culturasContainer);
+    bloco.querySelector('.cult-tipo').value = c.tipo || '';
+    bloco.querySelector('.cult-data').value = c.data || '';
+    bloco.querySelector('.cult-resultado').value = c.resultado || '';
+  });
+
+  ['lista-med-uso', 'lista-med-utilizadas'].forEach(id => {
+    const container = document.getElementById(id);
+    container.innerHTML = '';
+    const meds = (id === 'lista-med-uso' ? estado.medUso : estado.medUtilizadas);
+    const lista = meds && meds.length ? meds : [{nome:'',data:''}];
+    lista.forEach(m => {
+      const bloco = criarLinhaMedicacao(container);
+      bloco.querySelector('.med-nome').value = m.nome || '';
+      bloco.querySelector('.med-data').value = m.data || '';
+    });
+  });
+
+  if (estado.quimioAberto) {
+    document.getElementById('quimio-corpo').classList.add('show');
+    document.getElementById('quimio-seta').classList.add('aberto');
+  }
+}
+
+document.addEventListener('input', salvarEstadoDebounced);
+document.addEventListener('change', salvarEstadoDebounced);
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.btn-add, .btn-add-cultura, .btn-remover, #quimio-header')) {
+    salvarEstadoDebounced();
+  }
+});
+
+restaurarEstado();
+</script>
+
+</body>
+</html>
