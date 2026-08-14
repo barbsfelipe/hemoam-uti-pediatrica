@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Folha de Parada Cardíaca — HEMOAM</title>
+<link rel="icon" href="../assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../assets/favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 16px;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px 0; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .bloco-titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin: 24px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #1e3a5f;
+  }
+  .bloco-titulo:first-of-type { margin-top: 4px; }
+  .section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+  .field-label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 4px; display: block; }
+  input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px 9px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #fff;
+  }
+  .item { margin-bottom: 10px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .grid-3 { grid-template-columns: 1fr; } }
+  @media (max-width: 420px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .destaque {
+    background: #eef3f9;
+    border: 1px solid #d6e2ee;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .destaque .rotulo { font-size: 12px; color: #556; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
+  .destaque .valor { font-size: 22px; font-weight: 700; color: #1e3a5f; margin-top: 2px; }
+  .destaque .valor small { font-size: 13px; font-weight: 600; color: #667; }
+  .destaque-grande .valor { font-size: 30px; }
+  .destaque-grande .valor small { font-size: 16px; }
+  .linha-cardio { margin-top: 8px; }
+
+  .lista-drogas { display: flex; flex-direction: column; gap: 8px; }
+  .droga-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    background: #fff;
+    border: 1px solid #e2e5ea;
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .droga-info { min-width: 170px; }
+  .droga-nome { font-weight: 700; color: #1e3a5f; font-size: 14.5px; display: block; }
+  .droga-apres { font-size: 12px; color: #888; }
+  .droga-valores { display: flex; gap: 14px; align-items: center; margin-left: auto; }
+  .valor-bloco { text-align: right; }
+  .valor-rotulo { display: block; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.03em; color: #8892a0; font-weight: 700; }
+  .valor-num { font-weight: 800; font-size: 19px; color: #14202e; }
+  .valor-unid { font-size: 12px; color: #667; font-weight: 600; margin-left: 2px; }
+  .vol-nota-inline { flex-basis: 100%; font-size: 11px; color: #888; text-align: right; margin-top: -2px; }
+
+  /* Dose (mg) fica discreta; Volume (mL) é o que se prepara de verdade — precisa saltar aos olhos */
+  .valor-secundario .valor-rotulo { color: #aab; }
+  .valor-secundario .valor-num { font-size: 15px; font-weight: 600; color: #8892a0; }
+  .valor-secundario .valor-unid { font-size: 10.5px; color: #aab; }
+  .valor-principal {
+    background: #1e3a5f;
+    border-radius: 8px;
+    padding: 5px 12px;
+  }
+  .valor-principal .valor-rotulo { color: #cfe0f5; }
+  .valor-principal .valor-num { font-size: 25px; color: #fff; }
+  .valor-principal .valor-unid { font-size: 13px; color: #cfe0f5; }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #1e3a5f;
+    color: #fff;
+    font-size: 15.5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  button:active { opacity: 0.85; }
+
+  .avisos { font-size: 12.5px; color: #7a5b00; background: #fff8e6; border: 1px solid #f0e1ad; border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+  .msg-erro { display: none; font-size: 13px; color: #a4171f; background: #fde8e8; border: 1px solid #f3b6ba; border-radius: 8px; padding: 8px 12px; margin-top: 6px; font-weight: 600; text-align: center; }
+  .msg-erro.visivel { display: block; }
+  input.campo-invalido, select.campo-invalido { border-color: #d64550 !important; background: #fff5f5; }
+  .rodape-nota { font-size: 12px; color: #888; text-align: center; margin-top: 18px; line-height: 1.5; }
+
+  .hub-back { background: #1f3864; padding: 6px 16px; font-family: Arial, Helvetica, sans-serif; margin: -16px -16px 16px -16px; }
+  .hub-back a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; }
+  .hub-back a:hover { text-decoration: underline; }
+
+  /* ===== Impressão: retrato, letra grande nas doses, mínimo de "caixa" no topo ===== */
+  @page { size: portrait; margin: 6mm 10mm; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; padding: 0; font-size: 12px; }
+    h1 { font-size: 17px; margin: 0 0 1px 0; }
+    .sub { display: none; }
+
+    /* topo (paciente / via aérea / choque): linhas compactas, sem caixas grandes */
+    .bloco-titulo { font-size: 10.5px; margin: 3px 0 2px 0; padding-bottom: 1px; border-bottom-width: 1px; }
+    .bloco-titulo:first-of-type { margin-top: 0; }
+    .section { padding: 3px 8px; margin-bottom: 2px; box-shadow: none; border: 1px solid #ccc; border-radius: 4px; }
+    .item { margin-bottom: 2px; }
+    .field-label { font-size: 8px; margin-bottom: 0; }
+    input[type="text"], input[type="number"], select { padding: 1px 5px; font-size: 10.5px; border: 1px solid #999; border-radius: 3px; }
+    .grid-2, .grid-3 { display: flex; flex-wrap: wrap; gap: 2px 14px; }
+    .grid-2 > *, .grid-3 > * { flex: 1 1 auto; min-width: 90px; }
+    .linha-cardio { margin-top: 2px; }
+    .destaque { display: inline-flex; align-items: baseline; gap: 5px; padding: 0; border: none; background: none; border-radius: 0; }
+    .destaque .rotulo { font-size: 8.5px; }
+    .destaque .valor { font-size: 12.5px; margin-top: 0; }
+    .destaque .valor small { font-size: 9px; }
+    .destaque-grande .rotulo { font-size: 9px; }
+    .destaque-grande .valor { font-size: 16px; }
+    .destaque-grande .valor small { font-size: 10.5px; }
+
+    /* medicações: o que importa — bem grande e espaçado */
+    .lista-drogas { gap: 3px; }
+    .droga-card { padding: 3.5px 12px; border: 1px solid #aab; border-radius: 5px; break-inside: avoid; }
+    .droga-info { min-width: 145px; }
+    .droga-nome { font-size: 13px; }
+    .droga-apres { font-size: 10px; }
+    .droga-valores { gap: 18px; }
+    .valor-rotulo { font-size: 7px; }
+    .valor-num { font-size: 19px; }
+    .valor-unid { font-size: 11px; }
+    .vol-nota-inline { font-size: 8.5px; }
+    .valor-secundario .valor-num { font-size: 12px; }
+    .valor-secundario .valor-unid { font-size: 8.5px; }
+    .valor-principal { background: #dbe6f1; border: 1.5px solid #1e3a5f; border-radius: 6px; padding: 1px 8px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .valor-principal .valor-rotulo { color: #1e3a5f; }
+    .valor-principal .valor-num { font-size: 21px; color: #0c1b2e; }
+    .valor-principal .valor-unid { font-size: 11px; color: #1e3a5f; }
+
+    .rodape-nota { font-size: 7.5px; margin-top: 2px; line-height: 1.2; }
+    .so-tela { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hub-back no-print">
+  <a href="../">← Painel HEMOAM UTI Pediátrica</a>
+</div>
+
+<h1>Folha de Parada Cardíaca</h1>
+<div class="sub">HEMOAM — doses por peso, tubo orotraqueal, desfibrilação e cardioversão, calculados automaticamente</div>
+
+<div class="avisos no-print">
+  Ferramenta de apoio. Confira sempre com o protocolo institucional e a bula de cada medicação. Nada digitado aqui é salvo ou enviado — os dados ficam só neste navegador e somem ao fechar a página.
+</div>
+
+<button type="button" class="no-print" onclick="imprimir()">🖨️ Imprimir folha</button>
+<div class="msg-erro no-print" id="msg-erro">Preencha nome, idade, peso e sexo antes de imprimir.</div>
+
+<div class="print-topo">
+<div>
+<!-- ========== PACIENTE ========== -->
+<div class="bloco-titulo">Paciente</div>
+<div class="section">
+  <div class="item">
+    <span class="field-label">Nome *</span>
+    <input type="text" id="p-nome" placeholder="nome do paciente" required>
+  </div>
+  <div class="grid-3">
+    <div class="item">
+      <span class="field-label">Idade (anos completos) *</span>
+      <input type="number" id="p-idade" min="0" step="1" inputmode="numeric" placeholder="ex: 2" required>
+    </div>
+    <div class="item">
+      <span class="field-label">Peso (kg) *</span>
+      <input type="number" id="p-peso" min="0" step="0.1" inputmode="decimal" placeholder="ex: 15" required>
+    </div>
+    <div class="item">
+      <span class="field-label">Sexo *</span>
+      <select id="p-sexo" required>
+        <option value="">Selecione</option>
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+      </select>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top:4px;">
+    <div class="destaque">
+      <div class="rotulo">Peso calórico</div>
+      <div class="valor" id="r-pesocal">—</div>
+    </div>
+    <div class="destaque">
+      <div class="rotulo">Superfície corporal</div>
+      <div class="valor" id="r-sc">—</div>
+    </div>
+  </div>
+</div>
+</div>
+<div>
+<!-- ========== VIA AÉREA ========== -->
+<div class="bloco-titulo">Via Aérea — Tubo Orotraqueal</div>
+<div class="section">
+  <div class="grid-2">
+    <div class="destaque destaque-grande">
+      <div class="rotulo">Com cuff</div>
+      <div class="valor" id="r-tot-cuff">—</div>
+    </div>
+    <div class="destaque destaque-grande">
+      <div class="rotulo">Sem cuff</div>
+      <div class="valor" id="r-tot-semcuff">—</div>
+    </div>
+  </div>
+  <div class="vol-nota" id="r-tot-nota" style="display:none; margin-top:8px;">Selecione o sexo para aplicar o teto máximo de tubo (8 masculino / 7,5 feminino).</div>
+</div>
+
+<!-- ========== CHOQUE ========== -->
+<div class="bloco-titulo">Desfibrilação e Cardioversão</div>
+<div class="section">
+  <div class="grid-2">
+    <div class="destaque destaque-grande">
+      <div class="rotulo">Desfibrilação · 1ª carga</div>
+      <div class="valor" id="r-desfib-1">— <small>J</small></div>
+    </div>
+    <div class="destaque destaque-grande">
+      <div class="rotulo">Desfibrilação · seguintes</div>
+      <div class="valor" id="r-desfib-2">— <small>J</small></div>
+    </div>
+  </div>
+  <div class="grid-2 linha-cardio">
+    <div class="destaque destaque-grande">
+      <div class="rotulo">Cardioversão · 1ª carga</div>
+      <div class="valor" id="r-cardio-1">— <small>J</small></div>
+    </div>
+    <div class="destaque destaque-grande">
+      <div class="rotulo">Cardioversão · seguintes</div>
+      <div class="valor" id="r-cardio-2">— <small>J</small></div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ========== MEDICAÇÕES ========== -->
+<div class="bloco-titulo">Medicações</div>
+<div class="lista-drogas" id="tabela-drogas"></div>
+
+<button type="button" class="no-print" onclick="imprimir()">Imprimir folha</button>
+
+<div class="rodape-nota">
+  Hospital do Sangue · HEMOAM — UTI Pediátrica — fórmulas conferidas com a folha de parada institucional, PALS/AHA 2020 e Guia Farmacêutico do Hospital Sírio-Libanês.
+  <span class="so-tela">Tetos de dose máxima: Adrenalina 1mg, Adenosina 6mg, Atropina 0,5mg, Amiodarona 300mg, Lidocaína 100mg, Glicose 25% 25g, Naloxone 2mg, Flumazenil 0,2mg, Gluconato de Cálcio 3g, Midazolam 5mg, Cetamina 50mg e Rocurônio 50mg. Bicarbonato de Sódio sem teto (dose só por peso).</span>
+</div>
+
+<script>
+// ---------- Drogas: cada item define como calcular dose e volume a partir do peso ----------
+const DROGAS = [
+  {
+    // teto 1mg/dose IV/IO — PALS/AHA 2020
+    nome: 'ADRENALINA 1:9 (0,01 mg/kg)', apres: '1:10.000',
+    dose: p => p > 100 ? 1 : 0.01 * p, unidDose: 'mg',
+    vol: (p, dose) => dose * 10, unidVol: 'ml'
+  },
+  {
+    nome: 'ADENOSINA (0,1 mg/kg)', apres: '3mg/ml',
+    dose: p => p > 60 ? 6 : 0.1 * p, unidDose: 'mg',
+    vol: (p, dose) => dose / 3, unidVol: 'ml'
+  },
+  {
+    nome: 'ATROPINA (0,02 mg/kg)', apres: '0,25mg/ml',
+    dose: p => p > 25 ? 0.5 : 0.02 * p, unidDose: 'mg',
+    vol: (p, dose) => dose / 0.25, unidVol: 'ml'
+  },
+  {
+    nome: 'AMIODARONA (5 mg/kg)', apres: '50mg/ml',
+    dose: p => p > 60 ? 300 : 5 * p, unidDose: 'mg',
+    vol: (p, dose) => dose / 50, unidVol: 'ml', notaVol: 'em 20 a 30 min'
+  },
+  {
+    nome: 'LIDOCAÍNA (1 mg/kg)', apres: '20mg/ml',
+    dose: p => p > 100 ? 100 : p, unidDose: 'mg',
+    vol: (p, dose) => dose / 20, unidVol: 'ml'
+  },
+  {
+    // teto 25g/dose — Guia Farmacêutico Hospital Sírio-Libanês
+    nome: 'GLICOSE 25% (0,5 g/kg)', apres: '250mg/ml',
+    dose: p => p > 50 ? 25 : 0.5 * p, unidDose: 'g',
+    vol: (p, dose) => dose * 4, unidVol: 'ml'
+  },
+  {
+    // teto 2mg/dose inicial — Guia Farmacêutico Hospital Sírio-Libanês
+    nome: 'NALOXONE (0,1 mg/kg)', apres: '0,4mg/ml',
+    dose: p => p > 20 ? 2 : 0.1 * p, unidDose: 'mg',
+    vol: (p, dose) => dose / 0.4, unidVol: 'ml'
+  },
+  {
+    nome: 'FLUMAZENIL (0,01 mg/kg)', apres: '0,1mg/ml',
+    dose: p => p > 20 ? 0.2 : 0.01 * p, unidDose: 'mg',
+    vol: (p, dose) => dose / 0.1, unidVol: 'ml'
+  },
+  {
+    // teto 3g/dose — Guia Farmacêutico Hospital Sírio-Libanês (planilha original do HEMOAM usava 1g)
+    nome: 'GLUC DE CA 10% (100 mg/kg)', apres: '100mg/ml',
+    dose: p => p > 30 ? 3000 : p * 100, unidDose: 'mg',
+    vol: (p, dose) => dose / 100, unidVol: 'ml'
+  },
+  {
+    // sem teto de dose máxima, a pedido — só o cálculo linear por peso
+    nome: 'BIC DE SÓDIO 8,4% (84mg/kg)', apres: '84mg/ml',
+    dose: p => p * 84, unidDose: 'mg',
+    vol: (p, dose) => dose / 84, unidVol: 'ml'
+  },
+  {
+    // sem diluição — solução pura 5mg/ml; teto 5mg/dose
+    nome: 'MIDAZOLAM (0,1 mg/kg)', apres: '5mg/ml',
+    dose: p => Math.min(0.1 * p, 5), unidDose: 'mg',
+    vol: (p, dose) => dose / 5, unidVol: 'ml'
+  },
+  {
+    nome: 'CETAMINA (1 mg/kg)', apres: '50mg/ml',
+    dose: p => p > 50 ? 50 : p, unidDose: 'mg',
+    vol: (p, dose) => dose / 50, unidVol: 'ml'
+  },
+  {
+    // teto original da planilha (20mg acima de 50kg) corrigido para 50mg, coerente com 1mg/kg em 50kg
+    nome: 'ROCURÔNIO (1 mg/kg)', apres: '10mg/ml',
+    dose: p => p > 50 ? 50 : p, unidDose: 'mg',
+    vol: (p, dose) => dose / 10, unidVol: 'ml'
+  }
+];
+
+function fmt(n, casas) {
+  if (!isFinite(n)) return '—';
+  return n.toLocaleString('pt-BR', { minimumFractionDigits: casas, maximumFractionDigits: casas });
+}
+
+// Volume a administrar: sempre 1 casa decimal, arredondado pra cima (nunca pra baixo)
+function fmtVolume(n) {
+  if (!isFinite(n)) return '—';
+  const arredondado = Math.ceil(n * 10 - 1e-9) / 10;
+  return fmt(arredondado, 1);
+}
+
+function montarTabela() {
+  const corpo = document.getElementById('tabela-drogas');
+  corpo.innerHTML = DROGAS.map((d, i) => `
+    <div class="droga-card" data-idx="${i}">
+      <div class="droga-info">
+        <span class="droga-nome">${d.nome}</span>
+        <span class="droga-apres">${d.apres}</span>
+      </div>
+      <div class="droga-valores">
+        <div class="valor-bloco valor-secundario">
+          <span class="valor-rotulo">Dose</span>
+          <span class="valor-num" id="dose-${i}">—</span><span class="valor-unid">${d.unidDose}</span>
+        </div>
+        <div class="valor-bloco valor-principal">
+          <span class="valor-rotulo">Administrar</span>
+          <span class="valor-num" id="vol-${i}">—</span><span class="valor-unid">${d.unidVol}</span>
+        </div>
+      </div>
+      ${d.notaVol ? `<div class="vol-nota-inline">${d.notaVol}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function recalcular() {
+  const peso = parseFloat(document.getElementById('p-peso').value);
+  const idade = parseFloat(document.getElementById('p-idade').value);
+  const pesoOk = isFinite(peso) && peso > 0;
+  const idadeOk = isFinite(idade) && idade >= 0;
+
+  // Peso calculado por faixa (referência, não usado nas doses)
+  let pesoCal = NaN;
+  if (pesoOk) {
+    pesoCal = peso < 10.1 ? peso
+      : peso < 20.1 ? 10 + 0.5 * (peso - 10)
+      : 15 + 0.2 * (peso - 20);
+  }
+  document.getElementById('r-pesocal').textContent = pesoOk ? fmt(pesoCal, 1) + ' Kcal' : '—';
+
+  // Superfície corporal
+  const sc = pesoOk ? (4 * peso + 7) / (peso + 90) : NaN;
+  document.getElementById('r-sc').textContent = pesoOk ? fmt(sc, 2) + ' m²' : '—';
+
+  // Tubo orotraqueal — menor de 1 ano usa tamanho fixo; a partir de 1 ano, fórmula por idade
+  const sexo = document.getElementById('p-sexo').value;
+  const totMax = sexo === 'M' ? 8 : sexo === 'F' ? 7.5 : Infinity;
+  let totCuff = idadeOk ? (idade < 1 ? 3.5 : 3.5 + idade / 4) : NaN;
+  let totSemCuff = idadeOk ? (idade < 1 ? 3 : 4 + idade / 4) : NaN;
+  if (idadeOk) { totCuff = Math.min(totCuff, totMax); totSemCuff = Math.min(totSemCuff, totMax); }
+  document.getElementById('r-tot-cuff').textContent = idadeOk ? fmt(totCuff, 1) : '—';
+  document.getElementById('r-tot-semcuff').textContent = idadeOk ? fmt(totSemCuff, 1) : '—';
+  document.getElementById('r-tot-nota').style.display = (idadeOk && !sexo) ? 'block' : 'none';
+
+  // Desfibrilação / cardioversão — teto de 200J, arredondado sempre pra cima (múltiplo de 10)
+  const JMAX = 200;
+  const joule = raw => Math.ceil(Math.min(raw, JMAX) / 5) * 5;
+  document.getElementById('r-desfib-1').innerHTML = pesoOk ? fmt(joule(2 * peso), 0) + ' <small>J</small>' : '— <small>J</small>';
+  document.getElementById('r-desfib-2').innerHTML = pesoOk ? fmt(joule(4 * peso), 0) + ' <small>J</small>' : '— <small>J</small>';
+  document.getElementById('r-cardio-1').innerHTML = pesoOk ? fmt(joule(1 * peso), 0) + ' <small>J</small>' : '— <small>J</small>';
+  document.getElementById('r-cardio-2').innerHTML = pesoOk ? fmt(joule(2 * peso), 0) + ' <small>J</small>' : '— <small>J</small>';
+
+  // Drogas
+  DROGAS.forEach((d, i) => {
+    const doseEl = document.getElementById('dose-' + i);
+    const volEl = document.getElementById('vol-' + i);
+    if (!pesoOk) { doseEl.textContent = '—'; volEl.textContent = '—'; return; }
+    const dose = d.dose(peso);
+    const vol = d.vol(peso, dose);
+    doseEl.textContent = fmt(dose, dose < 10 ? 2 : 1);
+    volEl.textContent = fmtVolume(vol);
+  });
+}
+
+montarTabela();
+recalcular();
+['p-peso', 'p-idade'].forEach(id => {
+  document.getElementById(id).addEventListener('input', recalcular);
+});
+document.getElementById('p-sexo').addEventListener('change', recalcular);
+
+// ---------- Validação do cabeçalho antes de imprimir ----------
+function imprimir() {
+  const campos = ['p-nome', 'p-idade', 'p-peso', 'p-sexo'];
+  let ok = true;
+  campos.forEach(id => {
+    const el = document.getElementById(id);
+    const vazio = !el.value || !el.value.toString().trim();
+    el.classList.toggle('campo-invalido', vazio);
+    if (vazio) ok = false;
+  });
+  const msg = document.getElementById('msg-erro');
+  if (!ok) {
+    msg.classList.add('visivel');
+    document.getElementById('p-nome').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  msg.classList.remove('visivel');
+  window.print();
+}
+['p-nome', 'p-idade', 'p-peso'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => document.getElementById(id).classList.remove('campo-invalido'));
+});
+document.getElementById('p-sexo').addEventListener('change', () => document.getElementById('p-sexo').classList.remove('campo-invalido'));
+</script>
+
+</body>
+</html>
