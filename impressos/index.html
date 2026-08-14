@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressos — HEMOAM</title>
+<link rel="icon" href="../assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../assets/favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 16px;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px 0; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .hub-back { background: #1f3864; padding: 6px 16px; font-family: Arial, Helvetica, sans-serif; margin: -16px -16px 16px -16px; }
+  .hub-back a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; }
+  .hub-back a:hover { text-decoration: underline; }
+
+  .lista-impressos { display: flex; flex-direction: column; gap: 10px; max-width: 640px; }
+  .impresso {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid #e2e5ea;
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .impresso:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.1); transform: translateY(-1px); }
+  .impresso .icone {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #eef3f9;
+    color: #1e3a5f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .impresso .icone svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .impresso .info { flex: 1; min-width: 0; }
+  .impresso .nome { font-weight: 700; color: #1e3a5f; font-size: 15px; }
+  .impresso .desc { font-size: 12.5px; color: #888; margin-top: 2px; }
+  .impresso .formato {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #667;
+    background: #eef0f3;
+    border-radius: 5px;
+    padding: 3px 8px;
+    text-transform: uppercase;
+  }
+
+  .rodape-nota { font-size: 12px; color: #888; text-align: center; margin-top: 24px; line-height: 1.5; max-width: 640px; }
+</style>
+</head>
+<body>
+
+<div class="hub-back">
+  <a href="../">← Painel HEMOAM UTI Pediátrica</a>
+</div>
+
+<h1>Impressos</h1>
+<div class="sub">HEMOAM — formulários em branco para baixar e imprimir</div>
+
+<div class="lista-impressos">
+  <a class="impresso" href="arquivos/apac.pdf" download>
+    <div class="icone"><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></div>
+    <div class="info">
+      <div class="nome">Pedido de APAC</div>
+      <div class="desc">Laudo para Solicitação/Autorização de Procedimento Ambulatorial (SUS)</div>
+    </div>
+    <div class="formato">PDF</div>
+  </a>
+
+  <a class="impresso" href="arquivos/pedido-exames-raio-x.pdf" download>
+    <div class="icone"><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></div>
+    <div class="info">
+      <div class="nome">Requisição de Exames Laboratoriais e Raio X</div>
+      <div class="desc">Formulário HEMOAM para pedido de exames laboratoriais e raio X</div>
+    </div>
+    <div class="formato">PDF</div>
+  </a>
+
+  <a class="impresso" href="arquivos/registro-exames.xlsx" download>
+    <div class="icone"><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></div>
+    <div class="info">
+      <div class="nome">Registro de Exames (folha espelho)</div>
+      <div class="desc">Planilha para acompanhar resultados de exames laboratoriais ao longo dos dias</div>
+    </div>
+    <div class="formato">XLSX</div>
+  </a>
+</div>
+
+<div class="rodape-nota">
+  Hospital do Sangue · HEMOAM — UTI Pediátrica — modelos em branco, sem dado de paciente.
+</div>
+
+</body>
+</html>
