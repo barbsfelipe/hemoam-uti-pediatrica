@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISBAR UTI Pediátrica - HEMOAM</title>
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --line: #888;
+    --line-strong: #333;
+    --header-bg: #1f3864;
+    --header-fg: #ffffff;
+    --alert-bg: #fdecea;
+    --alert-border: #c0392b;
+    --section-badge: #1f3864;
+    --backdrop: #e7e9ec;
+    --muted: #555;
+  }
+  :root[data-theme="dark"] {
+    --backdrop: #202225;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --backdrop: #202225; }
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--backdrop);
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--ink);
+  }
+
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--header-bg);
+    color: var(--header-fg);
+    font-size: 13px;
+  }
+  .toolbar button {
+    background: #ffffff;
+    color: var(--header-bg);
+    border: none;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .toolbar button:hover { opacity: 0.9; }
+  .toolbar .note { opacity: 0.9; }
+  .toolbar .note a.tool-link {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 700;
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #checklist-fonte-status {
+    font-size: 12px;
+    opacity: 0.9;
+  }
+  #checklist-fonte-erro {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffd166;
+  }
+
+  .sheet-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10mm;
+    padding: 10mm 0 20mm;
+  }
+
+  .page {
+    background: var(--paper);
+    color: #1a1a1a;
+    width: 281mm;
+    aspect-ratio: 297 / 210;
+    padding: 2mm 6mm 2mm;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1mm solid var(--header-bg);
+    padding-bottom: 1mm;
+    margin-bottom: 2mm;
+  }
+  .page-header .brand {
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--header-bg);
+    letter-spacing: 0.3px;
+  }
+  .page-header .title {
+    text-align: center;
+    flex: 1;
+  }
+  .page-header .title .t1 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--header-bg);
+  }
+  .page-header .title .t2 {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .page-header .pageno {
+    font-size: 9px;
+    color: var(--muted);
+    min-width: 60px;
+    text-align: right;
+  }
+  .page-header .page-date {
+    font-size: 9px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-right: 8mm;
+  }
+  .page-header .page-date input[type="text"] {
+    border-bottom: 0.25mm dotted #7a7a7a;
+  }
+
+  .cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2mm;
+    min-height: 0;
+  }
+
+  .bed-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border: 0.4mm solid var(--line-strong);
+    min-height: 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .bed-hidden { display: none; }
+
+  .row {
+    display: flex;
+    border-bottom: 0.2mm solid var(--line);
+  }
+  .row:last-child { border-bottom: none; }
+  .cell {
+    flex: 1;
+    padding: 0.4mm 2mm;
+    border-right: 0.2mm solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 8.3px;
+    line-height: 1.2;
+  }
+  .cell.r-cont { padding-top: 0; }
+  .cell:last-child { border-right: none; }
+  .cell.wide { flex: 2; }
+  .cell.xwide { flex: 3.2; }
+
+  .label { font-weight: 700; white-space: nowrap; }
+  .label.section {
+    color: #fff;
+    background: var(--section-badge);
+    padding: 0 2mm;
+    border-radius: 2px;
+    margin-right: 2px;
+  }
+
+  input[type="text"] {
+    border: none;
+    border-bottom: 0.25mm dotted #7a7a7a;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    padding: 0 1px;
+  }
+  input[type="text"]:focus { outline: none; border-bottom-color: var(--header-bg); }
+
+  .chk {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+    font-weight: 400;
+  }
+  .chk input[type="checkbox"] {
+    width: 9px;
+    height: 9px;
+    margin: 0;
+  }
+
+  .detail-input {
+    max-width: 20mm;
+    flex: 0 1 auto;
+  }
+  .detail-input-wide {
+    max-width: none;
+    flex: 1 1 auto;
+  }
+  .insercao-input {
+    max-width: 26mm;
+    flex: 0 1 auto;
+  }
+  .cell.wrap-detalhes {
+    flex-wrap: wrap;
+    row-gap: 0.8mm;
+  }
+
+  .header-strip {
+    background: var(--header-bg);
+    color: #fff;
+  }
+  .header-strip .cell { border-right-color: rgba(255,255,255,0.35); }
+  .header-strip .label { font-weight: 800; }
+  .header-strip input[type="text"] { color: #fff; border-bottom-color: rgba(255,255,255,0.6); }
+
+  .header-strip .clear-bed-btn {
+    background: transparent;
+    color: #fff;
+    border: 0.25mm solid rgba(255,255,255,0.6);
+    border-radius: 2px;
+    padding: 0.3mm 2mm;
+    font-size: 7.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .header-strip .clear-bed-btn:hover { background: rgba(255,255,255,0.15); }
+
+  .alert-row {
+    background: var(--alert-bg);
+    border-top: 0.3mm solid var(--alert-border);
+    border-bottom: 0.3mm solid var(--alert-border);
+    flex-wrap: wrap;
+  }
+  .alert-row .cell { border-right-color: rgba(192,57,43,0.35); }
+  .alert-row .label { color: var(--alert-border); }
+
+  .vent-row .cell { gap: 5px; }
+  .vent-row input[type="text"] { min-width: 10mm; }
+  .vent-field { display:flex; align-items:center; gap:2px; white-space:nowrap; }
+
+  .written-block {
+    flex: 1.15;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-top: 0.3mm solid var(--line-strong);
+  }
+  .written-heading {
+    display: flex;
+    font-size: 8px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .written-heading > div { flex: 1; padding: 0.5mm 2mm 0; }
+  .written-heading > div:first-child { border-right: 0.2mm solid var(--line); }
+
+  .written-cols {
+    flex: 1;
+    display: flex;
+    min-height: 29mm;
+  }
+  .written-col {
+    flex: 1;
+    padding: 0 2mm;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px);
+    background-size: 100% 5.45mm;
+    background-position: 0 5.2mm;
+    background-repeat: repeat;
+  }
+  .written-col:first-child { border-right: 0.2mm solid var(--line); }
+
+  .sign-row {
+    border-top: 0.3mm solid var(--line-strong);
+    font-size: 8px;
+    padding: 0.3mm 2mm;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .sign-row input[type="text"] { flex: 1; }
+
+  @media print {
+    .toolbar,
+    .no-print { display: none; }
+    html, body { background: #fff; }
+    .sheet-wrap { padding: 0; gap: 0; }
+    .page {
+      box-shadow: none;
+      width: 100%;
+      aspect-ratio: auto;
+      break-after: page;
+      page-break-after: always;
+    }
+    .page:last-child {
+      break-after: auto;
+      page-break-after: auto;
+    }
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 8mm;
+  }
+<style>
+  .hub-back { background: var(--header-bg); padding: 6px 16px; font-family: Arial, Helvetica, sans-serif; }
+  .hub-back a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; }
+  .hub-back a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="hub-back no-print">
+  <a href="../">← Painel HEMOAM UTI Pediátrica</a>
+</div>
+
+<div class="toolbar no-print">
+  <div class="note">Preencher os campos digitados de manhã, imprimir e completar a lápis/caneta à tarde e à noite.
+    <a class="tool-link" href="../visita-multi/">Checklist de Visita Multiprofissional →</a>
+  </div>
+  <div class="toolbar-actions">
+    <button type="button" id="save-btn">Salvar dados (.json)</button>
+    <button type="button" id="load-btn">Carregar dados (.json)</button>
+    <input type="file" id="load-input" accept="application/json,.json" style="display:none">
+    <button type="button" id="checklist-fonte-vincular-btn" style="display:none">Vincular arquivo do Checklist</button>
+    <button type="button" id="checklist-fonte-retomar-btn" style="display:none">Clique para atualizar dados do Checklist</button>
+    <button type="button" id="checklist-fonte-atualizar-btn" style="display:none">Atualizar dados do Checklist</button>
+    <button type="button" id="checklist-fonte-desvincular-btn" style="display:none">Desvincular Checklist</button>
+    <span id="checklist-fonte-status" style="display:none"></span>
+    <span id="checklist-fonte-erro" style="display:none"></span>
+    <button type="button" id="toggle-vazios-btn">Ocultar leitos vazios</button>
+    <button type="button" id="print-btn">Imprimir / Salvar PDF</button>
+  </div>
+</div>
+
+<div class="sheet-wrap" id="app"></div>
+
+<script>
+  const beds = [409, 410, 411, 412, 413, 414, 415, 416];
+
+  function chkPair(field, detailClass) {
+    const classe = detailClass ? `detail-input ${detailClass}` : 'detail-input';
+    return `
+      <label class="chk"><input type="checkbox" data-field="${field}_nao"> N</label>
+      <label class="chk"><input type="checkbox" data-field="${field}_sim" data-detail-toggle="${field}"> S</label>
+      <input type="text" data-field="${field}_detalhe" data-detail-input="${field}" class="${classe}" style="display:none">
+    `;
+  }
+
+  function bedCard(bed) {
+    return `
+    <div class="bed-card" data-bed="${bed}">
+      <div class="row header-strip">
+        <div class="cell"><span class="label">LEITO ${bed}</span></div>
+        <div class="cell wide"><span class="label">Data internação:</span><input type="text" data-field="dataInternacao"></div>
+        <div class="cell wide"><span class="label">Idade/DN:</span><input type="text" data-field="idadeDN"></div>
+        <div class="cell" style="flex: 0 0 auto;"><button type="button" class="clear-bed-btn no-print" data-clear-bed="${bed}">Limpar leito</button></div>
+      </div>
+
+      <div class="row">
+        <div class="cell xwide"><span class="label">Nome:</span><input type="text" data-field="nome"></div>
+        <div class="cell xwide"><span class="label">Nome da mãe:</span><input type="text" data-field="nomeMae"></div>
+      </div>
+
+      <div class="row alert-row">
+        <div class="cell"><span class="label">Alergias:</span>${chkPair('alergias')}</div>
+        <div class="cell xwide wrap-detalhes">
+          <span class="label">Dispositivos:</span>
+          <label class="chk"><input type="checkbox" data-field="disp_cvc" data-detail-toggle="disp_cvc"> CVC</label>
+          <input type="text" data-field="disp_cvc_val" data-detail-input="disp_cvc" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_tot" data-detail-toggle="disp_tot"> TOT</label>
+          <input type="text" data-field="disp_tot_val" data-detail-input="disp_tot" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_svd" data-detail-toggle="disp_svd"> SVD</label>
+          <input type="text" data-field="disp_svd_val" data-detail-input="disp_svd" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_sne" data-detail-toggle="disp_sne"> SNE</label>
+          <input type="text" data-field="disp_sne_val" data-detail-input="disp_sne" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_sng" data-detail-toggle="disp_sng"> SNG</label>
+          <input type="text" data-field="disp_sng_val" data-detail-input="disp_sng" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_shiley" data-detail-toggle="disp_shiley"> Shiley</label>
+          <input type="text" data-field="disp_shiley_val" data-detail-input="disp_shiley" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_tenkhoff" data-detail-toggle="disp_tenkhoff"> Tenkhoff</label>
+          <input type="text" data-field="disp_tenkhoff_val" data-detail-input="disp_tenkhoff" class="insercao-input" style="display:none">
+          <label class="chk"><input type="checkbox" data-field="disp_outro"> Outro:</label>
+          <input type="text" data-field="disp_outro_val" style="max-width:16mm">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell xwide"><span class="label section">S</span>Diagnósticos:<input type="text" data-field="diagnosticos"></div>
+      </div>
+
+      <div class="row">
+        <div class="cell xwide"><span class="label section">B</span>Antibióticos:${chkPair('atb', 'detail-input-wide')}</div>
+        <div class="cell">Culturas:${chkPair('cult')}</div>
+        <div class="cell">QT:${chkPair('qt')}</div>
+        <div class="cell">Diálise:${chkPair('dial')}</div>
+        <div class="cell">Sedação/Analgesia:${chkPair('sed')}</div>
+      </div>
+
+      <div class="row">
+        <div class="cell"><span class="label section">A</span>Dieta:${chkPair('dieta')}</div>
+        <div class="cell">O2:${chkPair('o2')}</div>
+        <div class="cell">DVA:${chkPair('dva')}</div>
+        <div class="cell">Corr. eletrólitos:${chkPair('elet')}</div>
+        <div class="cell wide">
+          Transfusão:
+          <label class="chk"><input type="checkbox" data-field="transf_ch"> CH</label>
+          <label class="chk"><input type="checkbox" data-field="transf_cp"> CP</label>
+          <label class="chk"><input type="checkbox" data-field="transf_pfc"> PFC</label>
+          <label class="chk"><input type="checkbox" data-field="transf_crio"> CRIO</label>
+        </div>
+      </div>
+
+      <div class="row vent-row">
+        <div class="cell xwide">
+          <span class="label">Suporte ventilatório:</span>
+          <label class="chk"><input type="checkbox" data-field="vent_arambiente"> Ar ambiente</label>
+          <label class="chk"><input type="checkbox" data-field="vent_o2"> O2</label>
+          <label class="chk"><input type="checkbox" data-field="vent_vni"> VNI</label>
+          <label class="chk"><input type="checkbox" data-field="vent_vpm"> VPM</label>
+          <span class="vent-field">Modo:<input type="text" data-field="vent_modo"></span>
+          <span class="vent-field">FiO2:<input type="text" data-field="vent_fio2"></span>
+          <span class="vent-field">Pinsp/Epap:<input type="text" data-field="vent_pinsp_epap"></span>
+          <span class="vent-field">Peep/Ipap:<input type="text" data-field="vent_peep_ipap"></span>
+          <span class="vent-field">Tins:<input type="text" data-field="vent_tins"></span>
+          <span class="vent-field">FR:<input type="text" data-field="vent_fr"></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell xwide"><span class="label section">R</span>Programação/Condutas:<input type="text" data-field="condutas"></div>
+      </div>
+      <div class="row">
+        <div class="cell xwide r-cont"><input type="text" data-field="condutas2"></div>
+      </div>
+      <div class="row">
+        <div class="cell wide">Exames pendentes:<input type="text" data-field="examesPendentes"></div>
+        <div class="cell wide">Reavaliar:<input type="text" data-field="reavaliar"></div>
+      </div>
+      <div class="row">
+        <div class="cell xwide">Pendências:<input type="text" data-field="pendencias"></div>
+      </div>
+      <div class="row">
+        <div class="cell wide">Alta:${chkPair('alta')}<span class="vent-field">Leito:<input type="text" data-field="altaLeito" style="max-width:14mm"></span></div>
+      </div>
+
+      <div class="written-block">
+        <div class="written-heading">
+          <div>Intercorrências / evolução — TARDE</div>
+          <div>Intercorrências / evolução — NOITE</div>
+        </div>
+        <div class="written-cols">
+          <div class="written-col"></div>
+          <div class="written-col"></div>
+        </div>
+      </div>
+
+      <div class="sign-row">
+        <span class="label">Assinatura/CRM do plantonista:</span>
+        <input type="text" data-field="assinatura">
+      </div>
+    </div>
+    `;
+  }
+
+  let html = '';
+  for (let i = 0; i < beds.length; i += 2) {
+    const pageNum = i / 2 + 1;
+    const totalPages = Math.ceil(beds.length / 2);
+    html += `
+      <div class="page">
+        <div class="page-header">
+          <div class="brand">HOSPITAL DO SANGUE</div>
+          <div class="title">
+            <div class="t1">ISBAR | PASSAGEM DE PLANTÃO</div>
+            <div class="t2">UTI PEDIÁTRICA — HEMOAM</div>
+          </div>
+          ${pageNum === 1 ? `
+          <div class="page-date">
+            <span class="label">Data:</span><input type="text" id="page-date" style="max-width:22mm">
+          </div>` : '<div class="page-date"></div>'}
+          <div class="pageno">Página ${pageNum}/${totalPages}</div>
+        </div>
+        <div class="cards">
+          ${bedCard(beds[i])}
+          ${i + 1 < beds.length ? bedCard(beds[i + 1]) : ''}
+        </div>
+      </div>
+    `;
+  }
+  document.getElementById('app').innerHTML = html;
+
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
+
+  function limparLeito(bed) {
+    const card = document.querySelector(`.bed-card[data-bed="${bed}"]`);
+    if (!card) return;
+    card.querySelectorAll('[data-field]').forEach(el => {
+      if (el.type === 'checkbox') el.checked = false;
+      else el.value = '';
+    });
+    card.querySelectorAll('[data-detail-toggle]').forEach(atualizarDetalheVisibilidade);
+  }
+
+  let ocultarVaziosAtivo = false;
+
+  function leitoEstaVazio(card) {
+    let vazio = true;
+    card.querySelectorAll('[data-field]').forEach(el => {
+      if (el.type === 'checkbox') {
+        if (el.checked) vazio = false;
+      } else if (el.value.trim() !== '') {
+        vazio = false;
+      }
+    });
+    return vazio;
+  }
+
+  function atualizarVisibilidadeLeitosVazios() {
+    let ocultos = 0;
+    document.querySelectorAll('.bed-card').forEach(card => {
+      const oculta = ocultarVaziosAtivo && leitoEstaVazio(card);
+      card.classList.toggle('bed-hidden', oculta);
+      if (oculta) ocultos++;
+    });
+
+    const paginasVisiveis = [];
+    document.querySelectorAll('.page').forEach(page => {
+      const temDataPlantao = !!page.querySelector('#page-date');
+      const cards = page.querySelectorAll('.bed-card');
+      const todosOcultos = cards.length > 0 &&
+        Array.from(cards).every(card => card.classList.contains('bed-hidden'));
+      const oculta = todosOcultos && !temDataPlantao;
+      page.classList.toggle('bed-hidden', oculta);
+      if (!oculta) paginasVisiveis.push(page);
+    });
+    paginasVisiveis.forEach((page, indice) => {
+      const pagenoEl = page.querySelector('.pageno');
+      if (pagenoEl) pagenoEl.textContent = `Página ${indice + 1}/${paginasVisiveis.length}`;
+    });
+
+    const btn = document.getElementById('toggle-vazios-btn');
+    btn.textContent = ocultarVaziosAtivo
+      ? `Mostrar leitos vazios (${ocultos} ocultos)`
+      : 'Ocultar leitos vazios';
+  }
+
+  document.getElementById('toggle-vazios-btn').addEventListener('click', () => {
+    ocultarVaziosAtivo = !ocultarVaziosAtivo;
+    salvarPreferenciaOcultarVazios();
+    atualizarVisibilidadeLeitosVazios();
+  });
+
+  const AUTOSAVE_KEY = 'hemoam-isbar-utip-rascunho';
+
+  const OCULTAR_VAZIOS_KEY = 'hemoam-isbar-ocultar-vazios';
+
+  function salvarPreferenciaOcultarVazios() {
+    try {
+      localStorage.setItem(OCULTAR_VAZIOS_KEY, ocultarVaziosAtivo ? '1' : '0');
+    } catch (e) { /* localStorage indisponível ou cheio: ignora */ }
+  }
+
+  function restaurarPreferenciaOcultarVazios() {
+    try {
+      ocultarVaziosAtivo = localStorage.getItem(OCULTAR_VAZIOS_KEY) === '1';
+    } catch (e) { ocultarVaziosAtivo = false; }
+  }
+
+  function nomeArquivoPlantao(data) {
+    const dd = String(data.getDate()).padStart(2, '0');
+    const mm = String(data.getMonth() + 1).padStart(2, '0');
+    const aaaa = data.getFullYear();
+    return `plantão (${dd}-${mm}-${aaaa}).json`;
+  }
+
+  function salvarEstadoTudo() {
+    salvarEstadoLocal();
+  }
+
+  function coletarEstado() {
+    const beds = {};
+    document.querySelectorAll('.bed-card').forEach(card => {
+      const bed = card.dataset.bed;
+      const campos = {};
+      card.querySelectorAll('[data-field]').forEach(el => {
+        campos[el.dataset.field] = el.type === 'checkbox' ? el.checked : el.value;
+      });
+      beds[bed] = campos;
+    });
+    const pageDateEl = document.getElementById('page-date');
+    return {
+      pageDate: pageDateEl ? pageDateEl.value : '',
+      beds
+    };
+  }
+
+  function restaurarEstado(dados) {
+    if (!dados || typeof dados !== 'object') return;
+    const pageDateEl = document.getElementById('page-date');
+    if (pageDateEl && typeof dados.pageDate === 'string') pageDateEl.value = dados.pageDate;
+    if (dados.beds) {
+      document.querySelectorAll('.bed-card').forEach(card => {
+        const bed = card.dataset.bed;
+        const campos = dados.beds[bed];
+        if (!campos) return;
+        card.querySelectorAll('[data-field]').forEach(el => {
+          if (!(el.dataset.field in campos)) return;
+          const valor = campos[el.dataset.field];
+          if (el.type === 'checkbox') el.checked = !!valor;
+          else el.value = valor;
+        });
+      });
+    }
+    sincronizarDetalhes();
+    atualizarVisibilidadeLeitosVazios();
+  }
+
+  function sincronizarDetalhes() {
+    document.querySelectorAll('[data-detail-toggle]').forEach(atualizarDetalheVisibilidade);
+  }
+
+  function atualizarDetalheVisibilidade(simCheckbox) {
+    const field = simCheckbox.dataset.detailToggle;
+    if (!field) return;
+    const cell = simCheckbox.closest('.cell');
+    if (!cell) return;
+    const input = cell.querySelector(`[data-detail-input="${field}"]`);
+    if (!input) return;
+    input.style.display = simCheckbox.checked ? '' : 'none';
+  }
+
+  document.addEventListener('change', (e) => {
+    const cb = e.target.closest('[data-detail-toggle]');
+    if (cb) atualizarDetalheVisibilidade(cb);
+  });
+
+  function salvarEstadoLocal() {
+    try {
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(coletarEstado()));
+    } catch (e) { /* localStorage indisponível ou cheio: ignora */ }
+  }
+
+  let salvarEstadoLocalTimeout = null;
+  function salvarEstadoLocalDebounced() {
+    clearTimeout(salvarEstadoLocalTimeout);
+    salvarEstadoLocalTimeout = setTimeout(salvarEstadoTudo, 400);
+  }
+
+  function restaurarEstadoLocal() {
+    let dados;
+    try {
+      const raw = localStorage.getItem(AUTOSAVE_KEY);
+      if (!raw) return;
+      dados = JSON.parse(raw);
+    } catch (e) { return; }
+    restaurarEstado(dados);
+  }
+
+  document.addEventListener('click', (e) => {
+    const clearBtn = e.target.closest('.clear-bed-btn');
+    if (!clearBtn) return;
+    const bed = clearBtn.dataset.clearBed;
+    if (confirm(`Limpar todos os dados do leito ${bed}? Essa ação não pode ser desfeita.`)) {
+      limparLeito(bed);
+      atualizarVisibilidadeLeitosVazios();
+      salvarEstadoTudo();
+    }
+  });
+
+  document.addEventListener('input', salvarEstadoLocalDebounced);
+  document.addEventListener('input', atualizarVisibilidadeLeitosVazios);
+  document.addEventListener('change', salvarEstadoLocalDebounced);
+  document.addEventListener('change', atualizarVisibilidadeLeitosVazios);
+
+  document.getElementById('save-btn').addEventListener('click', () => {
+    const dados = coletarEstado();
+    const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const nomeArquivo = nomeArquivoPlantao(new Date());
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nomeArquivo;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    alert(`Dados salvos em ${nomeArquivo}`);
+  });
+
+  document.getElementById('load-btn').addEventListener('click', () => {
+    document.getElementById('load-input').click();
+  });
+
+  document.getElementById('load-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!confirm('Isso vai substituir os dados atuais na tela pelos dados do arquivo carregado. Continuar?')) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      let dados;
+      try {
+        dados = JSON.parse(reader.result);
+      } catch (err) {
+        alert('Arquivo inválido: não foi possível ler os dados. Nada foi alterado.');
+        return;
+      }
+      restaurarEstado(dados);
+      salvarEstadoTudo();
+    };
+    reader.onerror = () => {
+      alert('Não foi possível ler o arquivo selecionado. Nada foi alterado.');
+    };
+    reader.readAsText(file);
+  });
+
+  function preencherDataPadrao() {
+    const el = document.getElementById('page-date');
+    if (!el || el.value) return false;
+    const hoje = new Date();
+    const dd = String(hoje.getDate()).padStart(2, '0');
+    const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+    const aaaa = hoje.getFullYear();
+    el.value = `${dd}/${mm}/${aaaa}`;
+    return true;
+  }
+
+  // --- Vínculo de leitura com o arquivo compartilhado do Checklist de Visita Multi (não escreve nele) ---
+
+  const CHECKLIST_FONTE_DB_NAME = 'hemoam-isbar-checklist-fonte';
+  const CHECKLIST_FONTE_STORE_NAME = 'handles';
+  const CHECKLIST_FONTE_HANDLE_KEY = 'checklist-fonte-arquivo';
+  const CHECKLIST_FONTE_SUPORTADO = 'showOpenFilePicker' in window;
+
+  const CHECKLIST_PARA_ISBAR = {
+    paciente: 'nome',
+    dn: 'idadeDN',
+    diagnosticos: 'diagnosticos',
+    pendencias: 'pendencias',
+    disp_cvc: 'disp_cvc',
+    disp_tot: 'disp_tot',
+    disp_svd: 'disp_svd',
+    disp_sne: 'disp_sne',
+    disp_sng: 'disp_sng',
+    disp_shiley: 'disp_shiley',
+    disp_tenkhoff: 'disp_tenkhoff',
+    disp_outro: 'disp_outro',
+    disp_outro_val: 'disp_outro_val',
+  };
+
+  let checklistFonteHandleAtual = null;
+  let checklistFonteVinculado = false;
+  let checklistFonteRetomadaEmAndamento = false;
+
+  function checklistFonteAbrirDB() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(CHECKLIST_FONTE_DB_NAME, 1);
+      req.onupgradeneeded = () => {
+        req.result.createObjectStore(CHECKLIST_FONTE_STORE_NAME);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function checklistFonteSalvarHandle(handle) {
+    const db = await checklistFonteAbrirDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(CHECKLIST_FONTE_STORE_NAME, 'readwrite');
+      tx.objectStore(CHECKLIST_FONTE_STORE_NAME).put(handle, CHECKLIST_FONTE_HANDLE_KEY);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function checklistFonteCarregarHandle() {
+    const db = await checklistFonteAbrirDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(CHECKLIST_FONTE_STORE_NAME, 'readonly');
+      const req = tx.objectStore(CHECKLIST_FONTE_STORE_NAME).get(CHECKLIST_FONTE_HANDLE_KEY);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function checklistFonteRemoverHandle() {
+    const db = await checklistFonteAbrirDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(CHECKLIST_FONTE_STORE_NAME, 'readwrite');
+      tx.objectStore(CHECKLIST_FONTE_STORE_NAME).delete(CHECKLIST_FONTE_HANDLE_KEY);
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  function checklistFonteMostrarStatus(mensagem) {
+    const el = document.getElementById('checklist-fonte-status');
+    el.textContent = mensagem;
+    el.style.display = mensagem ? '' : 'none';
+  }
+
+  function checklistFonteMostrarErro(mensagem) {
+    const el = document.getElementById('checklist-fonte-erro');
+    el.textContent = mensagem;
+    el.style.display = mensagem ? '' : 'none';
+  }
+
+  function checklistFonteAtualizarBotoes({ mostrarVincular = false, mostrarRetomar = false, mostrarAcoes = false } = {}) {
+    document.getElementById('checklist-fonte-vincular-btn').style.display = mostrarVincular ? '' : 'none';
+    document.getElementById('checklist-fonte-retomar-btn').style.display = mostrarRetomar ? '' : 'none';
+    document.getElementById('checklist-fonte-atualizar-btn').style.display = mostrarAcoes ? '' : 'none';
+    document.getElementById('checklist-fonte-desvincular-btn').style.display = mostrarAcoes ? '' : 'none';
+  }
+
+  async function checklistFonteLerArquivo(handle) {
+    const file = await handle.getFile();
+    const texto = await file.text();
+    if (!texto.trim()) return null;
+    return JSON.parse(texto);
+  }
+
+  function checklistFonteAplicarDados(dadosChecklist) {
+    if (!dadosChecklist || !dadosChecklist.beds) return;
+    document.querySelectorAll('.bed-card[data-bed]').forEach(card => {
+      const bed = card.dataset.bed;
+      const origem = dadosChecklist.beds[bed];
+      if (!origem) return;
+      Object.entries(CHECKLIST_PARA_ISBAR).forEach(([campoChecklist, campoIsbar]) => {
+        if (!(campoChecklist in origem)) return;
+        const el = card.querySelector(`[data-field="${campoIsbar}"]`);
+        if (!el) return;
+        const valor = origem[campoChecklist];
+        if (el.type === 'checkbox') el.checked = !!valor;
+        else el.value = valor;
+      });
+    });
+    sincronizarDetalhes();
+    atualizarVisibilidadeLeitosVazios();
+    salvarEstadoTudo();
+  }
+
+  async function checklistFonteAtualizarAgora() {
+    if (!checklistFonteHandleAtual) return;
+    try {
+      const dados = await checklistFonteLerArquivo(checklistFonteHandleAtual);
+      if (dados) checklistFonteAplicarDados(dados);
+      checklistFonteMostrarErro('');
+    } catch (e) {
+      checklistFonteMostrarErro('Não foi possível ler o arquivo do Checklist — os dados sincronizados continuam os últimos lidos com sucesso.');
+    }
+  }
+
+  document.getElementById('checklist-fonte-vincular-btn').addEventListener('click', async () => {
+    let handles;
+    try {
+      handles = await window.showOpenFilePicker({
+        types: [{ description: 'Dados do Checklist', accept: { 'application/json': ['.json'] } }]
+      });
+    } catch (e) {
+      return; // usuário cancelou o seletor nativo
+    }
+    const handle = handles[0];
+    checklistFonteHandleAtual = handle;
+    checklistFonteVinculado = true;
+    checklistFonteMostrarErro('');
+    checklistFonteMostrarStatus(`Dados do Checklist vinculados (${handle.name})`);
+    checklistFonteAtualizarBotoes({ mostrarAcoes: true });
+    await checklistFonteAtualizarAgora();
+    try {
+      await checklistFonteSalvarHandle(handle);
+    } catch (e) {
+      console.warn('Não foi possível salvar a referência do arquivo do Checklist para retomada automática:', e);
+    }
+  });
+
+  document.getElementById('checklist-fonte-atualizar-btn').addEventListener('click', () => {
+    checklistFonteAtualizarAgora();
+  });
+
+  document.getElementById('checklist-fonte-desvincular-btn').addEventListener('click', () => {
+    checklistFonteHandleAtual = null;
+    checklistFonteVinculado = false;
+    checklistFonteMostrarStatus('');
+    checklistFonteMostrarErro('');
+    checklistFonteRemoverHandle().catch(() => {});
+    checklistFonteAtualizarBotoes({ mostrarVincular: true });
+  });
+
+  async function checklistFonteRetomarComPermissao() {
+    if (checklistFonteRetomadaEmAndamento) return;
+    const handle = checklistFonteHandleAtual;
+    if (!handle || checklistFonteVinculado) return;
+    checklistFonteRetomadaEmAndamento = true;
+    try {
+      let permissao;
+      try {
+        permissao = await handle.requestPermission({ mode: 'read' });
+      } catch (e) {
+        permissao = 'denied';
+      }
+      if (permissao !== 'granted') {
+        checklistFonteAtualizarBotoes({ mostrarRetomar: true });
+        return;
+      }
+      checklistFonteVinculado = true;
+      checklistFonteMostrarStatus(`Dados do Checklist vinculados (${handle.name})`);
+      checklistFonteAtualizarBotoes({ mostrarAcoes: true });
+      await checklistFonteAtualizarAgora();
+    } finally {
+      checklistFonteRetomadaEmAndamento = false;
+    }
+  }
+
+  function checklistFonteAgendarRetomadaViaGesto() {
+    const tentar = () => {
+      document.removeEventListener('pointerdown', tentar, true);
+      document.removeEventListener('keydown', tentar, true);
+      checklistFonteRetomarComPermissao();
+    };
+    document.addEventListener('pointerdown', tentar, true);
+    document.addEventListener('keydown', tentar, true);
+  }
+
+  document.getElementById('checklist-fonte-retomar-btn').addEventListener('click', () => {
+    checklistFonteRetomarComPermissao();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && checklistFonteVinculado) {
+      checklistFonteAtualizarAgora();
+    }
+  });
+
+  async function checklistFonteTentarRetomarAutomatico() {
+    if (!CHECKLIST_FONTE_SUPORTADO) return;
+    let handle;
+    try {
+      handle = await checklistFonteCarregarHandle();
+    } catch (e) {
+      checklistFonteAtualizarBotoes({ mostrarVincular: true });
+      return;
+    }
+    if (!handle) {
+      checklistFonteAtualizarBotoes({ mostrarVincular: true });
+      return;
+    }
+
+    let permissao;
+    try {
+      permissao = await handle.queryPermission({ mode: 'read' });
+    } catch (e) {
+      await checklistFonteRemoverHandle().catch(() => {});
+      checklistFonteAtualizarBotoes({ mostrarVincular: true });
+      return;
+    }
+
+    if (permissao === 'granted') {
+      checklistFonteHandleAtual = handle;
+      checklistFonteVinculado = true;
+      checklistFonteMostrarStatus(`Dados do Checklist vinculados (${handle.name})`);
+      checklistFonteAtualizarBotoes({ mostrarAcoes: true });
+      await checklistFonteAtualizarAgora();
+      return;
+    }
+
+    checklistFonteHandleAtual = handle;
+    checklistFonteAtualizarBotoes({ mostrarRetomar: true });
+    checklistFonteAgendarRetomadaViaGesto();
+  }
+
+  (() => {
+    restaurarPreferenciaOcultarVazios();
+    restaurarEstadoLocal();
+    if (preencherDataPadrao()) salvarEstadoTudo();
+    atualizarVisibilidadeLeitosVazios();
+    checklistFonteTentarRetomarAutomatico().catch(() => {});
+  })();
+</script>
+</body>
+</html>
