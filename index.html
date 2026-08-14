@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UTI Pediátrica · HEMOAM</title>
+<style>
+  :root {
+    --header-bg: #1f3864;
+    --header-fg: #ffffff;
+    --paper: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #555;
+    --card-border: #e7e9ec;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--ink);
+  }
+  header {
+    background: var(--header-bg);
+    color: var(--header-fg);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+  }
+  header img {
+    height: 48px;
+    width: auto;
+  }
+  header h1 {
+    font-size: 20px;
+    margin: 0;
+    font-weight: bold;
+  }
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+  }
+  .card .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--header-bg);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  .card h2 {
+    font-size: 17px;
+    margin: 0 0 6px 0;
+    color: var(--header-bg);
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+  }
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="assets/logo-hemoam.png" alt="Hospital do Sangue - HEMOAM">
+  <h1>UTI Pediátrica · HEMOAM</h1>
+</header>
+
+<main>
+  <div class="grid">
+    <a class="card" href="isbar/">
+      <div class="icon">🩺</div>
+      <h2>ISBAR</h2>
+      <p>Comunicação estruturada de passagem de plantão</p>
+    </a>
+    <a class="card" href="visita-multi/">
+      <div class="icon">👥</div>
+      <h2>Visita Multiprofissional</h2>
+      <p>Checklist da visita multiprofissional por leito</p>
+    </a>
+    <a class="card" href="admissao/">
+      <div class="icon">📋</div>
+      <h2>Admissão</h2>
+      <p>Ferramenta de admissão e evolução</p>
+    </a>
+  </div>
+</main>
+
+<footer>
+  Hospital do Sangue · HEMOAM — Ferramentas internas UTI Pediátrica
+</footer>
+
+</body>
+</html>
