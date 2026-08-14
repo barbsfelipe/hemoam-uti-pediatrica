@@ -38,14 +38,14 @@ hemoam-uti-pediatrica/
 └── README.md                  # Task 6 — descrição curta do repositório
 ```
 
-Caminhos de origem (fora deste repositório, pastas irmãs de `hemoam-uti-pediatrica/` dentro de `/Users/felipebarbosa/Desktop/Claude/Hemoam/`):
+Caminhos de origem (fora deste repositório, pastas irmãs de `hemoam-uti-pediatrica/` dentro de `<pasta de trabalho>/Hemoam/`):
 
 - `../site/index.html` (ISBAR)
 - `../site/checklist-visita-multi.html` (Checklist)
 - `../Admissão e evolução/index.html` (Admissão)
 - `../LOGO DO HOSPITAL DO SANGUE.pdf` (logo, página 1)
 
-Todos os comandos abaixo assumem `cwd = /Users/felipebarbosa/Desktop/Claude/Hemoam/hemoam-uti-pediatrica`.
+Todos os comandos abaixo assumem `cwd = <pasta de trabalho>/Hemoam/hemoam-uti-pediatrica`.
 
 ---
 
@@ -68,7 +68,7 @@ Run:
 ```bash
 set -e
 RAWDIR=$(mktemp -d)
-qlmanage -t -s 1600 -o "$RAWDIR" "/Users/felipebarbosa/Desktop/Claude/Hemoam/LOGO DO HOSPITAL DO SANGUE.pdf"
+qlmanage -t -s 1600 -o "$RAWDIR" "<pasta de trabalho>/Hemoam/LOGO DO HOSPITAL DO SANGUE.pdf"
 mkdir -p assets
 python3 -c "
 from PIL import Image
