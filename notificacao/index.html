@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulários de Notificação — HEMOAM</title>
+<link rel="icon" type="image/png" href="favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 16px;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px 0; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .hub-back { background: #1f3864; padding: 6px 16px; font-family: Arial, Helvetica, sans-serif; margin: -16px -16px 16px -16px; }
+  .hub-back a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; }
+  .hub-back a:hover { text-decoration: underline; }
+
+  .grupo-titulo {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #556;
+    margin: 28px 0 10px 2px;
+    max-width: 880px;
+  }
+  .grupo-titulo:first-of-type { margin-top: 8px; }
+
+  .lista-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; max-width: 880px; }
+  .form-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e2e5ea;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .form-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-1px); }
+  .form-item svg { width: 17px; height: 17px; flex-shrink: 0; stroke: #1e3a5f; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .form-item .nome { font-size: 13.5px; font-weight: 600; color: #1e3a5f; flex: 1; min-width: 0; line-height: 1.3; }
+  .form-item .formato {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    color: #667;
+    background: #eef0f3;
+    border-radius: 4px;
+    padding: 2px 6px;
+    text-transform: uppercase;
+  }
+
+  .rodape-nota { font-size: 12px; color: #888; text-align: center; margin-top: 28px; line-height: 1.5; max-width: 880px; }
+
+  .nota-fonte { font-size: 12.5px; color: #555; background: #eef3f9; border: 1px solid #d6e2ee; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; max-width: 880px; }
+  .nota-fonte a { color: #1e3a5f; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="hub-back">
+  <a href="../">← Painel HEMOAM UTI Pediátrica</a>
+</div>
+
+<h1>Formulários de Notificação</h1>
+<div class="sub">HEMOAM — fichas oficiais de notificação compulsória (SINAN / Ministério da Saúde), em branco</div>
+
+<div class="nota-fonte">
+  As fichas abaixo ficam salvas aqui pra baixar rápido, sem depender de internet do governo. Se precisar conferir a versão mais atual ou uma doença que não está na lista, o portal oficial é o <a href="https://portalsinan.saude.gov.br/doencas-e-agravos" target="_blank" rel="noopener">SINAN — Doenças e Agravos</a>.
+</div>
+
+<div class="grupo-titulo">Doenças e Agravos de Notificação</div>
+<div class="lista-form">
+  <a class="form-item" href="arquivos/acid-animais-peconhentos.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Acidente por Animais Peçonhentos</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/aids-adulto.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">AIDS — Adulto</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/aids-crianca.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">AIDS — Criança</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/anti-rabico.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Atendimento Antirrábico</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/botulismo.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Botulismo</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/colera.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Cólera</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/coqueluche.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Coqueluche</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/covid.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">COVID-19</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/dengue-chikungunya-final.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Dengue e Chikungunya</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/difteria.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Difteria</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/doenca-de-chagas.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Doença de Chagas</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/esporotricose.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Esporotricose</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/febre-amarela.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Febre Amarela</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/febre-maculosa.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Febre Maculosa</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/febre-tifoide.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Febre Tifoide</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/ficha-de-investigacao-doencas-exantematicas-febris.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Doenças Exantemáticas Febris (Sarampo/Rubéola)</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/ficha-de-notificacao-de-malaria-sivep.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Malária (SIVEP)</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/hanseniase.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Hanseníase</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/hantavirose.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Hantavirose</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/hepatite.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Hepatites Virais</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/hiv-crianca.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">HIV — Criança Exposta</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/hiv-gestante.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">HIV — Gestante</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/iltb-ficha-de-notificacao-da-pessoas-em-tratamento-da-iltb.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Infecção Latente pelo M. tuberculosis (ILTB)</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/intoxicacao-exogena.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Intoxicação Exógena</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/leishmaniose-ta.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Leishmaniose Tegumentar Americana</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/leishmaniose-visceral.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Leishmaniose Visceral</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/srag.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Síndrome Respiratória Aguda Grave (SRAG)</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/tuberculose.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Tuberculose</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/vigilancia-sentinela-de-doencas-neuroinvasivas-por-arboviroses.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Vigilância Sentinela — Doenças Neuroinvasivas por Arbovírus</span><span class="formato">PDF</span></a>
+</div>
+
+<div class="grupo-titulo">Saúde do Trabalhador</div>
+<div class="lista-form">
+  <a class="form-item" href="arquivos/drt-acid-trab-biologico.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Acidente de Trabalho com Material Biológico</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/drt-acidente-trabalho.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Acidente de Trabalho</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/drt-cancer.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Câncer Relacionado ao Trabalho</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/drt-lerdort.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">LER/DORT</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/drt-pair.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Perda Auditiva Induzida por Ruído (PAIR)</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/drt-pneumoconioses.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Pneumoconioses</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/drt-transtornosmentais.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Transtornos Mentais Relacionados ao Trabalho</span><span class="formato">PDF</span></a>
+</div>
+
+<div class="grupo-titulo">Fichas Gerais</div>
+<div class="lista-form">
+  <a class="form-item" href="arquivos/ficha-de-notificacao-conclusao.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Notificação — Conclusão de Caso</span><span class="formato">PDF</span></a>
+  <a class="form-item" href="arquivos/ficha-de-notificacao-violencia-interpessoal-e-autoprovocada.pdf" download><svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg><span class="nome">Violência Interpessoal e Autoprovocada</span><span class="formato">PDF</span></a>
+</div>
+
+<div class="rodape-nota">
+  Hospital do Sangue · HEMOAM — UTI Pediátrica — fichas oficiais SINAN (Ministério da Saúde), em branco, sem dado de paciente.
+</div>
+
+</body>
+</html>
