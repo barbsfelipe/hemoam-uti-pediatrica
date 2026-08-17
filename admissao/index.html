@@ -559,7 +559,7 @@
   <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="corado"> Corado</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="acianotico"> Acianótico</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="anicterico"> Anictérico</label></div>
-  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="afebril"> Afebril</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="afebril" data-exclusive="ef-temp"> Afebril</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="eupneico"> Eupneico em ar ambiente</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="sonolento"> Sonolento</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="torporoso"> Torporoso</label></div>
@@ -573,10 +573,10 @@
     <div class="extra" id="ef-extra-ictericia"><input type="text" placeholder="grau / localização"></div>
   </div>
   <div class="item">
-    <label><input type="checkbox" data-cat="ef-soma" value="febril" data-extra="ef-extra-febril"> Febril</label>
+    <label><input type="checkbox" data-cat="ef-soma" value="febril" data-extra="ef-extra-febril" data-exclusive="ef-temp"> Febril</label>
     <div class="extra" id="ef-extra-febril"><input type="text" placeholder="temperatura"></div>
   </div>
-  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="hipotermico"> Hipotérmico</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ef-soma" value="hipotermico" data-exclusive="ef-temp"> Hipotérmico</label></div>
   <div class="item" style="margin-top:10px;">
     <span class="field-label">Observação adicional</span>
     <input type="text" id="ef-soma-obs" placeholder="informação extra deste tópico, se necessário">
@@ -890,6 +890,22 @@ document.querySelectorAll('input[data-extra]').forEach(cb => {
     const extra = document.getElementById(cb.dataset.extra);
     if (cb.checked) { extra.classList.add('show'); }
     else { extra.classList.remove('show'); }
+  });
+});
+
+// ---------- Checkboxes mutuamente exclusivos (estados clínicos opostos) ----------
+// Marca um item de um grupo "data-exclusive" desmarca automaticamente os demais do mesmo grupo,
+// evitando combinações contraditórias (ex.: Afebril + Febril no mesmo paciente).
+document.querySelectorAll('input[data-exclusive]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    if (!cb.checked) return;
+    const grupo = cb.dataset.exclusive;
+    document.querySelectorAll(`input[data-exclusive="${grupo}"]`).forEach(other => {
+      if (other !== cb && other.checked) {
+        other.checked = false;
+        other.dispatchEvent(new Event('change'));
+      }
+    });
   });
 });
 
