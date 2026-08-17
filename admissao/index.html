@@ -371,12 +371,24 @@
 
 <div class="section">
   <h2>Neurológico</h2>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="bom_nivel_consciencia" data-exclusive="ev-consciencia"> Bom nível de consciência</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="comandos"> Respondendo a comandos simples</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sem_sedacao" data-exclusive="ev-sedacao"> Sem sedoanalgesia, alerta, interagindo com equipe</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sem_convulsao"> Sem novas crises convulsivas desde a admissão</label></div>
   <div class="item">
-    <label><input type="checkbox" data-cat="ev-neuro" value="sedado" data-extra="ev-extra-sedado"> Sedoanalgesiado</label>
+    <label><input type="checkbox" data-cat="ev-neuro" value="sedado" data-extra="ev-extra-sedado" data-exclusive="ev-sedacao"> Em uso de sedoanalgesia</label>
     <div class="extra" id="ev-extra-sedado"><input type="text" placeholder="droga(s) e dose"></div>
   </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-neuro" value="comfort" data-extra="ev-extra-comfort" data-exclusive="ev-escala-sedacao"> Escala de Comfort-B</label>
+    <div class="extra" id="ev-extra-comfort"><input type="text" placeholder="pontuação, ex: 14-16"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-neuro" value="ramsay" data-extra="ev-extra-ramsay" data-exclusive="ev-escala-sedacao"> Escala de RAMSAY</label>
+    <div class="extra" id="ev-extra-ramsay"><input type="text" placeholder="pontuação, ex: 5"></div>
+  </div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sem_interacao" data-exclusive="ev-consciencia"> Sem interação com o meio</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sem_reflexo_dor"> Sem reflexo de dor</label></div>
   <div class="item">
     <label><input type="checkbox" data-cat="ev-neuro" value="convulsao" data-extra="ev-extra-convulsao"> Episódio convulsivo</label>
     <div class="extra" id="ev-extra-convulsao"><input type="text" placeholder="descrição do episódio"></div>
@@ -429,6 +441,7 @@
 <div class="section">
   <h2>Gastrointestinal / Nutricional</h2>
   <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="dieta_vo"> Aceitando dieta via oral</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="sem_vomito" data-exclusive="ev-vomito"> Sem episódios eméticos</label></div>
   <div class="item">
     <label><input type="checkbox" data-cat="ev-gi" value="dieta_enteral" data-extra="ev-extra-dieta-enteral"> Retendo bem dieta enteral</label>
     <div class="extra" id="ev-extra-dieta-enteral"><input type="text" placeholder="tipo e volume"></div>
@@ -439,6 +452,14 @@
   </div>
   <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="baixa_aceitacao"> Baixa aceitação da dieta</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-gi" value="jejum"> Em jejum</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-gi" value="vomito" data-extra="ev-extra-vomito" data-exclusive="ev-vomito"> Episódios eméticos</label>
+    <div class="extra" id="ev-extra-vomito"><input type="text" placeholder="frequência / características"></div>
+  </div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-gi" value="evac_alterada" data-extra="ev-extra-evac-alterada"> Evacuação com aspecto alterado</label>
+    <div class="extra" id="ev-extra-evac-alterada"><input type="text" placeholder="ex: escurecida, com raias de sangue"></div>
+  </div>
   <div class="item" style="margin-top:10px;">
     <span class="field-label">Observação adicional</span>
     <input type="text" id="ev-gi-obs" placeholder="informação extra deste tópico, se necessário">
@@ -494,6 +515,7 @@
 <div class="section">
   <h2>Hematológico</h2>
   <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="sangramento_sem"> Sem episódios de sangramento espontâneo no plantão</label></div>
+  <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="sem_linfonodomegalia" data-exclusive="ev-linfonodo"> Sem linfonodomegalias palpáveis</label></div>
   <div class="item">
     <label><input type="checkbox" data-cat="ev-hemato" value="hemocomponente" data-extra="ev-extra-hemocomponente"> Recebeu hemocomponente no plantão</label>
     <div class="extra" id="ev-extra-hemocomponente"><input type="text" placeholder="qual, ex: concentrado de plaquetas"></div>
@@ -501,6 +523,10 @@
   <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="pancitopenia"> Pancitopenia</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="petequias"> Mantém petéquias e/ou equimoses</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-hemato" value="mucosite"> Mucosite oral</label></div>
+  <div class="item">
+    <label><input type="checkbox" data-cat="ev-hemato" value="linfonodomegalia" data-extra="ev-extra-linfonodomegalia" data-exclusive="ev-linfonodo"> Linfonodomegalias</label>
+    <div class="extra" id="ev-extra-linfonodomegalia"><input type="text" placeholder="localização, ex: cadeia cervical e axilar"></div>
+  </div>
   <div class="item" style="margin-top:10px;">
     <span class="field-label">Observação adicional</span>
     <input type="text" id="ev-hemato-obs" placeholder="informação extra deste tópico, se necessário">
@@ -717,10 +743,12 @@
     <div class="item"><span class="field-label">FC (bpm)</span><input type="text" id="c-fc"></div>
     <div class="item"><span class="field-label">FR (irpm)</span><input type="text" id="c-fr"></div>
     <div class="item"><span class="field-label">SAT (%)</span><input type="text" id="c-sat"></div>
+    <div class="item"><span class="field-label">DXT (mg/dl)</span><input type="text" id="c-dxt"></div>
     <div class="item"><span class="field-label">DU</span><input type="text" id="c-du"></div>
     <div class="item"><span class="field-label">DH (ml/kg/h)</span><input type="text" id="c-dh"></div>
     <div class="item"><span class="field-label">BH (ml)</span><input type="text" id="c-bh"></div>
     <div class="item"><span class="field-label">EVAC</span><input type="text" id="c-evac"></div>
+    <div class="item"><span class="field-label">RG (resíduo gástrico)</span><input type="text" id="c-rg"></div>
   </div>
 </div>
 
@@ -956,38 +984,47 @@ function gerarEvolucaoExameFisicoControlesVm() {
   }
 
   let evNeuro = [];
+  if (checked('ev-neuro','bom_nivel_consciencia')) evNeuro.push('bom nível de consciência');
   if (checked('ev-neuro','comandos')) evNeuro.push('respondendo a comandos simples');
-  if (checked('ev-neuro','sedado')) { const d = getExtraText('ev-extra-sedado'); evNeuro.push('em sedoanalgesia' + (d ? ' com ' + d : '')); }
-  if (checked('ev-neuro','convulsao')) { const d = getExtraText('ev-extra-convulsao'); evNeuro.push('apresentou episódio convulsivo' + (d ? ', ' + d : '')); }
+  if (checked('ev-neuro','sem_sedacao')) evNeuro.push('sem sedoanalgesia, alerta, interagindo com a equipe');
   if (checked('ev-neuro','sem_convulsao')) evNeuro.push('sem novas crises convulsivas desde a admissão');
+  if (checked('ev-neuro','sedado')) { const d = getExtraText('ev-extra-sedado'); evNeuro.push('em uso de sedoanalgesia' + (d ? ' com ' + d : '')); }
+  if (checked('ev-neuro','comfort')) { const d = getExtraText('ev-extra-comfort'); evNeuro.push('escala de Comfort-B' + (d ? ' de ' + d : '')); }
+  if (checked('ev-neuro','ramsay')) { const d = getExtraText('ev-extra-ramsay'); evNeuro.push('escala de RAMSAY' + (d ? ' de ' + d : '')); }
+  if (checked('ev-neuro','sem_interacao')) evNeuro.push('sem interação com o meio');
+  if (checked('ev-neuro','sem_reflexo_dor')) evNeuro.push('sem reflexo de dor');
+  if (checked('ev-neuro','convulsao')) { const d = getExtraText('ev-extra-convulsao'); evNeuro.push('apresentou episódio convulsivo' + (d ? ', ' + d : '')); }
   if (evNeuro.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evNeuro)) + '.');
   if (val('ev-neuro-obs')) partesEv.push(val('ev-neuro-obs'));
 
   let evCv = [];
   if (checked('ev-cv','estavel')) evCv.push('hemodinamicamente estável');
+  if (checked('ev-cv','sem_dva')) evCv.push('sem drogas vasoativas');
+  if (checked('ev-cv','dva')) { const d = getExtraText('ev-extra-dva'); evCv.push('em uso de droga vasoativa' + (d ? ' (' + d + ')' : '')); }
   if (checked('ev-cv','instavel')) evCv.push('hemodinamicamente instável');
   if (checked('ev-cv','hipotenso')) evCv.push(porGenero('hipotenso','hipotensa'));
   if (checked('ev-cv','ma_perfusao')) evCv.push('com sinais de má perfusão');
-  if (checked('ev-cv','sem_dva')) evCv.push('sem drogas vasoativas');
-  if (checked('ev-cv','dva')) { const d = getExtraText('ev-extra-dva'); evCv.push('em uso de droga vasoativa' + (d ? ' (' + d + ')' : '')); }
   if (evCv.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evCv)) + '.');
   if (val('ev-cv-obs')) partesEv.push(val('ev-cv-obs'));
 
   let evResp = [];
+  if (checked('ev-resp','bom_padrao')) evResp.push('mantendo bom padrão respiratório');
+  if (checked('ev-resp','sat_adequada')) evResp.push('boa saturação de O2');
   if (checked('ev-resp','o2')) { const d = getExtraText('ev-extra-o2'); evResp.push('em uso de oxigênio suplementar' + (d ? ' (' + d + ')' : '')); }
   if (checked('ev-resp','vm')) { const d = getExtraText('ev-extra-vm'); evResp.push('em ventilação mecânica' + (d ? ', ' + d : '')); }
   if (checked('ev-resp','extubado')) { const d = getExtraText('ev-extra-extubado'); evResp.push(porGenero('extubado','extubada') + ' no plantão' + (d ? ' (' + d + ')' : '') + ', sem intercorrências'); }
-  if (checked('ev-resp','bom_padrao')) evResp.push('mantendo bom padrão respiratório');
-  if (checked('ev-resp','sat_adequada')) evResp.push('boa saturação de O2');
   if (evResp.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evResp)) + '.');
   if (val('ev-resp-obs')) partesEv.push(val('ev-resp-obs'));
 
   let evGi = [];
   if (checked('ev-gi','dieta_vo')) evGi.push('aceitando dieta por via oral');
-  if (checked('ev-gi','baixa_aceitacao')) evGi.push('com baixa aceitação da dieta');
+  if (checked('ev-gi','sem_vomito')) evGi.push('sem episódios eméticos');
   if (checked('ev-gi','dieta_enteral')) { const d = getExtraText('ev-extra-dieta-enteral'); evGi.push('retendo bem dieta enteral' + (d ? ' (' + d + ')' : '')); }
   if (checked('ev-gi','npp')) { const d = getExtraText('ev-extra-npp'); evGi.push('recebendo nutrição parenteral' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-gi','baixa_aceitacao')) evGi.push('com baixa aceitação da dieta');
   if (checked('ev-gi','jejum')) evGi.push(porGenero('mantido','mantida') + ' em jejum');
+  if (checked('ev-gi','vomito')) { const d = getExtraText('ev-extra-vomito'); evGi.push('com episódios eméticos' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-gi','evac_alterada')) { const d = getExtraText('ev-extra-evac-alterada'); evGi.push('com evacuação de aspecto alterado' + (d ? ' (' + d + ')' : '')); }
   if (evGi.length) partesEv.push('Está ' + joinNatural(evGi) + '.');
   if (val('ev-gi-obs')) partesEv.push(val('ev-gi-obs'));
 
@@ -1010,17 +1047,19 @@ function gerarEvolucaoExameFisicoControlesVm() {
 
   let evHemato = [];
   if (checked('ev-hemato','sangramento_sem')) evHemato.push('sem episódios de sangramento espontâneo no plantão');
+  if (checked('ev-hemato','sem_linfonodomegalia')) evHemato.push('sem linfonodomegalias palpáveis');
   if (checked('ev-hemato','hemocomponente')) { const d = getExtraText('ev-extra-hemocomponente'); evHemato.push('recebeu' + (d ? ' ' + d : ' hemocomponente') + ' no plantão'); }
   if (checked('ev-hemato','pancitopenia')) evHemato.push('mantendo pancitopenia');
   if (checked('ev-hemato','petequias')) evHemato.push('mantém petéquias e/ou equimoses');
   if (checked('ev-hemato','mucosite')) evHemato.push('com mucosite oral');
+  if (checked('ev-hemato','linfonodomegalia')) { const d = getExtraText('ev-extra-linfonodomegalia'); evHemato.push('linfonodomegalias' + (d ? ' em ' + d : '')); }
   if (evHemato.length) partesEv.push(capitalize(joinNatural(evHemato)) + '.');
   if (val('ev-hemato-obs')) partesEv.push(val('ev-hemato-obs'));
 
   let evPele = [];
   if (checked('ev-pele','integra')) evPele.push('pele íntegra');
-  if (checked('ev-pele','lesao')) { const d = getExtraText('ev-extra-lesao'); evPele.push('presença de lesão de pele' + (d ? ', ' + d : '')); }
   if (checked('ev-pele','cateter')) { const d = getExtraText('ev-extra-cateter'); evPele.push('em uso de cateteres/acessos' + (d ? ' (' + d + ')' : '')); }
+  if (checked('ev-pele','lesao')) { const d = getExtraText('ev-extra-lesao'); evPele.push('presença de lesão de pele' + (d ? ', ' + d : '')); }
   if (checked('ev-pele','procedimento')) { const d = getExtraText('ev-extra-procedimento'); evPele.push('foi realizado' + (d ? ' ' + d : ' procedimento no plantão')); }
   if (evPele.length) partesEv.push(capitalize(joinNatural(evPele)) + '.');
   if (val('ev-pele-obs')) partesEv.push(val('ev-pele-obs'));
@@ -1048,57 +1087,57 @@ function gerarEvolucaoExameFisicoControlesVm() {
 
   let efSoma = [];
   if (checked('ef-soma','acordado')) efSoma.push(porGenero('acordado','acordada') + ', consciente, ' + porGenero('orientado','orientada'));
-  if (checked('ef-soma','sonolento')) efSoma.push(porGenero('sonolento','sonolenta'));
-  if (checked('ef-soma','torporoso')) efSoma.push(porGenero('torporoso','torporosa'));
   if (checked('ef-soma','reativo')) efSoma.push(porGenero('reativo','reativa'));
   if (checked('ef-soma','colaborativo')) efSoma.push(porGenero('colaborativo','colaborativa') + ', interagindo bem');
-  if (checked('ef-soma','choroso')) efSoma.push('pouco ' + porGenero('choroso','chorosa'));
   if (checked('ef-soma','ativo')) efSoma.push('bastante ' + porGenero('ativo','ativa') + ' e ' + porGenero('reativo','reativa'));
   if (checked('ef-soma','hidratado')) efSoma.push(porGenero('hidratado','hidratada'));
   if (checked('ef-soma','corado')) efSoma.push(porGenero('corado','corada'));
-  if (checked('ef-soma','hipocorado')) { const d = getExtraText('ef-extra-hipocorado'); efSoma.push(porGenero('hipocorado','hipocorada') + (d ? ' (' + d + ')' : '')); }
   if (checked('ef-soma','acianotico')) efSoma.push(porGenero('acianótico','acianótica'));
   if (checked('ef-soma','anicterico')) efSoma.push(porGenero('anictérico','anictérica'));
-  if (checked('ef-soma','ictericia')) { const d = getExtraText('ef-extra-ictericia'); efSoma.push(porGenero('ictérico','ictérica') + (d ? ' (' + d + ')' : '')); }
   if (checked('ef-soma','afebril')) efSoma.push('afebril');
+  if (checked('ef-soma','eupneico')) efSoma.push(porGenero('eupneico','eupneica') + ' em ar ambiente');
+  if (checked('ef-soma','sonolento')) efSoma.push(porGenero('sonolento','sonolenta'));
+  if (checked('ef-soma','torporoso')) efSoma.push(porGenero('torporoso','torporosa'));
+  if (checked('ef-soma','choroso')) efSoma.push('pouco ' + porGenero('choroso','chorosa'));
+  if (checked('ef-soma','hipocorado')) { const d = getExtraText('ef-extra-hipocorado'); efSoma.push(porGenero('hipocorado','hipocorada') + (d ? ' (' + d + ')' : '')); }
+  if (checked('ef-soma','ictericia')) { const d = getExtraText('ef-extra-ictericia'); efSoma.push(porGenero('ictérico','ictérica') + (d ? ' (' + d + ')' : '')); }
   if (checked('ef-soma','febril')) { const d = getExtraText('ef-extra-febril'); efSoma.push('febril' + (d ? ' (' + d + ')' : '')); }
   if (checked('ef-soma','hipotermico')) efSoma.push(porGenero('hipotérmico','hipotérmica'));
-  if (checked('ef-soma','eupneico')) efSoma.push(porGenero('eupneico','eupneica') + ' em ar ambiente');
   if (efSoma.length) partesEf.push(comPrefixoPacienteEf(joinNatural(efSoma)) + '.');
   if (val('ef-soma-obs')) partesEf.push(val('ef-soma-obs'));
 
   let efNeuro = [];
-  if (checked('ef-neuro','glasgow')) { const d = getExtraText('ef-extra-glasgow'); efNeuro.push('Glasgow' + (d ? ' ' + d : '')); }
   if (checked('ef-neuro','pupilas')) efNeuro.push('pupilas isocóricas e fotorreagentes');
   if (checked('ef-neuro','sem_meningismo')) efNeuro.push('sem sinais de irritação meníngea');
   if (checked('ef-neuro','sem_deficit')) efNeuro.push('sem déficit motor focal evidente');
+  if (checked('ef-neuro','glasgow')) { const d = getExtraText('ef-extra-glasgow'); efNeuro.push('Glasgow' + (d ? ' ' + d : '')); }
   if (efNeuro.length) partesEf.push(capitalize(joinNatural(efNeuro)) + '.');
   if (val('ef-neuro-obs')) partesEf.push(val('ef-neuro-obs'));
 
   let efResp = [];
   if (checked('ef-resp','mv_completo')) efResp.push('tórax simétrico, expansibilidade preservada, murmúrio vesicular presente e simétrico bilateralmente, sem ruídos adventícios');
+  if (checked('ef-resp','sem_desconforto')) efResp.push('sem tiragens ou sinais de desconforto respiratório');
   if (checked('ef-resp','estertor_fino')) efResp.push('ausculta pulmonar com estertores crepitantes finos');
   if (checked('ef-resp','estertor_bolhoso')) efResp.push('ausculta pulmonar com estertores bolhosos');
   if (checked('ef-resp','roncos_transmissao')) efResp.push('ausculta pulmonar com roncos de transmissão');
   if (checked('ef-resp','mv_reduzido')) { const lado = document.getElementById('ef-mv-reduzido-lado').value; efResp.push('murmúrio vesicular reduzido ' + lado); }
-  if (checked('ef-resp','sem_desconforto')) efResp.push('sem tiragens ou sinais de desconforto respiratório');
   if (checked('ef-resp','tosse')) { const d = getExtraText('ef-extra-tosse'); efResp.push('tosse' + (d ? ' ' + d : '')); }
   if (efResp.length) partesEf.push(capitalize(joinNatural(efResp)) + '.');
   if (val('ef-resp-obs')) partesEf.push(val('ef-resp-obs'));
 
   let efCv = [];
   if (checked('ef-cv','ritmo_bulhas')) efCv.push('ritmo cardíaco regular em dois tempos, bulhas normofonéticas, sem sopros');
-  if (checked('ef-cv','sopro')) { const d = getExtraText('ef-extra-sopro'); efCv.push('presença de sopro' + (d ? ', ' + d : '')); }
   if (checked('ef-cv','pulsos')) efCv.push('pulsos periféricos cheios e simétricos');
   if (checked('ef-cv','tec')) { const d = getExtraText('ef-extra-tec'); efCv.push('tempo de enchimento capilar' + (d ? ' ' + d : ' adequado')); }
+  if (checked('ef-cv','sopro')) { const d = getExtraText('ef-extra-sopro'); efCv.push('presença de sopro' + (d ? ', ' + d : '')); }
   if (efCv.length) partesEf.push(capitalize(joinNatural(efCv)) + '.');
   if (val('ef-cv-obs')) partesEf.push(val('ef-cv-obs'));
 
   let efAbd = [];
   if (checked('ef-abd','plano')) efAbd.push('abdome plano, flácido, indolor à palpação superficial e profunda');
-  if (checked('ef-abd','distendido')) efAbd.push('abdome globoso/distendido, flácido');
   if (checked('ef-abd','rha')) efAbd.push('ruídos hidroaéreos presentes');
   if (checked('ef-abd','sem_visceromegalias')) efAbd.push('sem massas ou visceromegalias palpáveis');
+  if (checked('ef-abd','distendido')) efAbd.push('abdome globoso/distendido, flácido');
   if (checked('ef-abd','figado')) { const d = getExtraText('ef-extra-figado'); efAbd.push('fígado palpável' + (d ? ' a ' + d : '')); }
   if (checked('ef-abd','baco')) { const d = getExtraText('ef-extra-baco'); efAbd.push('baço palpável' + (d ? ' a ' + d : '')); }
   if (checked('ef-abd','dor')) { const d = getExtraText('ef-extra-dor'); efAbd.push('dor à palpação' + (d ? ' em ' + d : '')); }
@@ -1166,10 +1205,12 @@ document.getElementById('gerar').addEventListener('click', () => {
   if (val('c-fc')) controlesPartes.push('FC: ' + val('c-fc') + ' BPM');
   if (val('c-fr')) controlesPartes.push('FR: ' + val('c-fr') + ' IRPM');
   if (val('c-sat')) controlesPartes.push('SAT: ' + val('c-sat') + ' %');
+  if (val('c-dxt')) controlesPartes.push('DXT: ' + val('c-dxt') + ' MG/DL');
   if (val('c-du')) controlesPartes.push('DU: ' + val('c-du'));
   if (val('c-dh')) controlesPartes.push('DH: ' + val('c-dh') + ' ML/KG/H');
   if (val('c-bh')) controlesPartes.push('BH: ' + val('c-bh') + ' ML');
   if (val('c-evac')) controlesPartes.push('EVAC: ' + val('c-evac'));
+  if (val('c-rg')) controlesPartes.push('RG: ' + val('c-rg'));
   const controlesTextoFinal = controlesPartes.join(' // ');
 
   let vmPartes = [];
