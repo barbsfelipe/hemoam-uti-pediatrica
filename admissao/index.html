@@ -371,19 +371,12 @@
 
 <div class="section">
   <h2>Neurológico</h2>
-  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="consciente"> Consciente, orientado, ativo</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="comandos"> Respondendo a comandos simples</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sem_convulsao"> Sem novas crises convulsivas desde a admissão</label></div>
   <div class="item">
     <label><input type="checkbox" data-cat="ev-neuro" value="sedado" data-extra="ev-extra-sedado"> Sedoanalgesiado</label>
     <div class="extra" id="ev-extra-sedado"><input type="text" placeholder="droga(s) e dose"></div>
   </div>
-  <div class="item">
-    <label><input type="checkbox" data-cat="ev-neuro" value="glasgow" data-extra="ev-extra-glasgow"> Glasgow</label>
-    <div class="extra" id="ev-extra-glasgow"><input type="text" placeholder="valor"></div>
-  </div>
-  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="sonolento"> Sonolento</label></div>
-  <div class="item"><label><input type="checkbox" data-cat="ev-neuro" value="torporoso"> Torporoso</label></div>
   <div class="item">
     <label><input type="checkbox" data-cat="ev-neuro" value="convulsao" data-extra="ev-extra-convulsao"> Episódio convulsivo</label>
     <div class="extra" id="ev-extra-convulsao"><input type="text" placeholder="descrição do episódio"></div>
@@ -405,7 +398,6 @@
   <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="instavel"> Hemodinamicamente instável</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="hipotenso"> Hipotenso</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="ma_perfusao"> Com sinais de má perfusão</label></div>
-  <div class="item"><label><input type="checkbox" data-cat="ev-cv" value="hipotermico"> Hipotérmico</label></div>
   <div class="item" style="margin-top:10px;">
     <span class="field-label">Observação adicional</span>
     <input type="text" id="ev-cv-obs" placeholder="informação extra deste tópico, se necessário">
@@ -414,7 +406,6 @@
 
 <div class="section">
   <h2>Respiratório</h2>
-  <div class="item"><label><input type="checkbox" data-cat="ev-resp" value="ar_ambiente"> Eupneico em ar ambiente</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-resp" value="bom_padrao"> Mantendo bom padrão respiratório</label></div>
   <div class="item"><label><input type="checkbox" data-cat="ev-resp" value="sat_adequada"> Boa saturação de O2</label></div>
   <div class="item">
@@ -478,7 +469,6 @@
 
 <div class="section">
   <h2>Infeccioso</h2>
-  <div class="item"><label><input type="checkbox" data-cat="ev-inf" value="afebril"> Afebril</label></div>
   <div class="item">
     <label><input type="checkbox" data-cat="ev-inf" value="atb" data-extra="ev-extra-atb"> Em antibioticoterapia</label>
     <div class="extra" id="ev-extra-atb"><input type="text" placeholder="droga(s)"></div>
@@ -950,11 +940,7 @@ function gerarEvolucaoExameFisicoControlesVm() {
   }
 
   let evNeuro = [];
-  if (checked('ev-neuro','consciente')) evNeuro.push('consciente, ' + porGenero('orientado','orientada') + ' e ' + porGenero('ativo','ativa'));
-  if (checked('ev-neuro','sonolento')) evNeuro.push(porGenero('sonolento','sonolenta'));
-  if (checked('ev-neuro','torporoso')) evNeuro.push(porGenero('torporoso','torporosa'));
   if (checked('ev-neuro','comandos')) evNeuro.push('respondendo a comandos simples');
-  if (checked('ev-neuro','glasgow')) { const d = getExtraText('ev-extra-glasgow'); evNeuro.push('com Glasgow de' + (d ? ' ' + d : '')); }
   if (checked('ev-neuro','sedado')) { const d = getExtraText('ev-extra-sedado'); evNeuro.push('em sedoanalgesia' + (d ? ' com ' + d : '')); }
   if (checked('ev-neuro','convulsao')) { const d = getExtraText('ev-extra-convulsao'); evNeuro.push('apresentou episódio convulsivo' + (d ? ', ' + d : '')); }
   if (checked('ev-neuro','sem_convulsao')) evNeuro.push('sem novas crises convulsivas desde a admissão');
@@ -966,14 +952,12 @@ function gerarEvolucaoExameFisicoControlesVm() {
   if (checked('ev-cv','instavel')) evCv.push('hemodinamicamente instável');
   if (checked('ev-cv','hipotenso')) evCv.push(porGenero('hipotenso','hipotensa'));
   if (checked('ev-cv','ma_perfusao')) evCv.push('com sinais de má perfusão');
-  if (checked('ev-cv','hipotermico')) evCv.push(porGenero('hipotérmico','hipotérmica'));
   if (checked('ev-cv','sem_dva')) evCv.push('sem drogas vasoativas');
   if (checked('ev-cv','dva')) { const d = getExtraText('ev-extra-dva'); evCv.push('em uso de droga vasoativa' + (d ? ' (' + d + ')' : '')); }
   if (evCv.length) partesEv.push(comPrefixoPacienteEv(joinNatural(evCv)) + '.');
   if (val('ev-cv-obs')) partesEv.push(val('ev-cv-obs'));
 
   let evResp = [];
-  if (checked('ev-resp','ar_ambiente')) evResp.push(porGenero('eupneico','eupneica') + ' em ar ambiente');
   if (checked('ev-resp','o2')) { const d = getExtraText('ev-extra-o2'); evResp.push('em uso de oxigênio suplementar' + (d ? ' (' + d + ')' : '')); }
   if (checked('ev-resp','vm')) { const d = getExtraText('ev-extra-vm'); evResp.push('em ventilação mecânica' + (d ? ', ' + d : '')); }
   if (checked('ev-resp','extubado')) { const d = getExtraText('ev-extra-extubado'); evResp.push(porGenero('extubado','extubada') + ' no plantão' + (d ? ' (' + d + ')' : '') + ', sem intercorrências'); }
@@ -1001,7 +985,6 @@ function gerarEvolucaoExameFisicoControlesVm() {
   if (val('ev-renal-obs')) partesEv.push(val('ev-renal-obs'));
 
   let evInf = [];
-  if (checked('ev-inf','afebril')) evInf.push('mantém-se afebril');
   if (checked('ev-inf','atb')) { const d = getExtraText('ev-extra-atb'); evInf.push('em antibioticoterapia' + (d ? ' com ' + d : '')); }
   if (checked('ev-inf','troca_atb')) { const d = getExtraText('ev-extra-troca-atb'); evInf.push('com troca de antibiótico no plantão' + (d ? ', ' + d : '')); }
   if (checked('ev-inf','hmc')) { const d = getExtraText('ev-extra-hmc'); evInf.push('possui hemocultura' + (d ? ' ' + d : ' com resultado')); }
@@ -1111,7 +1094,7 @@ function gerarEvolucaoExameFisicoControlesVm() {
   if (checked('ef-ext','pulsos_cheios')) efExt.push('pulsos cheios e simétricos');
   if (checked('ef-ext','tec_normal')) efExt.push('TEC < 3seg');
   if (checked('ef-ext','sem_edema')) efExt.push('sem edemas');
-  if (checked('ef-ext','frias')) efExt.push('extremidades frias');
+  if (checked('ef-ext','frias')) efExt.push('frias');
   if (checked('ef-ext','pulsos_finos')) efExt.push('pulsos finos');
   if (checked('ef-ext','tec_flush')) efExt.push('TEC em flush');
   if (checked('ef-ext','tec_alargado')) { const d = getExtraText('ef-extra-tec-alargado'); efExt.push('TEC alargado' + (d ? ' (' + d + ')' : '')); }
