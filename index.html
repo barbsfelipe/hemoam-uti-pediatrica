@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    max-width: 1160px;
+    max-width: 1260px;
     margin: 0 auto;
   }
   header img {
@@ -77,7 +77,7 @@
     margin-top: 2px;
   }
   main {
-    max-width: 1160px;
+    max-width: 1260px;
     margin: 0 auto;
     padding: 0 28px 20px;
     position: relative;
@@ -93,21 +93,21 @@
   .eyebrow:first-of-type { margin-top: 24px; }
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
   }
   .card {
     display: grid;
-    grid-template-columns: 53px 1fr;
+    grid-template-columns: 42px 1fr;
     grid-template-rows: auto auto;
-    column-gap: 14px;
+    column-gap: 11px;
     align-items: center;
     text-decoration: none;
     color: inherit;
     background: var(--paper);
     border: 1px solid var(--card-border);
     border-radius: 12px;
-    padding: 18px 19.5px;
+    padding: 14px;
     box-shadow: 0 1px 3px rgba(15,30,60,0.06);
     transition: box-shadow 0.15s, transform 0.15s;
   }
@@ -117,9 +117,9 @@
   }
   .icon-chip {
     grid-row: 1 / 3;
-    width: 53px;
-    height: 53px;
-    border-radius: 13px;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
     background: #fff;
     border: 1px solid var(--card-border);
     display: flex;
@@ -128,24 +128,24 @@
     overflow: hidden;
   }
   .icon-chip img {
-    width: 35px;
-    height: 35px;
+    width: 27px;
+    height: 27px;
     object-fit: contain;
-    border-radius: 7px;
+    border-radius: 6px;
   }
   .card h2 {
     grid-column: 2;
-    font-size: 17.5px;
+    font-size: 16px;
     margin: 0 0 2px 0;
     color: var(--navy);
     min-width: 0;
   }
   .card p {
     grid-column: 2;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--muted);
     margin: 0;
-    line-height: 1.35;
+    line-height: 1.34;
     min-width: 0;
   }
   footer {
@@ -200,10 +200,15 @@
       <h2>Admissão na UTIP</h2>
       <p>Ferramenta de admissão e evolução</p>
     </a>
+    <a class="card" href="https://barbsfelipe-pim3-hemoam-app-lztdsv.streamlit.app" target="_blank" rel="noopener">
+      <div class="icon-chip"><img src="assets/favicons-externos/pim3.png" alt=""></div>
+      <h2>PIM3</h2>
+      <p>Escore de mortalidade prevista e registro de pacientes da UTIP</p>
+    </a>
     <a class="card" href="folha-parada/">
       <div class="icon-chip"><img src="assets/favicons-externos/folha-parada.png" alt=""></div>
       <h2>Folha de Parada</h2>
-      <p>Doses por peso, tubo e desfibrilação/cardioversão</p>
+      <p>Doses por peso, tubo e desfibrilação/<wbr>cardioversão</p>
     </a>
     <a class="card" href="isbar/">
       <div class="icon-chip"><img src="assets/favicons-externos/sbar.png" alt=""></div>
