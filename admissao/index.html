@@ -211,6 +211,23 @@
 <h1>Admissão UTI Pediátrica</h1>
 <div class="sub">HEMOAM — preencha os campos e gere o texto de admissão pronto para copiar</div>
 
+<!-- ========== PREENCHER COM IA ========== -->
+<div class="bloco-titulo">Preencher com IA</div>
+<div class="section">
+  <div class="sub" style="margin-bottom:10px;">
+    1) Copie o prompt abaixo e cole numa conversa no claude.ai, anexando o PDF de evoluções do paciente.<br>
+    2) Cole aqui o JSON que a IA responder e clique em "Preencher formulário".
+  </div>
+  <button type="button" class="btn-secundario" id="btn-copiar-prompt-ia">Copiar prompt para IA</button>
+  <div class="msg" id="msg-prompt-ia">Prompt copiado!</div>
+  <div class="item" style="margin-top:12px;">
+    <span class="field-label">JSON de resposta da IA</span>
+    <textarea id="ia-json-input" placeholder="cole aqui o JSON retornado pela IA" style="min-height:120px;"></textarea>
+  </div>
+  <button type="button" id="btn-preencher-ia">Preencher formulário</button>
+  <div class="msg" id="msg-preencher-ia">Preenchido!</div>
+</div>
+
 <!-- ========== CABEÇALHO ========== -->
 <div class="bloco-titulo">Identificação</div>
 <div class="section">
@@ -1363,7 +1380,7 @@ function coletarMedicacoesRaw(id) {
 function coletarEstadoCompleto() {
   const campos = {};
   document.querySelectorAll('input[type="text"][id], input[type="datetime-local"][id], textarea[id], select[id]').forEach(el => {
-    if (el.id !== 'texto') campos[el.id] = el.value;
+    if (el.id !== 'texto' && el.id !== 'ia-json-input') campos[el.id] = el.value;
   });
   const extras = {};
   document.querySelectorAll('.extra[id]').forEach(div => {
@@ -1414,13 +1431,7 @@ function reconstruirLista(id, criarFn, valores) {
   });
 }
 
-function restaurarEstado() {
-  let estado;
-  try {
-    const raw = localStorage.getItem(AUTOSAVE_KEY);
-    if (!raw) return;
-    estado = JSON.parse(raw);
-  } catch (e) { return; }
+function aplicarEstado(estado) {
   if (!estado) return;
 
   Object.entries(estado.campos || {}).forEach(([id, valor]) => {
@@ -1466,10 +1477,20 @@ function restaurarEstado() {
     });
   });
 
-  if (estado.quimioAberto) {
+  if (estado.quimioAberto || (estado.campos && estado.campos['cond-quimio'])) {
     document.getElementById('quimio-corpo').classList.add('show');
     document.getElementById('quimio-seta').classList.add('aberto');
   }
+}
+
+function restaurarEstado() {
+  let estado;
+  try {
+    const raw = localStorage.getItem(AUTOSAVE_KEY);
+    if (!raw) return;
+    estado = JSON.parse(raw);
+  } catch (e) { return; }
+  aplicarEstado(estado);
 }
 
 document.addEventListener('input', salvarEstadoDebounced);
@@ -1478,6 +1499,135 @@ document.addEventListener('click', (e) => {
   if (e.target.closest('.btn-add, .btn-add-cultura, .btn-remover, #quimio-header')) {
     salvarEstadoDebounced();
   }
+});
+
+// ---------- Preencher com IA ----------
+function descreverCampo(el) {
+  const item = el.closest('.item');
+  const label = item && item.querySelector('.field-label');
+  return label ? label.textContent.trim() : el.id;
+}
+
+function gerarSchemaTexto() {
+  const linhas = [];
+
+  linhas.push('campos:');
+  document.querySelectorAll('input[type="text"][id], input[type="datetime-local"][id], textarea[id], select[id]').forEach(el => {
+    if (el.id === 'texto' || el.id === 'ia-json-input') return;
+    if (el.tagName === 'SELECT') {
+      const valores = [...el.options].filter(o => o.value !== '').map(o => `"${o.value}"`).join(' | ');
+      linhas.push(`  campos.${el.id}: ${descreverCampo(el)} — valores permitidos: ${valores}`);
+    } else {
+      linhas.push(`  campos.${el.id}: ${descreverCampo(el)}`);
+    }
+  });
+
+  linhas.push('');
+  linhas.push('checkboxes (chave "categoria|valor"):');
+  document.querySelectorAll('input[type="checkbox"][data-cat]').forEach(cb => {
+    const label = cb.closest('label');
+    const texto = label ? label.textContent.trim() : cb.value;
+    linhas.push(`  checkboxes["${cb.dataset.cat}|${cb.value}"]: ${texto}`);
+    if (cb.dataset.extra) {
+      const extraDiv = document.getElementById(cb.dataset.extra);
+      const extraInput = extraDiv && extraDiv.querySelector('input');
+      if (extraInput) {
+        linhas.push(`    (se true) extras["${cb.dataset.extra}"]: ${extraInput.placeholder}`);
+      }
+    }
+  });
+
+  linhas.push('');
+  linhas.push('listas (arrays de strings):');
+  const listasDescricoes = {
+    'lista-cronologia': 'principais eventos da internação em ordem cronológica',
+    'lista-hipoteses': 'hipóteses diagnósticas',
+    'lista-exames-imagem': 'exames de imagem relevantes, formato "Exame (data): resultado"',
+    'lista-exames-lab': 'exames laboratoriais relevantes, formato "Exame (data): resultado"',
+    'lista-pareceres': 'pareceres de outras especialidades, formato "Parecer de X (data): conduta"'
+  };
+  Object.entries(listasDescricoes).forEach(([id, desc]) => {
+    linhas.push(`  listas["${id}"]: ${desc}`);
+  });
+
+  linhas.push('');
+  linhas.push('culturas: array de {tipo, data, resultado} — culturas microbiológicas colhidas durante a internação');
+  linhas.push('medUso: array de {nome, data} — medicações em uso atualmente');
+  linhas.push('medUtilizadas: array de {nome, data} — medicações já utilizadas durante a internação, não necessariamente em uso agora');
+
+  return linhas.join('\n');
+}
+
+function gerarPromptIA() {
+  return `Você vai ler o PDF anexado com as evoluções de um paciente pediátrico desde a admissão hospitalar (prontuário iDoctor) e extrair informações para preencher uma nota de admissão de UTI.
+
+REGRAS:
+- Preencha APENAS campos com evidência clara no texto. Não invente, não infira além do razoável.
+- Se não houver informação suficiente para um campo, deixe-o de fora do JSON (ou false para checkbox).
+- O documento pode conter evoluções de diferentes profissionais (médico, enfermagem, fisioterapia, outros). Use todas como fonte, mas para "impressão clínica geral" e hipóteses diagnósticas, priorize a evolução médica mais recente. Dados objetivos (diurese, dispositivos, sinais vitais) podem vir de qualquer categoria de nota.
+- Ordene listas["lista-cronologia"] cronologicamente.
+- Retorne SOMENTE o JSON, sem texto antes ou depois.
+
+SCHEMA:
+${gerarSchemaTexto()}
+
+FORMATO DE RESPOSTA (preencha com os dados extraídos, seguindo exatamente esta estrutura):
+{
+  "campos": {},
+  "extras": {},
+  "checkboxes": {},
+  "listas": { "lista-cronologia": [], "lista-hipoteses": [], "lista-exames-imagem": [], "lista-exames-lab": [], "lista-pareceres": [] },
+  "culturas": [],
+  "medUso": [],
+  "medUtilizadas": []
+}`;
+}
+
+document.getElementById('btn-copiar-prompt-ia').addEventListener('click', async () => {
+  const msg = document.getElementById('msg-prompt-ia');
+  function mostrar() {
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 2000);
+  }
+  const prompt = gerarPromptIA();
+  try {
+    await navigator.clipboard.writeText(prompt);
+    mostrar();
+  } catch (e) {
+    const temp = document.createElement('textarea');
+    temp.value = prompt;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    document.body.removeChild(temp);
+    mostrar();
+  }
+});
+
+document.getElementById('btn-preencher-ia').addEventListener('click', () => {
+  const input = document.getElementById('ia-json-input');
+  const msg = document.getElementById('msg-preencher-ia');
+  let estado;
+  try {
+    estado = JSON.parse(input.value);
+  } catch (e) {
+    alert('JSON inválido — confira se copiou a resposta completa.');
+    return;
+  }
+  if (!estado || typeof estado !== 'object' || Array.isArray(estado)) {
+    alert('JSON inválido — confira se copiou a resposta completa.');
+    return;
+  }
+  if (!confirm('Isso vai preencher os campos do formulário com os dados colados. Continuar?')) return;
+  try {
+    aplicarEstado(estado);
+  } catch (e) {
+    alert('JSON com formato inesperado — alguns campos podem não ter sido preenchidos.');
+    return;
+  }
+  salvarEstado();
+  msg.style.display = 'block';
+  setTimeout(() => { msg.style.display = 'none'; }, 2000);
 });
 
 restaurarEstado();
