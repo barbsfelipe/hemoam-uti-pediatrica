@@ -123,50 +123,54 @@
   .hub-back a:hover { text-decoration: underline; }
 
   /* ===== Impressão: retrato, letra grande nas doses, mínimo de "caixa" no topo ===== */
-  @page { size: portrait; margin: 6mm 10mm; }
+  /* Folha fica afixada na parede e é lida a ~2m de distância — tudo precisa
+     ser legível a essa distância, não só de perto. Tamanhos calibrados pra
+     isso, verificados pra continuar cabendo numa página A4 só. */
+  @page { size: portrait; margin: 3mm 8mm; }
   @media print {
     .no-print { display: none !important; }
-    body { background: #fff; padding: 0; font-size: 12px; }
-    h1 { font-size: 17px; margin: 0 0 1px 0; }
+    body { background: #fff; padding: 0; font-size: 16px; }
+    h1 { font-size: 20px; margin: 0; }
     .sub { display: none; }
 
     /* topo (paciente / via aérea / choque): linhas compactas, sem caixas grandes */
-    .bloco-titulo { font-size: 10.5px; margin: 3px 0 2px 0; padding-bottom: 1px; border-bottom-width: 1px; }
+    .bloco-titulo { font-size: 18px; margin: 2px 0 1px 0; padding-bottom: 1px; border-bottom-width: 2px; }
     .bloco-titulo:first-of-type { margin-top: 0; }
-    .section { padding: 3px 8px; margin-bottom: 2px; box-shadow: none; border: 1px solid #ccc; border-radius: 4px; }
-    .item { margin-bottom: 2px; }
-    .field-label { font-size: 8px; margin-bottom: 0; }
-    input[type="text"], input[type="number"], select { padding: 1px 5px; font-size: 10.5px; border: 1px solid #999; border-radius: 3px; }
-    .grid-2, .grid-3 { display: flex; flex-wrap: wrap; gap: 2px 14px; }
-    .grid-2 > *, .grid-3 > * { flex: 1 1 auto; min-width: 90px; }
-    .linha-cardio { margin-top: 2px; }
-    .destaque { display: inline-flex; align-items: baseline; gap: 5px; padding: 0; border: none; background: none; border-radius: 0; }
-    .destaque .rotulo { font-size: 8.5px; }
-    .destaque .valor { font-size: 12.5px; margin-top: 0; }
-    .destaque .valor small { font-size: 9px; }
-    .destaque-grande .rotulo { font-size: 9px; }
-    .destaque-grande .valor { font-size: 16px; }
-    .destaque-grande .valor small { font-size: 10.5px; }
+    .section { padding: 2px 10px; margin-bottom: 1px; box-shadow: none; border: 1px solid #ccc; border-radius: 4px; }
+    .item { margin-bottom: 1px; }
+    .field-label { font-size: 13px; margin-bottom: 0; }
+    input[type="text"], input[type="number"], select { padding: 2px 7px; font-size: 17px; border: 1px solid #999; border-radius: 3px; }
+    .grid-2, .grid-3 { display: flex; flex-wrap: wrap; gap: 1px 18px; }
+    .grid-2 > *, .grid-3 > * { flex: 1 1 auto; min-width: 110px; }
+    .linha-cardio { margin-top: 1px; }
+    .destaque { display: inline-flex; align-items: baseline; gap: 6px; padding: 0; border: none; background: none; border-radius: 0; }
+    .destaque .rotulo { font-size: 14px; }
+    .destaque .valor { font-size: 21px; margin-top: 0; }
+    .destaque .valor small { font-size: 15px; }
+    .destaque-grande .rotulo { font-size: 15px; }
+    .destaque-grande .valor { font-size: 27px; }
+    .destaque-grande .valor small { font-size: 17px; }
 
-    /* medicações: o que importa — bem grande e espaçado */
-    .lista-drogas { gap: 3px; }
-    .droga-card { padding: 3.5px 12px; border: 1px solid #aab; border-radius: 5px; break-inside: avoid; }
-    .droga-info { min-width: 145px; }
-    .droga-nome { font-size: 13px; }
-    .droga-apres { font-size: 10px; }
-    .droga-valores { gap: 18px; }
-    .valor-rotulo { font-size: 7px; }
-    .valor-num { font-size: 19px; }
-    .valor-unid { font-size: 11px; }
-    .vol-nota-inline { font-size: 8.5px; }
-    .valor-secundario .valor-num { font-size: 12px; }
-    .valor-secundario .valor-unid { font-size: 8.5px; }
+    /* medicações: o que importa — bem grande e espaçado; 2 colunas pra
+       caber tudo numa página só mesmo com fonte grande */
+    .lista-drogas { display: grid; grid-template-columns: 1fr 1fr; gap: 1px 10px; }
+    .droga-card { padding: 0px 12px; border: 1px solid #aab; border-radius: 5px; break-inside: avoid; line-height: 1.05; }
+    .droga-info { min-width: 0; }
+    .droga-nome { font-size: 22px; line-height: 1.1; }
+    .droga-apres { font-size: 14px; line-height: 1.1; }
+    .droga-valores { gap: 16px; }
+    .valor-rotulo { font-size: 11px; }
+    .valor-num { font-size: 26px; }
+    .valor-unid { font-size: 15px; }
+    .vol-nota-inline { font-size: 12px; }
+    .valor-secundario .valor-num { font-size: 17px; }
+    .valor-secundario .valor-unid { font-size: 12px; }
     .valor-principal { background: #dbe6f1; border: 1.5px solid #1e3a5f; border-radius: 6px; padding: 1px 8px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .valor-principal .valor-rotulo { color: #1e3a5f; }
-    .valor-principal .valor-num { font-size: 21px; color: #0c1b2e; }
-    .valor-principal .valor-unid { font-size: 11px; color: #1e3a5f; }
+    .valor-principal .valor-num { font-size: 29px; color: #0c1b2e; }
+    .valor-principal .valor-unid { font-size: 15px; color: #1e3a5f; }
 
-    .rodape-nota { font-size: 7.5px; margin-top: 2px; line-height: 1.2; }
+    .rodape-nota { font-size: 9px; margin-top: 1px; line-height: 1.2; }
     .so-tela { display: none; }
   }
 </style>
