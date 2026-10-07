@@ -123,7 +123,7 @@
   .hub-back a:hover { text-decoration: underline; }
 
   /* ===== Impressão: retrato, letra grande nas doses, mínimo de "caixa" no topo ===== */
-  @page { size: portrait; margin: 6mm 10mm; }
+  @page { size: A4 portrait; margin: 6mm 10mm; }
   @media print {
     .no-print { display: none !important; }
     body { background: #fff; padding: 0; font-size: 13px; }
@@ -152,19 +152,19 @@
     .lista-drogas { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px; }
     .droga-card { padding: 3px 10px; border: 1px solid #aab; border-radius: 5px; break-inside: avoid; }
     .droga-info { min-width: 0; }
-    .droga-nome { font-size: 17px; }
-    .droga-apres { font-size: 11.5px; }
+    .droga-nome { font-size: 16px; }
+    .droga-apres { font-size: 11px; }
     .droga-valores { gap: 12px; }
-    .valor-rotulo { font-size: 8.5px; }
-    .valor-num { font-size: 22px; }
-    .valor-unid { font-size: 12.5px; }
-    .vol-nota-inline { font-size: 10px; }
-    .valor-secundario .valor-num { font-size: 14.5px; }
-    .valor-secundario .valor-unid { font-size: 10px; }
+    .valor-rotulo { font-size: 8px; }
+    .valor-num { font-size: 21.5px; }
+    .valor-unid { font-size: 12px; }
+    .vol-nota-inline { font-size: 9.5px; }
+    .valor-secundario .valor-num { font-size: 14px; }
+    .valor-secundario .valor-unid { font-size: 9.5px; }
     .valor-principal { background: #dbe6f1; border: 1.5px solid #1e3a5f; border-radius: 6px; padding: 1px 8px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .valor-principal .valor-rotulo { color: #1e3a5f; }
-    .valor-principal .valor-num { font-size: 24px; color: #0c1b2e; }
-    .valor-principal .valor-unid { font-size: 12.5px; color: #1e3a5f; }
+    .valor-principal .valor-num { font-size: 23px; color: #0c1b2e; }
+    .valor-principal .valor-unid { font-size: 12px; color: #1e3a5f; }
 
     .rodape-nota { font-size: 8px; margin-top: 2px; line-height: 1.2; }
     .so-tela { display: none; }
