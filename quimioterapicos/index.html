@@ -38,7 +38,8 @@
 
   .rodape-nota { font-size: 12px; color: #888; margin-top: 16px; line-height: 1.5; }
 
-  /* drogas clicáveis e janela de toxicidades */
+  .dica { margin: 0 0 12px; font-size: .95em; color: #1f3864; background: #e8eef7; border-left: 4px solid #1f3864; padding: 7px 12px; border-radius: 0 6px 6px 0; max-width: 760px; line-height: 1.4; }
+  /* drogas clicáveis e janela de efeitos adversos */
   .dr { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; text-align: left;
         text-decoration: underline dotted #1f3864; text-underline-offset: 3px; }
   .dr:hover { color: #1f3864; text-decoration-style: solid; }
@@ -131,22 +132,23 @@
 </div>
 
 <h1>Resumo dos quimioterápicos</h1>
-<div class="sub">Categoria, ação, toxicidade e orientações de administração</div>
+<div class="sub">Categoria, ação, principais efeitos adversos e orientações de administração</div>
+<p class="dica no-print"><b>Clique no nome do medicamento</b> para abrir a lista completa de efeitos adversos, por frequência.</p>
 
 <div class="busca-barra no-print">
-  <input type="search" id="busca" placeholder="Buscar quimioterápico, classe ou toxicidade" aria-label="Buscar quimioterápico, classe ou toxicidade" autocomplete="off">
+  <input type="search" id="busca" placeholder="Buscar quimioterápico, classe ou efeito adverso" aria-label="Buscar quimioterápico, classe ou efeito adverso" autocomplete="off">
   <div class="contagem" id="contagem" aria-live="polite"></div>
 </div>
 
 <table>
   <tbody>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-alq ini">
         <td class="cat" rowspan="5">Alquilantes</td>
         <td data-label="Ação" rowspan=5>Todo o ciclo celular (exceto mitose)</td>
-        <td data-label="Toxicidade" rowspan=5>Mielossupressão<br>Nefrotoxicidade<br>Tubulopatia</td>
+        <td data-label="Principais efeitos adversos" rowspan=5>Mielossupressão<br>Nefrotoxicidade<br>Tubulopatia</td>
         <td data-label="Classe">Mostardas nitrogenadas</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="ciclofosfamida">Ciclofosfamida (CTX)</button><br><button type="button" class="dr" data-d="ifosfamida">Ifosfamida (IFO)</button></td>
         <td data-label="Observação">Fazer expansão antes e manter HV em Y. Fazer Mesna conforme a prescrição de quimioterapia para evitar cistite hemorrágica (principal complicação em altas doses).</td>
@@ -172,141 +174,141 @@
         <td data-label="Observação">Carboplatina: expansão com 1000 ml/m² e manter hiper-hidratação. Cisplatina: expansão com 1000 ml/m² e hiper-hidratação com todos os eletrólitos (Na, K, Ca e Mg); controle hídrico rigoroso.</td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-ant ini">
         <td class="cat" rowspan="3">Antimetabólitos</td>
         <td data-label="Ação">Inibe dihidrofolato redutase</td>
-        <td data-label="Toxicidade">Insuficiência renal<br>PRES</td>
+        <td data-label="Principais efeitos adversos">Insuficiência renal<br>PRES</td>
         <td data-label="Classe">Análogos do ácido fólico</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="metotrexate">Metotrexate (MTX)</button></td>
         <td data-label="Observação">Manter hiperhidratação 3000 ml/m²/dia (SG5% 500 ml + Bicarbonato de sódio 8,4% 20 ml). Manter pH urinário &gt;6,5 e &lt;8, ajustando a HV conforme. Dosar nível sérico na hora 42 (junto U, Cr, TGO, TGP, bilirrubina). Iniciar resgate com ácido folínico na hora 42 e manter até MTX &lt; 0,25, conforme gráfico de resgate. Não correr no mesmo acesso que reposição de cálcio (precipita com bicarbonato). Atenção se níveis alterados com função renal, hepática, mucosite e colite.</td>
       </tr>
       <tr class="c-ant">
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Mielossupressão</td>
+        <td data-label="Principais efeitos adversos">Mielossupressão</td>
         <td data-label="Classe">Análogos da purina</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="mercaptopurina">Mercaptopurina (6-MP)</button><br><button type="button" class="dr" data-d="fludarabina">Fludarabina</button><br><button type="button" class="dr" data-d="cladribina">Cladribina (2-CDA)</button></td>
         <td data-label="Observação">Mercaptopurina: VO; jejum 2h antes e 2h após a ingestão; não ingerir com leite nem ter leite na refeição mais próxima.</td>
       </tr>
       <tr class="c-ant">
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Mielossupressão<br>Mucosite</td>
+        <td data-label="Principais efeitos adversos">Mielossupressão<br>Mucosite</td>
         <td data-label="Classe">Análogos da pirimidina</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="fluoracil">5-fluoracil</button><br><button type="button" class="dr" data-d="gencitabina">Gencitabina</button><br><button type="button" class="dr" data-d="citarabina">Citarabina (ARAC)</button></td>
         <td data-label="Observação">Citarabina: não precisa de expansão nem hiper-hidratação. Doses &gt;1g/m²: risco de conjuntivite actínica — colírio de dexametasona 1h antes da 1ª dose, manter 6/6h até 24h após a última dose. Doses altas podem causar hipertermia.</td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-atb ini">
         <td class="cat" rowspan="3">Antibióticos</td>
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Cardiotoxicidade</td>
+        <td data-label="Principais efeitos adversos">Cardiotoxicidade</td>
         <td data-label="Classe">Antraciclinas</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="daunorrubicina">Daunorrubicina (DAUNO)</button><br><button type="button" class="dr" data-d="doxorrubicina">Doxorrubicina (DOXO)</button><br><button type="button" class="dr" data-d="idarrubicina">Idarrubicina (IDA)</button><br><button type="button" class="dr" data-d="mitoxantrona">Mitoxantrona (MTZ)</button></td>
         <td data-label="Observação">Infusão lenta diminui cardiotoxicidade. Precisa de expansão pré-QT. <strong class="alerta">Vesicante!!!</strong> Pode causar disfunção cardíaca.</td>
       </tr>
       <tr class="c-atb">
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Toxicidade Pulmonar</td>
+        <td data-label="Principais efeitos adversos">Toxicidade Pulmonar</td>
         <td data-label="Classe">Streptomyces</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="bleomicina">Bleomicina</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-atb">
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade"></td>
+        <td data-label="Principais efeitos adversos"></td>
         <td data-label="Classe">Streptomyces</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="dactinomicina">Actinomicina (AcTD)</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-mit ini">
         <td class="cat" rowspan="2">Inibidores Mitóticos</td>
         <td data-label="Ação">Impedem formação do fuso mitótico</td>
-        <td data-label="Toxicidade">Constipação<br>Neuropatia periférica<br>íleo paralítico</td>
+        <td data-label="Principais efeitos adversos">Constipação<br>Neuropatia periférica<br>íleo paralítico</td>
         <td data-label="Classe">Alcalóides da vinca</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="vincristina">Vincristina (VCR)</button><br><button type="button" class="dr" data-d="vinorelbina">Vinorelbina</button></td>
         <td data-label="Observação">Vincristina: <strong class="alerta">vesicante</strong>, muito cuidado com acesso periférico; não precisa de expansão.</td>
       </tr>
       <tr class="c-mit">
         <td data-label="Ação">Impedem divisão do fuso mitótico</td>
-        <td data-label="Toxicidade">Lesão de pele<br>Anafilaxia</td>
+        <td data-label="Principais efeitos adversos">Lesão de pele<br>Anafilaxia</td>
         <td data-label="Classe">Tepanósidos</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="paclitaxel">Paclitaxel</button><br><button type="button" class="dr" data-d="docetaxel">Docetaxel</button></td>
         <td data-label="Observação">Pré-medicação com difenidramina.</td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-top ini">
         <td class="cat" rowspan="2">Inibidores topoisomerases</td>
         <td data-label="Ação">Inibe topoisomerase tipo I</td>
-        <td data-label="Toxicidade">Diarreia</td>
+        <td data-label="Principais efeitos adversos">Diarreia</td>
         <td data-label="Classe">Tipo I</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="irinotecano">Irinotecano</button><br><button type="button" class="dr" data-d="topotecano">Topotecano</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-top">
         <td data-label="Ação">Inibe topoisomerase tipo II</td>
-        <td data-label="Toxicidade">Mielossupressão</td>
+        <td data-label="Principais efeitos adversos">Mielossupressão</td>
         <td data-label="Classe">Tipo II</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="etoposido">Etoposide (VP-16)</button><br><button type="button" class="dr" data-d="teniposido">Teniposide (VM-26)</button></td>
         <td data-label="Observação">Indução de 2ª neoplasia. Não precisa expansão nem hiper-hidratação. Controle rigoroso da PA de 15/15min durante a infusão (risco de hipotensão).</td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-mis ini">
         <td class="cat" rowspan="2">Miscelânea</td>
         <td data-label="Ação">Derivado da E.coli</td>
-        <td data-label="Toxicidade">Hipofibrinogenemia<br>Pancreatite<br>Anafilaxia<br>Diabetes<br>PRES</td>
+        <td data-label="Principais efeitos adversos">Hipofibrinogenemia<br>Pancreatite<br>Anafilaxia<br>Diabetes<br>PRES</td>
         <td data-label="Classe">Enzima</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="asparaginase">PEG-asparaginase (pegaspargase)</button></td>
         <td data-label="Observação">Colher controles a cada 2 doses (glicemia jejum, amilase e fibrinogênio). Vias: IM e EV. Pode alterar fibrinogênio. Relação com pancreatite.</td>
       </tr>
       <tr class="c-mis">
         <td data-label="Ação">Diferenciação celular</td>
-        <td data-label="Toxicidade"></td>
+        <td data-label="Principais efeitos adversos"></td>
         <td data-label="Classe">Diferenciador</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="atra">ATRA (ácido trans-retinóico)</button></td>
         <td data-label="Observação">Deve ser ingerido junto com alimento.</td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-cor ini">
         <td class="cat" rowspan="1">Corticosteroides</td>
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Fácies cushingóide<br>Alteração de humor<br>Muita fome</td>
+        <td data-label="Principais efeitos adversos">Fácies cushingóide<br>Alteração de humor<br>Muita fome</td>
         <td data-label="Classe">Corticosteroide</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="dexametasona">Dexametasona</button><br><button type="button" class="dr" data-d="prednisona">Prednisona</button></td>
         <td data-label="Observação">Vias: VO, pode ser EV se VO indisponível.</td>
       </tr>
       <tr class="cab">
-        <th>Categoria</th><th>Ação</th><th>Toxicidade</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
+        <th>Categoria</th><th>Ação</th><th>Principais efeitos adversos</th><th>Classe</th><th>Quimioterápicos</th><th>Observação</th>
       </tr>
       <tr class="c-alv ini">
         <td class="cat" rowspan="3">Terapia alvo</td>
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Diminuição IgG</td>
+        <td data-label="Principais efeitos adversos">Diminuição IgG</td>
         <td data-label="Classe">AntiCD20</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="rituximab">Rituximab</button></td>
         <td data-label="Observação">Fazer gamaglobulina se IgG &lt; 400. Via EV. Medicação anti-histamínica pré: difenidramina ou hidrocortisona com loratadina; pode fazer paracetamol. Precisa de hidratação junto. Costuma correr em 6h.</td>
       </tr>
       <tr class="c-alv">
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade">Síndrome de liberação de citocinas<br>Toxicidade cerebral (convulsão)</td>
+        <td data-label="Principais efeitos adversos">Síndrome de liberação de citocinas<br>Toxicidade cerebral (convulsão)</td>
         <td data-label="Classe">Biespecífico anti-CD19/CD3</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="blinatumomabe">Blinatumomabe</button></td>
         <td data-label="Observação">Via EV (já existe estudo para SC). Pré-medicação: Dexametasona 6-12h e 30min antes do início. Infusão contínua de 28 dias (7 dias iniciais com dose menor). Via exclusiva: acesso central, PICC ou cateter implantado. Trocar a bolsa a cada 24h até 96h.</td>
       </tr>
       <tr class="c-alv">
         <td data-label="Ação"></td>
-        <td data-label="Toxicidade"></td>
+        <td data-label="Principais efeitos adversos"></td>
         <td data-label="Classe">Anticorpo conjugado anti-CD30</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="brentuximabe">Brentuximabe</button></td>
         <td data-label="Observação">Via EV. Pré-medicação: difenidramina, dexametasona e paracetamol. Infusão de 30 minutos.</td>
@@ -370,8 +372,8 @@
     dlg.showModal();
   }
   document.querySelectorAll('button.dr').forEach(function (b) {
-    if (!TOX[b.dataset.d]) { b.classList.add('sem-dado'); b.title = 'Toxicidades detalhadas ainda não disponíveis'; return; }
-    b.title = 'Ver toxicidades por frequência';
+    if (!TOX[b.dataset.d]) { b.classList.add('sem-dado'); b.title = 'Lista de efeitos adversos ainda não disponível'; return; }
+    b.title = 'Clique para ver os efeitos adversos por frequência';
     b.addEventListener('click', function () { abrir(b.dataset.d); });
   });
   document.getElementById('tx-fechar').addEventListener('click', function () { dlg.close(); });
@@ -435,11 +437,11 @@
         tr.querySelectorAll('button.dr').forEach(function (b) {
           var d = TOX[b.dataset.d]; if (!d || b.querySelector('mark')) return;
           var hit = d.t.filter(function (t) { var n = norm(t.n); return termos.some(function (x) { return achar(n, x) !== -1; }); });
-          if (hit.length) { b.classList.add('achou'); b.title = 'Toxicidade encontrada: ' + hit.slice(0, 3).map(function (t) { return t.n; }).join('; ') + ' (clique para ver)'; }
+          if (hit.length) { b.classList.add('achou'); b.title = 'Efeito adverso encontrado: ' + hit.slice(0, 3).map(function (t) { return t.n; }).join('; ') + ' (clique para ver)'; }
         });
       }
     });
-    contagem.textContent = !termos.length ? '' : (achou ? achou + (achou === 1 ? ' linha encontrada' : ' linhas encontradas') : 'Nenhum resultado. Confira a grafia ou busque pela classe (ex.: antraciclinas) ou pela toxicidade.');
+    contagem.textContent = !termos.length ? '' : (achou ? achou + (achou === 1 ? ' linha encontrada' : ' linhas encontradas') : 'Nenhum resultado. Confira a grafia ou busque pela classe (ex.: antraciclinas) ou pelo efeito adverso.');
   }
   campo.addEventListener('input', filtrar);
 })();
