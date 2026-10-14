@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo dos quimioterápicos — HEMOAM</title>
+<link rel="icon" type="image/png" href="favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 16px;
+    color: #1a1a1a;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px 0; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .hub-back { background: #1f3864; padding: 6px 16px; font-family: Arial, Helvetica, sans-serif; margin: -16px -16px 16px -16px; }
+  .hub-back a { color: #fff; text-decoration: none; font-size: 13px; font-weight: bold; }
+  .hub-back a:hover { text-decoration: underline; }
+
+  table { width: 100%; max-width: 1200px; border-collapse: collapse; background: #fff; font-size: 13px; line-height: 1.4; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+  th { background: #2f4a5e; color: #fff; text-align: left; padding: 9px 10px; font-size: 13px; position: sticky; top: 0; }
+  td { padding: 8px 10px; vertical-align: top; border: 1px solid #d5dae1; }
+  td.cat { font-weight: 700; color: #1e3a5f; width: 110px; }
+  td.drogas { font-weight: 600; white-space: nowrap; }
+  tr.c-alq td { background: #eaf0f6; }
+  tr.c-ant td { background: #eaf3ea; }
+  tr.c-atb td { background: #f6ebe9; }
+  tr.c-mit td { background: #eeeaf6; }
+  tr.c-top td { background: #f4f1ea; }
+  tr.c-mis td { background: #e8f3f1; }
+  tr.c-cor td { background: #f6e9ec; }
+  tr.c-alv td { background: #eaeaf5; }
+
+  .rodape-nota { font-size: 12px; color: #888; margin-top: 16px; line-height: 1.5; max-width: 1200px; }
+
+  @media (max-width: 820px) {
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    table { background: none; box-shadow: none; }
+    tr { border: 1px solid #d5dae1; border-top: 0; }
+    tr.ini { margin-top: 12px; border-top: 1px solid #d5dae1; border-radius: 10px 10px 0 0; overflow: hidden; }
+    tr:not(.ini) td:first-child { border-top: 3px solid rgba(31,56,100,0.25); }
+    tr td { border: 0; border-bottom: 1px solid rgba(0,0,0,0.07); }
+    td:empty { display: none; }
+    td.cat { width: 100%; font-size: 15px; background: #1f3864 !important; color: #fff; }
+    td.drogas { white-space: normal; }
+    td[data-label]::before { content: attr(data-label); display: block; font-size: 11px; font-weight: 700; color: #667; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 2px; }
+  }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; padding: 0; }
+    th { position: static; }
+    tr { break-inside: avoid; }
+    @page { size: A4 landscape; margin: 10mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hub-back no-print">
+  <a href="../">← Painel HEMOAM UTI Pediátrica</a>
+</div>
+
+<h1>Resumo dos quimioterápicos</h1>
+<div class="sub">Categoria, ação, toxicidade e orientações de administração</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Categoria</th>
+      <th>Ação</th>
+      <th>Toxicidade</th>
+      <th>Classe</th>
+      <th>Quimioterápicos</th>
+      <th>Observação</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr class="c-alq ini">
+        <td class="cat" rowspan="5">Alquilantes</td>
+        <td data-label="Ação" rowspan=5>Todo o ciclo celular (exceto mitose)</td>
+        <td data-label="Toxicidade" rowspan=5>Mielossupressão<br>Nefrotoxicidade<br>Tubulopatia</td>
+        <td data-label="Classe">Mostardas nitrogenadas</td>
+        <td data-label="Quimioterápicos" class="drogas">Ciclofosfamida (CTX)<br>Ifosfamida (IFO)</td>
+        <td data-label="Observação">Fazer expansão antes e manter HV em Y. Fazer Mesna conforme a prescrição de quimioterapia para evitar cistite hemorrágica (principal complicação em altas doses).</td>
+      </tr>
+      <tr class="c-alq">
+        <td data-label="Classe">Metilaminas</td>
+        <td data-label="Quimioterápicos" class="drogas">Melfalano</td>
+        <td data-label="Observação"></td>
+      </tr>
+      <tr class="c-alq">
+        <td data-label="Classe">Alquilsulfonatos</td>
+        <td data-label="Quimioterápicos" class="drogas">Bussulfano</td>
+        <td data-label="Observação"></td>
+      </tr>
+      <tr class="c-alq">
+        <td data-label="Classe">Triazenos</td>
+        <td data-label="Quimioterápicos" class="drogas">Temozolamida</td>
+        <td data-label="Observação"></td>
+      </tr>
+      <tr class="c-alq">
+        <td data-label="Classe">Complexos platina</td>
+        <td data-label="Quimioterápicos" class="drogas">Cisplatina (CDDP)<br>Carboplatina (CBDCA)</td>
+        <td data-label="Observação">Carboplatina: expansão com 1000 ml/m² e manter hiper-hidratação. Cisplatina: expansão com 1000 ml/m² e hiper-hidratação com todos os eletrólitos (Na, K, Ca e Mg); controle hídrico rigoroso.</td>
+      </tr>
+      <tr class="c-ant ini">
+        <td class="cat" rowspan="3">Antimetabólitos</td>
+        <td data-label="Ação">Inibe dihidrofolato redutase</td>
+        <td data-label="Toxicidade">Insuficiência renal<br>PRES</td>
+        <td data-label="Classe">Análogos do ácido fólico</td>
+        <td data-label="Quimioterápicos" class="drogas">Metotrexate (MTX)</td>
+        <td data-label="Observação">Manter hiperhidratação 3000 ml/m²/dia (SG5% 500 ml + Bicarbonato de sódio 8,4% 20 ml). Manter pH urinário &gt;6,5 e &lt;8, ajustando a HV conforme. Dosar nível sérico na hora 42 (junto U, Cr, TGO, TGP, bilirrubina). Iniciar resgate com ácido folínico na hora 42 e manter até MTX &lt; 0,25, conforme gráfico de resgate. Não correr no mesmo acesso que reposição de cálcio (precipita com bicarbonato). Atenção se níveis alterados com função renal, hepática, mucosite e colite.</td>
+      </tr>
+      <tr class="c-ant">
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Mielossupressão</td>
+        <td data-label="Classe">Análogos da purina</td>
+        <td data-label="Quimioterápicos" class="drogas">Mercaptopurina (6-MP)<br>Fludarabina<br>Cladribina (2-CDA)</td>
+        <td data-label="Observação">Mercaptopurina: VO; jejum 2h antes e 2h após a ingestão; não ingerir com leite nem ter leite na refeição mais próxima.</td>
+      </tr>
+      <tr class="c-ant">
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Mielossupressão<br>Mucosite</td>
+        <td data-label="Classe">Análogos da pirimidina</td>
+        <td data-label="Quimioterápicos" class="drogas">5-fluoracil<br>Gencitabina<br>Citarabina (ARAC)</td>
+        <td data-label="Observação">Citarabina: não precisa de expansão nem hiper-hidratação. Doses &gt;1g/m²: risco de conjuntivite actínica — colírio de dexametasona 1h antes da 1ª dose, manter 6/6h até 24h após a última dose. Doses altas podem causar hipertermia.</td>
+      </tr>
+      <tr class="c-atb ini">
+        <td class="cat" rowspan="3">Antibióticos</td>
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Cardiotoxicidade</td>
+        <td data-label="Classe">Antraciclinas</td>
+        <td data-label="Quimioterápicos" class="drogas">Daunorrubicina (DAUNO)<br>Doxorrubicina (DOXO)<br>Idarrubicina (IDA)<br>Mitoxantrona (MTZ)</td>
+        <td data-label="Observação">Infusão lenta diminui cardiotoxicidade. Precisa de expansão pré-QT. Vesicante!!! Pode causar disfunção cardíaca.</td>
+      </tr>
+      <tr class="c-atb">
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Toxicidade Pulmonar</td>
+        <td data-label="Classe">Streptomyces</td>
+        <td data-label="Quimioterápicos" class="drogas">Bleomicina</td>
+        <td data-label="Observação"></td>
+      </tr>
+      <tr class="c-atb">
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade"></td>
+        <td data-label="Classe">Streptomyces</td>
+        <td data-label="Quimioterápicos" class="drogas">Actinomicina (AcTD)</td>
+        <td data-label="Observação"></td>
+      </tr>
+      <tr class="c-mit ini">
+        <td class="cat" rowspan="2">Inibidores Mitóticos</td>
+        <td data-label="Ação">Impedem formação do fuso mitótico</td>
+        <td data-label="Toxicidade">Constipação<br>Neuropatia periférica<br>íleo paralítico</td>
+        <td data-label="Classe">Alcalóides da vinca</td>
+        <td data-label="Quimioterápicos" class="drogas">Vincristina (VCR)<br>Vinorelbina</td>
+        <td data-label="Observação">Vincristina: vesicante, muito cuidado com acesso periférico; não precisa de expansão.</td>
+      </tr>
+      <tr class="c-mit">
+        <td data-label="Ação">Impedem divisão do fuso mitótico</td>
+        <td data-label="Toxicidade">Lesão de pele<br>Anafilaxia</td>
+        <td data-label="Classe">Tepanósidos</td>
+        <td data-label="Quimioterápicos" class="drogas">Paclitaxel<br>Docetaxel</td>
+        <td data-label="Observação">Pré-medicação com difenidramina.</td>
+      </tr>
+      <tr class="c-top ini">
+        <td class="cat" rowspan="2">Inibidores topoisomerases</td>
+        <td data-label="Ação">Inibe topoisomerase tipo I</td>
+        <td data-label="Toxicidade">Diarreia</td>
+        <td data-label="Classe">Tipo I</td>
+        <td data-label="Quimioterápicos" class="drogas">Irinotecano<br>Topotecano</td>
+        <td data-label="Observação"></td>
+      </tr>
+      <tr class="c-top">
+        <td data-label="Ação">Inibe topoisomerase tipo II</td>
+        <td data-label="Toxicidade">Mielossupressão</td>
+        <td data-label="Classe">Tipo II</td>
+        <td data-label="Quimioterápicos" class="drogas">Etoposide (VP-16)<br>Teniposide (VM-26)</td>
+        <td data-label="Observação">Indução de 2ª neoplasia. Não precisa expansão nem hiper-hidratação. Controle rigoroso da PA de 15/15min durante a infusão (risco de hipotensão).</td>
+      </tr>
+      <tr class="c-mis ini">
+        <td class="cat" rowspan="2">Miscelânea</td>
+        <td data-label="Ação">Derivado da E.coli</td>
+        <td data-label="Toxicidade">Hipofibrinogenemia<br>Pancreatite<br>Anafilaxia<br>Diabetes</td>
+        <td data-label="Classe">Enzima</td>
+        <td data-label="Quimioterápicos" class="drogas">L-asparaginase</td>
+        <td data-label="Observação">Colher controles a cada 2 doses (glicemia jejum, amilase e fibrinogênio). Vias: IM e EV. Pode alterar fibrinogênio. Relação com pancreatite.</td>
+      </tr>
+      <tr class="c-mis">
+        <td data-label="Ação">Diferenciação celular</td>
+        <td data-label="Toxicidade"></td>
+        <td data-label="Classe">Diferenciador</td>
+        <td data-label="Quimioterápicos" class="drogas">ATRA (ácido trans-retinóico)</td>
+        <td data-label="Observação">Deve ser ingerido junto com alimento.</td>
+      </tr>
+      <tr class="c-cor ini">
+        <td class="cat" rowspan="1">Corticosteroides</td>
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Fácies cushingóide<br>Alteração de humor<br>Muita fome</td>
+        <td data-label="Classe">Corticosteroide</td>
+        <td data-label="Quimioterápicos" class="drogas">Dexametasona<br>Prednisona</td>
+        <td data-label="Observação">Vias: VO, pode ser EV se VO indisponível.</td>
+      </tr>
+      <tr class="c-alv ini">
+        <td class="cat" rowspan="3">Terapia alvo</td>
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Diminuição IgG</td>
+        <td data-label="Classe">AntiCD20</td>
+        <td data-label="Quimioterápicos" class="drogas">Rituximab</td>
+        <td data-label="Observação">Fazer gamaglobulina se IgG &lt; 400. Via EV. Medicação anti-histamínica pré: difenidramina ou hidrocortisona com loratadina; pode fazer paracetamol. Precisa de hidratação junto. Costuma correr em 6h.</td>
+      </tr>
+      <tr class="c-alv">
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade">Síndrome de liberação de citocinas<br>Toxicidade cerebral (convulsão)</td>
+        <td data-label="Classe">Biespecífico anti-CD19/CD3</td>
+        <td data-label="Quimioterápicos" class="drogas">Blinatumomabe</td>
+        <td data-label="Observação">Via EV (já existe estudo para SC). Pré-medicação: Dexametasona 6-12h e 30min antes do início. Infusão contínua de 28 dias (7 dias iniciais com dose menor). Via exclusiva: acesso central, PICC ou cateter implantado. Trocar a bolsa a cada 24h até 96h.</td>
+      </tr>
+      <tr class="c-alv">
+        <td data-label="Ação"></td>
+        <td data-label="Toxicidade"></td>
+        <td data-label="Classe">Anticorpo conjugado anti-CD30</td>
+        <td data-label="Quimioterápicos" class="drogas">Brentuximabe</td>
+        <td data-label="Observação">Via EV. Pré-medicação: difenidramina, dexametasona e paracetamol. Infusão de 30 minutos.</td>
+      </tr>
+  </tbody>
+</table>
+
+<div class="rodape-nota">
+  Hospital do Sangue · HEMOAM — UTI Pediátrica — material de apoio; conferir sempre com a prescrição e o protocolo vigente.
+</div>
+
+</body>
+</html>
