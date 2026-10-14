@@ -38,6 +38,43 @@
 
   .rodape-nota { font-size: 12px; color: #888; margin-top: 16px; line-height: 1.5; }
 
+  /* drogas clicáveis e janela de toxicidades */
+  .dr { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; text-align: left;
+        text-decoration: underline dotted #1f3864; text-underline-offset: 3px; }
+  .dr:hover { color: #1f3864; text-decoration-style: solid; }
+  .dr:focus-visible { outline: 3px solid #1f3864; outline-offset: 2px; border-radius: 3px; }
+  .dr.achou { background: #ffe066; border-radius: 2px; }
+  .dr.sem-dado { text-decoration: none; cursor: default; }
+  #tox-dialogo { border: 0; padding: 0; width: min(920px, 96vw); max-height: 92vh; border-radius: 10px; box-shadow: 0 12px 48px rgba(0,0,0,.35); color: #1a1a1a; font-family: inherit; }
+  #tox-dialogo::backdrop { background: rgba(15,25,45,.55); }
+  .tx-topo { position: sticky; top: 0; background: #1f3864; color: #fff; padding: 14px 18px; display: flex; gap: 12px; align-items: flex-start; z-index: 1; }
+  .tx-topo h2 { margin: 0; font-size: 1.25em; }
+  .tx-topo p { margin: 3px 0 0; font-size: .82em; opacity: .85; }
+  .tx-fechar { margin-left: auto; font: inherit; font-size: 1.4em; line-height: 1; color: #fff; background: none; border: 0; cursor: pointer; padding: 2px 8px; border-radius: 4px; }
+  .tx-fechar:hover { background: rgba(255,255,255,.18); }
+  .tx-fechar:focus-visible { outline: 3px solid #ffe066; }
+  .tx-corpo { padding: 14px 18px 18px; overflow-y: auto; max-height: calc(92vh - 74px); background: #fff; }
+  .tx-aviso { font-size: .85em; background: #f4f5f7; border-left: 4px solid #1f3864; padding: 8px 12px; margin: 0 0 14px; color: #33404f; line-height: 1.45; }
+  .tx-faixa { margin: 0 0 14px; border: 1px solid #d5dae1; border-left: 6px solid var(--k); border-radius: 6px; overflow: hidden; }
+  .tx-faixa > h3 { margin: 0; padding: 7px 12px; font-size: 1em; background: var(--b); color: #14213a; display: flex; gap: 10px; align-items: baseline; }
+  .tx-faixa > h3 small { font-weight: 400; color: #4a5666; font-size: .82em; }
+  .tx-faixa ul { list-style: none; margin: 0; padding: 0; }
+  .tx-faixa li { padding: 7px 12px; border-top: 1px solid #e6e9ee; line-height: 1.4; }
+  .tx-nome { font-weight: 700; }
+  .tx-pop { display: inline-block; font-size: .78em; font-weight: 700; padding: 0 6px; border-radius: 3px; margin-left: 6px; background: #eef0f3; color: #33404f; vertical-align: 1px; }
+  .tx-pop.ped { background: #dff0e6; color: #1d5a35; }
+  .tx-grave { display: inline-block; font-size: .78em; font-weight: 700; padding: 0 6px; border-radius: 3px; margin-left: 6px; background: #b3261e; color: #fff; vertical-align: 1px; }
+  .tx-det { display: block; font-size: .88em; color: #44505f; margin-top: 2px; }
+  .tx-f { font-size: .75em; color: #1f3864; margin-left: 6px; white-space: nowrap; }
+  .tx-sec { margin: 16px 0 6px; font-size: 1em; color: #1e2f4a; }
+  .tx-fontes { margin: 0; padding-left: 0; list-style: none; font-size: .85em; line-height: 1.5; }
+  .tx-fontes li { margin-bottom: 4px; }
+  .tx-fontes b { color: #1f3864; }
+  .tx-fontes a { color: #1f3864; }
+  .tx-lac { font-size: .88em; background: #fff8e1; border-left: 4px solid #c99a00; padding: 8px 12px; margin: 10px 0 0; line-height: 1.45; }
+  .tx-cuid { font-size: .88em; margin: 4px 0 0; padding-left: 18px; line-height: 1.45; }
+  @media (max-width: 820px) { #tox-dialogo { width: 100vw; max-height: 100vh; height: 100vh; border-radius: 0; } .tx-corpo { max-height: calc(100vh - 74px); } }
+  @media print { #tox-dialogo { display: none !important; } .dr { text-decoration: none; } }
   .alerta { color: #b3261e; }
   .busca-barra { position: sticky; top: 0; z-index: 5; background: #f4f5f7; padding: 6px 0 10px; }
   .busca-barra input {
@@ -111,27 +148,27 @@
         <td data-label="Ação" rowspan=5>Todo o ciclo celular (exceto mitose)</td>
         <td data-label="Toxicidade" rowspan=5>Mielossupressão<br>Nefrotoxicidade<br>Tubulopatia</td>
         <td data-label="Classe">Mostardas nitrogenadas</td>
-        <td data-label="Quimioterápicos" class="drogas">Ciclofosfamida (CTX)<br>Ifosfamida (IFO)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="ciclofosfamida">Ciclofosfamida (CTX)</button><br><button type="button" class="dr" data-d="ifosfamida">Ifosfamida (IFO)</button></td>
         <td data-label="Observação">Fazer expansão antes e manter HV em Y. Fazer Mesna conforme a prescrição de quimioterapia para evitar cistite hemorrágica (principal complicação em altas doses).</td>
       </tr>
       <tr class="c-alq">
         <td data-label="Classe">Metilaminas</td>
-        <td data-label="Quimioterápicos" class="drogas">Melfalano</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="melfalano">Melfalano</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-alq">
         <td data-label="Classe">Alquilsulfonatos</td>
-        <td data-label="Quimioterápicos" class="drogas">Bussulfano</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="bussulfano">Bussulfano</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-alq">
         <td data-label="Classe">Triazenos</td>
-        <td data-label="Quimioterápicos" class="drogas">Temozolamida</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="temozolamida">Temozolamida</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-alq">
         <td data-label="Classe">Complexos platina</td>
-        <td data-label="Quimioterápicos" class="drogas">Cisplatina (CDDP)<br>Carboplatina (CBDCA)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="cisplatina">Cisplatina (CDDP)</button><br><button type="button" class="dr" data-d="carboplatina">Carboplatina (CBDCA)</button></td>
         <td data-label="Observação">Carboplatina: expansão com 1000 ml/m² e manter hiper-hidratação. Cisplatina: expansão com 1000 ml/m² e hiper-hidratação com todos os eletrólitos (Na, K, Ca e Mg); controle hídrico rigoroso.</td>
       </tr>
       <tr class="cab">
@@ -142,21 +179,21 @@
         <td data-label="Ação">Inibe dihidrofolato redutase</td>
         <td data-label="Toxicidade">Insuficiência renal<br>PRES</td>
         <td data-label="Classe">Análogos do ácido fólico</td>
-        <td data-label="Quimioterápicos" class="drogas">Metotrexate (MTX)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="metotrexate">Metotrexate (MTX)</button></td>
         <td data-label="Observação">Manter hiperhidratação 3000 ml/m²/dia (SG5% 500 ml + Bicarbonato de sódio 8,4% 20 ml). Manter pH urinário &gt;6,5 e &lt;8, ajustando a HV conforme. Dosar nível sérico na hora 42 (junto U, Cr, TGO, TGP, bilirrubina). Iniciar resgate com ácido folínico na hora 42 e manter até MTX &lt; 0,25, conforme gráfico de resgate. Não correr no mesmo acesso que reposição de cálcio (precipita com bicarbonato). Atenção se níveis alterados com função renal, hepática, mucosite e colite.</td>
       </tr>
       <tr class="c-ant">
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Mielossupressão</td>
         <td data-label="Classe">Análogos da purina</td>
-        <td data-label="Quimioterápicos" class="drogas">Mercaptopurina (6-MP)<br>Fludarabina<br>Cladribina (2-CDA)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="mercaptopurina">Mercaptopurina (6-MP)</button><br><button type="button" class="dr" data-d="fludarabina">Fludarabina</button><br><button type="button" class="dr" data-d="cladribina">Cladribina (2-CDA)</button></td>
         <td data-label="Observação">Mercaptopurina: VO; jejum 2h antes e 2h após a ingestão; não ingerir com leite nem ter leite na refeição mais próxima.</td>
       </tr>
       <tr class="c-ant">
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Mielossupressão<br>Mucosite</td>
         <td data-label="Classe">Análogos da pirimidina</td>
-        <td data-label="Quimioterápicos" class="drogas">5-fluoracil<br>Gencitabina<br>Citarabina (ARAC)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="fluoracil">5-fluoracil</button><br><button type="button" class="dr" data-d="gencitabina">Gencitabina</button><br><button type="button" class="dr" data-d="citarabina">Citarabina (ARAC)</button></td>
         <td data-label="Observação">Citarabina: não precisa de expansão nem hiper-hidratação. Doses &gt;1g/m²: risco de conjuntivite actínica — colírio de dexametasona 1h antes da 1ª dose, manter 6/6h até 24h após a última dose. Doses altas podem causar hipertermia.</td>
       </tr>
       <tr class="cab">
@@ -167,21 +204,21 @@
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Cardiotoxicidade</td>
         <td data-label="Classe">Antraciclinas</td>
-        <td data-label="Quimioterápicos" class="drogas">Daunorrubicina (DAUNO)<br>Doxorrubicina (DOXO)<br>Idarrubicina (IDA)<br>Mitoxantrona (MTZ)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="daunorrubicina">Daunorrubicina (DAUNO)</button><br><button type="button" class="dr" data-d="doxorrubicina">Doxorrubicina (DOXO)</button><br><button type="button" class="dr" data-d="idarrubicina">Idarrubicina (IDA)</button><br><button type="button" class="dr" data-d="mitoxantrona">Mitoxantrona (MTZ)</button></td>
         <td data-label="Observação">Infusão lenta diminui cardiotoxicidade. Precisa de expansão pré-QT. <strong class="alerta">Vesicante!!!</strong> Pode causar disfunção cardíaca.</td>
       </tr>
       <tr class="c-atb">
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Toxicidade Pulmonar</td>
         <td data-label="Classe">Streptomyces</td>
-        <td data-label="Quimioterápicos" class="drogas">Bleomicina</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="bleomicina">Bleomicina</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-atb">
         <td data-label="Ação"></td>
         <td data-label="Toxicidade"></td>
         <td data-label="Classe">Streptomyces</td>
-        <td data-label="Quimioterápicos" class="drogas">Actinomicina (AcTD)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="dactinomicina">Actinomicina (AcTD)</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="cab">
@@ -192,14 +229,14 @@
         <td data-label="Ação">Impedem formação do fuso mitótico</td>
         <td data-label="Toxicidade">Constipação<br>Neuropatia periférica<br>íleo paralítico</td>
         <td data-label="Classe">Alcalóides da vinca</td>
-        <td data-label="Quimioterápicos" class="drogas">Vincristina (VCR)<br>Vinorelbina</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="vincristina">Vincristina (VCR)</button><br><button type="button" class="dr" data-d="vinorelbina">Vinorelbina</button></td>
         <td data-label="Observação">Vincristina: <strong class="alerta">vesicante</strong>, muito cuidado com acesso periférico; não precisa de expansão.</td>
       </tr>
       <tr class="c-mit">
         <td data-label="Ação">Impedem divisão do fuso mitótico</td>
         <td data-label="Toxicidade">Lesão de pele<br>Anafilaxia</td>
         <td data-label="Classe">Tepanósidos</td>
-        <td data-label="Quimioterápicos" class="drogas">Paclitaxel<br>Docetaxel</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="paclitaxel">Paclitaxel</button><br><button type="button" class="dr" data-d="docetaxel">Docetaxel</button></td>
         <td data-label="Observação">Pré-medicação com difenidramina.</td>
       </tr>
       <tr class="cab">
@@ -210,14 +247,14 @@
         <td data-label="Ação">Inibe topoisomerase tipo I</td>
         <td data-label="Toxicidade">Diarreia</td>
         <td data-label="Classe">Tipo I</td>
-        <td data-label="Quimioterápicos" class="drogas">Irinotecano<br>Topotecano</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="irinotecano">Irinotecano</button><br><button type="button" class="dr" data-d="topotecano">Topotecano</button></td>
         <td data-label="Observação"></td>
       </tr>
       <tr class="c-top">
         <td data-label="Ação">Inibe topoisomerase tipo II</td>
         <td data-label="Toxicidade">Mielossupressão</td>
         <td data-label="Classe">Tipo II</td>
-        <td data-label="Quimioterápicos" class="drogas">Etoposide (VP-16)<br>Teniposide (VM-26)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="etoposido">Etoposide (VP-16)</button><br><button type="button" class="dr" data-d="teniposido">Teniposide (VM-26)</button></td>
         <td data-label="Observação">Indução de 2ª neoplasia. Não precisa expansão nem hiper-hidratação. Controle rigoroso da PA de 15/15min durante a infusão (risco de hipotensão).</td>
       </tr>
       <tr class="cab">
@@ -228,14 +265,14 @@
         <td data-label="Ação">Derivado da E.coli</td>
         <td data-label="Toxicidade">Hipofibrinogenemia<br>Pancreatite<br>Anafilaxia<br>Diabetes</td>
         <td data-label="Classe">Enzima</td>
-        <td data-label="Quimioterápicos" class="drogas">L-asparaginase</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="asparaginase">L-asparaginase</button></td>
         <td data-label="Observação">Colher controles a cada 2 doses (glicemia jejum, amilase e fibrinogênio). Vias: IM e EV. Pode alterar fibrinogênio. Relação com pancreatite.</td>
       </tr>
       <tr class="c-mis">
         <td data-label="Ação">Diferenciação celular</td>
         <td data-label="Toxicidade"></td>
         <td data-label="Classe">Diferenciador</td>
-        <td data-label="Quimioterápicos" class="drogas">ATRA (ácido trans-retinóico)</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="atra">ATRA (ácido trans-retinóico)</button></td>
         <td data-label="Observação">Deve ser ingerido junto com alimento.</td>
       </tr>
       <tr class="cab">
@@ -246,7 +283,7 @@
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Fácies cushingóide<br>Alteração de humor<br>Muita fome</td>
         <td data-label="Classe">Corticosteroide</td>
-        <td data-label="Quimioterápicos" class="drogas">Dexametasona<br>Prednisona</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="dexametasona">Dexametasona</button><br><button type="button" class="dr" data-d="prednisona">Prednisona</button></td>
         <td data-label="Observação">Vias: VO, pode ser EV se VO indisponível.</td>
       </tr>
       <tr class="cab">
@@ -257,21 +294,21 @@
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Diminuição IgG</td>
         <td data-label="Classe">AntiCD20</td>
-        <td data-label="Quimioterápicos" class="drogas">Rituximab</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="rituximab">Rituximab</button></td>
         <td data-label="Observação">Fazer gamaglobulina se IgG &lt; 400. Via EV. Medicação anti-histamínica pré: difenidramina ou hidrocortisona com loratadina; pode fazer paracetamol. Precisa de hidratação junto. Costuma correr em 6h.</td>
       </tr>
       <tr class="c-alv">
         <td data-label="Ação"></td>
         <td data-label="Toxicidade">Síndrome de liberação de citocinas<br>Toxicidade cerebral (convulsão)</td>
         <td data-label="Classe">Biespecífico anti-CD19/CD3</td>
-        <td data-label="Quimioterápicos" class="drogas">Blinatumomabe</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="blinatumomabe">Blinatumomabe</button></td>
         <td data-label="Observação">Via EV (já existe estudo para SC). Pré-medicação: Dexametasona 6-12h e 30min antes do início. Infusão contínua de 28 dias (7 dias iniciais com dose menor). Via exclusiva: acesso central, PICC ou cateter implantado. Trocar a bolsa a cada 24h até 96h.</td>
       </tr>
       <tr class="c-alv">
         <td data-label="Ação"></td>
         <td data-label="Toxicidade"></td>
         <td data-label="Classe">Anticorpo conjugado anti-CD30</td>
-        <td data-label="Quimioterápicos" class="drogas">Brentuximabe</td>
+        <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="brentuximabe">Brentuximabe</button></td>
         <td data-label="Observação">Via EV. Pré-medicação: difenidramina, dexametasona e paracetamol. Infusão de 30 minutos.</td>
       </tr>
   </tbody>
@@ -281,8 +318,64 @@
   Hospital do Sangue · HEMOAM — UTI Pediátrica — material de apoio; conferir sempre com a prescrição e o protocolo vigente.
 </div>
 
+
+<dialog id="tox-dialogo" aria-labelledby="tx-titulo">
+  <div class="tx-topo">
+    <div><h2 id="tx-titulo"></h2><p id="tx-sub"></p></div>
+    <button type="button" class="tx-fechar" id="tx-fechar" aria-label="Fechar">×</button>
+  </div>
+  <div class="tx-corpo" id="tx-corpo"></div>
+</dialog>
+
+<script src="toxicidades.js"></script>
 <script>
 (function () {
+
+  /* ---------- janela de toxicidades por droga ---------- */
+  var TOX = window.TOX || {};
+  var dlg = document.getElementById('tox-dialogo');
+  var FAIXAS = [
+    ['muito_frequente','Muito frequente','10% ou mais','#8c1d18','#f6e3e1'],
+    ['frequente','Frequente','1% a menos de 10%','#b4540a','#fbeadb'],
+    ['incomum','Incomum','0,1% a menos de 1%','#8a7200','#f8f1cf'],
+    ['rara','Rara','0,01% a menos de 0,1%','#2f7a4f','#e0f1e7'],
+    ['muito_rara','Muito rara','menos de 0,01%','#2b6a8c','#dfedf5'],
+    ['nao_definida','Frequência não definida','sem percentual publicado','#6b7684','#eceef1']
+  ];
+  var POP = {adulto:['Adultos',''], pediatrica:['Pediátrico','ped'], misto:['Misto',''], nao_informada:['',' ']};
+  function esc(x) { return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function abrir(id) {
+    var d = TOX[id]; if (!d) return;
+    document.getElementById('tx-titulo').textContent = d.nome;
+    document.getElementById('tx-sub').textContent = d.ref || '';
+    var h = '<p class="tx-aviso">Frequências extraídas de bulas (FDA e SmPC europeia/britânica) e de estudos no PubMed. Muitos dados vêm de adultos; quando há dado pediátrico, ele aparece marcado. Use como apoio e confira com o protocolo e a prescrição.</p>';
+    FAIXAS.forEach(function (f) {
+      var lista = d.t.filter(function (t) { return t.c === f[0]; });
+      if (!lista.length) return;
+      h += '<section class="tx-faixa" style="--k:'+f[3]+';--b:'+f[4]+'"><h3>'+f[1]+' <small>'+f[2]+' · '+lista.length+'</small></h3><ul>';
+      lista.forEach(function (t) {
+        var pop = POP[t.p] && POP[t.p][0] ? '<span class="tx-pop '+POP[t.p][1]+'">'+POP[t.p][0]+'</span>' : '';
+        h += '<li><span class="tx-nome">'+esc(t.n)+'</span>'+pop+(t.g?'<span class="tx-grave">Grave</span>':'')+'<span class="tx-f">['+t.f.join(', ')+']</span>'+(t.d?'<span class="tx-det">'+esc(t.d)+'</span>':'')+'</li>';
+      });
+      h += '</ul></section>';
+    });
+    if (d.cuidados && d.cuidados.length) h += '<h3 class="tx-sec">Cuidados citados na fonte</h3><ul class="tx-cuid">'+d.cuidados.map(function (c) { return '<li>'+esc(c)+'</li>'; }).join('')+'</ul>';
+    if (d.lacunas) h += '<p class="tx-lac"><b>Limites dos dados:</b> '+esc(d.lacunas)+'</p>';
+    h += '<h3 class="tx-sec">Fontes</h3><ul class="tx-fontes">'+d.fontes.map(function (f) {
+      var u = f.url ? '<a href="'+esc(f.url)+'" target="_blank" rel="noopener">'+esc(f.ref)+'</a>' : esc(f.ref);
+      return '<li><b>['+esc(f.id)+']</b> '+esc(f.tipo)+': '+u+(f.pmid?' (PMID '+esc(f.pmid)+')':'')+'</li>';
+    }).join('')+'</ul>';
+    document.getElementById('tx-corpo').innerHTML = h;
+    document.getElementById('tx-corpo').scrollTop = 0;
+    dlg.showModal();
+  }
+  document.querySelectorAll('button.dr').forEach(function (b) {
+    if (!TOX[b.dataset.d]) { b.classList.add('sem-dado'); b.title = 'Toxicidades detalhadas ainda não disponíveis'; return; }
+    b.title = 'Ver toxicidades por frequência';
+    b.addEventListener('click', function () { abrir(b.dataset.d); });
+  });
+  document.getElementById('tx-fechar').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
   var campo = document.getElementById('busca');
   var contagem = document.getElementById('contagem');
   var linhas = [].slice.call(document.querySelectorAll('tbody tr:not(.cab)'));
@@ -296,9 +389,12 @@
     });
   });
   function norm(s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
-  linhas.forEach(function (tr, i) { tr._t = norm(tr.textContent + ' ' + (heranca[i] || []).join(' ')); });
-  var originais = [];
-  document.querySelectorAll('tbody td').forEach(function (td) { originais.push([td, td.innerHTML]); });
+  function toxDaLinha(tr) {
+    var r = [];
+    tr.querySelectorAll('button.dr').forEach(function (b) { var d = TOX[b.dataset.d]; if (d) d.t.forEach(function (t) { r.push(t.n); }); });
+    return r.join(' ');
+  }
+  linhas.forEach(function (tr, i) { tr._base = norm(tr.textContent + ' ' + (heranca[i] || []).join(' ')); tr._tox = norm(toxDaLinha(tr)); });
   function marcar(td, termos) {
     var w = document.createTreeWalker(td, NodeFilter.SHOW_TEXT), nos = [], n;
     while ((n = w.nextNode())) nos.push(n);
@@ -320,14 +416,21 @@
   }
   function filtrar() {
     var termos = norm(campo.value).split(/\s+/).filter(Boolean);
-    originais.forEach(function (o) { if (o[0].innerHTML !== o[1]) o[0].innerHTML = o[1]; });
+    document.querySelectorAll('mark').forEach(function (m) { m.replaceWith(document.createTextNode(m.textContent)); });
+    document.querySelectorAll('tbody td').forEach(function (td) { td.normalize(); });
+    document.querySelectorAll('button.dr.achou').forEach(function (x) { x.classList.remove('achou'); x.removeAttribute('data-achou'); });
     var achou = 0, primeira = null;
     linhas.forEach(function (tr) {
-      var ok = !termos.length || termos.every(function (t) { return tr._t.indexOf(t) !== -1; });
+      var ok = !termos.length || termos.every(function (t) { return tr._base.indexOf(t) !== -1 || tr._tox.indexOf(t) !== -1; });
       tr.classList.toggle('apagada', !ok);
       if (ok && termos.length) {
         achou++; if (!primeira) primeira = tr;
         [].slice.call(tr.children).forEach(function (td) { if (!td.classList.contains('cat')) marcar(td, termos); });
+        tr.querySelectorAll('button.dr').forEach(function (b) {
+          var d = TOX[b.dataset.d]; if (!d || b.querySelector('mark')) return;
+          var hit = d.t.filter(function (t) { var n = norm(t.n); return termos.some(function (x) { return n.indexOf(x) !== -1; }); });
+          if (hit.length) { b.classList.add('achou'); b.title = 'Toxicidade encontrada: ' + hit.slice(0, 3).map(function (t) { return t.n; }).join('; ') + ' (clique para ver)'; }
+        });
       }
     });
     contagem.textContent = !termos.length ? '' : (achou ? achou + (achou === 1 ? ' linha encontrada' : ' linhas encontradas') : 'Nenhum resultado. Confira a grafia ou busque pela classe (ex.: antraciclinas) ou pela toxicidade.');
