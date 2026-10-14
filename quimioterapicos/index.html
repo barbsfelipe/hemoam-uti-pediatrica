@@ -263,7 +263,7 @@
       <tr class="c-mis ini">
         <td class="cat" rowspan="2">Miscelânea</td>
         <td data-label="Ação">Derivado da E.coli</td>
-        <td data-label="Toxicidade">Hipofibrinogenemia<br>Pancreatite<br>Anafilaxia<br>Diabetes</td>
+        <td data-label="Toxicidade">Hipofibrinogenemia<br>Pancreatite<br>Anafilaxia<br>Diabetes<br>PRES</td>
         <td data-label="Classe">Enzima</td>
         <td data-label="Quimioterápicos" class="drogas"><button type="button" class="dr" data-d="asparaginase">PEG-asparaginase (pegaspargase)</button></td>
         <td data-label="Observação">Colher controles a cada 2 doses (glicemia jejum, amilase e fibrinogênio). Vias: IM e EV. Pode alterar fibrinogênio. Relação com pancreatite.</td>
@@ -388,6 +388,12 @@
       if (rs > 1) for (var k = 1; k < rs; k++) (heranca[i + k] = heranca[i + k] || []).push(td.textContent);
     });
   });
+  function achar(n, t, de) {
+    var i = n.indexOf(t, de || 0);
+    if (t.length > 4) return i;
+    while (i > 0 && /[a-z0-9]/.test(n.charAt(i - 1))) i = n.indexOf(t, i + 1);
+    return i;
+  }
   function norm(s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
   function toxDaLinha(tr) {
     var r = [];
@@ -400,7 +406,7 @@
     while ((n = w.nextNode())) nos.push(n);
     nos.forEach(function (no) {
       var txt = no.nodeValue, nn = norm(txt), faixas = [];
-      termos.forEach(function (t) { var i = -1; while ((i = nn.indexOf(t, i + 1)) !== -1) faixas.push([i, i + t.length]); });
+      termos.forEach(function (t) { var i = -1; while ((i = achar(nn, t, i + 1)) !== -1) faixas.push([i, i + t.length]); });
       if (!faixas.length) return;
       faixas.sort(function (x, y) { return x[0] - y[0]; });
       var m = [faixas[0]];
@@ -421,14 +427,14 @@
     document.querySelectorAll('button.dr.achou').forEach(function (x) { x.classList.remove('achou'); x.removeAttribute('data-achou'); });
     var achou = 0, primeira = null;
     linhas.forEach(function (tr) {
-      var ok = !termos.length || termos.every(function (t) { return tr._base.indexOf(t) !== -1 || tr._tox.indexOf(t) !== -1; });
+      var ok = !termos.length || termos.every(function (t) { return achar(tr._base, t) !== -1 || achar(tr._tox, t) !== -1; });
       tr.classList.toggle('apagada', !ok);
       if (ok && termos.length) {
         achou++; if (!primeira) primeira = tr;
         [].slice.call(tr.children).forEach(function (td) { if (!td.classList.contains('cat')) marcar(td, termos); });
         tr.querySelectorAll('button.dr').forEach(function (b) {
           var d = TOX[b.dataset.d]; if (!d || b.querySelector('mark')) return;
-          var hit = d.t.filter(function (t) { var n = norm(t.n); return termos.some(function (x) { return n.indexOf(x) !== -1; }); });
+          var hit = d.t.filter(function (t) { var n = norm(t.n); return termos.some(function (x) { return achar(n, x) !== -1; }); });
           if (hit.length) { b.classList.add('achou'); b.title = 'Toxicidade encontrada: ' + hit.slice(0, 3).map(function (t) { return t.n; }).join('; ') + ' (clique para ver)'; }
         });
       }
